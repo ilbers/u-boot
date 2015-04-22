@@ -28,6 +28,9 @@ armhf	imx		mx53loco	u-boot.imx
 # Hector Oron <zumbi@debian.org>
 armhf	imx		nitrogen6q	u-boot.imx
 
+# Tony Mancill <tmancill@debian.org> 
+armhf	imx		novena		u-boot.img spl/u-boot-spl.bin SPL
+
 # Michael Fladischer <michael@fladi.at>
 armhf	imx		udoo_quad	u-boot.imx
 
