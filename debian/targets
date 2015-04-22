@@ -17,6 +17,9 @@ armel	-		sheevaplug	u-boot.kwb
 # Ian Campbell <ijc@hellion.org.uk>
 armhf	exynos		arndale		u-boot-dtb.bin spl/arndale-spl.bin
 
+# Vagrant Cascadian <vagrant@debian.org>
+armhf	imx		hummingboard_solo	u-boot.imx
+
 # Robert Nelson <robertcnelson@gmail.com>
 armhf	imx		mx53loco	u-boot.imx
 
