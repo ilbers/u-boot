@@ -46,8 +46,9 @@ override_dh_auto_build:
 			targets="u-boot.bin spl/u-boot-spl.bin" ;\
 		        mkdir -p $$builddir ;\
 		        $(MAKE) O=$$builddir $${platform}_defconfig; \
-			sed -i -e 's/^CONFIG_SYS_EXTRA_OPTIONS="[^"]*/&,SPL_FEL/g' $$builddir/.config ;\
+			sed -i -e 's/^# \(CONFIG_SPL_FEL\) is not set/\1=y/g' $$builddir/.config ;\
 			platform="$${platform}_FEL" ;\
+			$(MAKE) $(DEB_UBOOT_FLAGS) O=$$builddir olddefconfig ; \
 			$(MAKE) $(DEB_UBOOT_FLAGS) O=$$builddir $$targets ; \
 			for target in $$targets ; do \
 				chmod -x $$builddir/$$target; \
