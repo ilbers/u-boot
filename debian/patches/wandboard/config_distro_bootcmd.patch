@@ -1,0 +1,58 @@
+Index: u-boot/include/configs/wandboard.h
+===================================================================
+--- u-boot.orig/include/configs/wandboard.h
++++ u-boot/include/configs/wandboard.h
+@@ -51,8 +51,6 @@
+ #define CONFIG_CMD_BMODE
+ #define CONFIG_CMD_SETEXPR
+ 
+-#define CONFIG_BOOTDELAY		5
+-
+ #define CONFIG_SYS_MEMTEST_START	0x10000000
+ #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START + 500 * SZ_1M)
+ #define CONFIG_LOADADDR			0x12000000
+@@ -137,7 +135,9 @@
+ 	"splashpos=m,m\0" \
+ 	"fdt_high=0xffffffff\0" \
+ 	"initrd_high=0xffffffff\0" \
++	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0" \
+ 	"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
++	"fdt_addr_r=0x18000000\0" \
+ 	"fdt_addr=0x18000000\0" \
+ 	"boot_fdt=try\0" \
+ 	"ip_dyn=yes\0" \
+@@ -230,9 +230,23 @@
+ 			"fi; " \
+ 		"else " \
+ 			"bootz; " \
+-		"fi;\0"
++		"fi;\0" \
++	"kernel_addr_r=" __stringify(CONFIG_LOADADDR) "\0" \
++	"pxe_addr_r=" __stringify(CONFIG_LOADADDR) "\0" \
++	"ramdisk_addr_r=0x13000000\0" \
++	"ramdiskaddr=0x13000000\0" \
++	"scriptaddr=" __stringify(CONFIG_LOADADDR) "\0" \
++	BOOTENV
++
++#define BOOT_TARGET_DEVICES(func) \
++	func(MMC, mmc, 0) \
++	func(MMC, mmc, 1) \
++	func(USB, usb, 0) \
++	func(PXE, pxe, na) \
++	func(DHCP, dhcp, na)
+ 
+ #define CONFIG_BOOTCOMMAND \
++	   "run distro_bootcmd; " \
+ 	   "mmc dev ${mmcdev}; if mmc rescan; then " \
+ 		   "if run loadbootscript; then " \
+ 			   "run bootscript; " \
+@@ -244,6 +258,9 @@
+ 		   "fi; " \
+ 	   "else run netboot; fi"
+ 
++#include <config_distro_defaults.h>
++#include <config_distro_bootcmd.h>
++
+ /* Miscellaneous configurable options */
+ #define CONFIG_SYS_LONGHELP
+ #define CONFIG_SYS_HUSH_PARSER

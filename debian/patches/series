@@ -7,9 +7,7 @@ tools-only-in-no-dot-config-targets.diff
 Makefile-add-kwb-target-to-all.patch
 hurd.diff
 
-wandboard/wandboard-uEnv.txt-bootz-n-fixes.patch
-wandboard/wandboard-standardized-variables
-wandboard/emulate-config_distro_bootcmd-standardization.diff
+wandboard/config_distro_bootcmd.patch
 
 udoo/udoo_quad-support.patch
 udoo/udoo-standardized-variables
