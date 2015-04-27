@@ -1,0 +1,26 @@
+From b684586a5049950d98776ce28b7698c271ccb323 Mon Sep 17 00:00:00 2001
+From: Fabio Estevam <fabio.estevam@freescale.com>
+Date: Sat, 25 Apr 2015 18:47:16 -0300
+Subject: [PATCH 42/47] mx6cuboxi: Fix the defconfig name
+
+The correct name of the defconfig file is 'mx6cuboxi_defconfig'.
+
+Signed-off-by: Fabio Estevam <fabio.estevam@freescale.com>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+---
+ board/solidrun/mx6cuboxi/MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/board/solidrun/mx6cuboxi/MAINTAINERS b/board/solidrun/mx6cuboxi/MAINTAINERS
+index 3d468ed..a3506c2 100644
+--- a/board/solidrun/mx6cuboxi/MAINTAINERS
++++ b/board/solidrun/mx6cuboxi/MAINTAINERS
+@@ -3,4 +3,4 @@ M:	Fabio Estevam <fabio.estevam@freescale.com>
+ S:	Maintained
+ F:	board/solidrun/mx6cuboxi/
+ F:	include/configs/mx6cuboxi.h
+-F:	configs/mx6cuboxi_spl_defconfig
++F:	configs/mx6cuboxi_defconfig
+-- 
+2.1.4
+
