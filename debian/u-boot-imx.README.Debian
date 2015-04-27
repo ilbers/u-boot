@@ -10,10 +10,10 @@ wandboard_quad:
 
  dd if=/usr/lib/u-boot/wandboard_quad/u-boot.imx of=/dev/mmcblkX bs=512 seek=2
 
-mx6_cubox-i:
+mx6cuboxi (Cubox-i and Hummingboard):
 
- dd if=/usr/lib/u-boot/mx6_cubox-i/SPL of=/dev/mmcblk0 bs=1k seek=1
- dd if=/usr/lib/u-boot/mx6_cubox-i/u-boot.img of=/dev/mmcblk0 bs=1k seek=42
+ dd if=/usr/lib/u-boot/mx6cuboxi/SPL of=/dev/mmcblk0 bs=1k seek=1
+ dd if=/usr/lib/u-boot/mx6cuboxi/u-boot.img of=/dev/mmcblk0 bs=1k seek=69
 
 == U-Boot environment tools ==
 
