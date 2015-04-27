@@ -23,6 +23,7 @@ mx6cuboxi/0044-mx6cuboxi-Introduce-multi-SoC-support.patch
 mx6cuboxi/0045-mx6cuboxi-Differentiate-Cubox-i-and-Hummingboard.patch
 mx6cuboxi/0046-mx6cuboxi-Use-more-standard-namings-for-fdt-variable.patch
 mx6cuboxi/0047-mx6cuboxi-Load-the-correct-fdtfile-variable.patch
+mx6cuboxi/config_distro_bootcmd.patch
 
 n900-bootz-raw-initrd.diff
 
