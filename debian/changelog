@@ -1,3 +1,28 @@
+u-boot (2015.04+dfsg1-1) experimental; urgency=medium
+
+  [ Ian Campbell ]
+  * u-boot-exynos: Fix conflict between arndale and sunxi spl
+    targets.
+  * u-boot-sunxi: Update sunxi FEL target.
+
+  [ Vagrant Cascadian ]
+  * u-boot-imx:
+    + Add usbarmory target.
+    + Add novena target.
+    + Add patches from u-boot-imx to support Cubox-i and Hummingboard and
+      drop old cubox-i patches.
+    + Add mx6cuboxi target.
+    + mx6cuboxi: Add patch to use config_distro_bootcmd.
+    + wandboard: Add patch to use config_distro_bootcmd and remove old
+      environment patches.
+    
+  * u-boot-omap:
+    + am335x_boneblack: Remove patch to set voltage.
+    + am335x_boneblack: Add patch to use config_distro_bootcmd and remove
+      old patches.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Mon, 27 Apr 2015 14:54:44 -0700
+
 u-boot (2015.04~rc5+dfsg1-1) experimental; urgency=medium
 
   [ John Paul Adrian Glaubitz ]
