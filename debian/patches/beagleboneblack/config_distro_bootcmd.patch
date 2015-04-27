@@ -1,0 +1,90 @@
+Index: u-boot/include/configs/am335x_evm.h
+===================================================================
+--- u-boot.orig/include/configs/am335x_evm.h
++++ u-boot/include/configs/am335x_evm.h
+@@ -71,7 +71,6 @@
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	DEFAULT_LINUX_BOOT_ENV \
+ 	"boot_fdt=try\0" \
+-	"bootpart=0:2\0" \
+ 	"bootdir=/boot\0" \
+ 	"bootfile=zImage\0" \
+ 	"fdtfile=undefined\0" \
+@@ -81,6 +80,7 @@
+ 		"name=rootfs,start=2MiB,size=-,uuid=${uuid_gpt_rootfs}\0" \
+ 	"optargs=\0" \
+ 	"mmcdev=0\0" \
++	"mmcpart=2\0" \
+ 	"mmcroot=/dev/mmcblk0p2 ro\0" \
+ 	"mmcrootfstype=ext4 rootwait\0" \
+ 	"rootpath=/export/rootfs\0" \
+@@ -119,8 +119,8 @@
+ 		"root=${ramroot} " \
+ 		"rootfstype=${ramrootfstype}\0" \
+ 	"loadramdisk=load mmc ${mmcdev} ${rdaddr} ramdisk.gz\0" \
+-	"loadimage=load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootfile}\0" \
+-	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile}\0" \
++	"loadimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bootdir}/${bootfile}\0" \
++	"loadfdt=load mmc ${mmcdev}:${mmcpart} ${fdtaddr} ${bootdir}/${fdtfile}\0" \
+ 	"mmcloados=run mmcargs; " \
+ 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+ 			"if run loadfdt; then " \
+@@ -181,17 +181,28 @@
+ 		"if test $fdtfile = undefined; then " \
+ 			"echo WARNING: Could not determine device tree to use; fi; \0" \
+ 	NANDARGS \
+-	DFUARGS
+-#endif
++	DFUARGS \
++	BOOTENV
++
++#define BOOT_TARGET_DEVICES(func) \
++       func(MMC, mmc, 0) \
++       func(MMC, mmc, 1) \
++       func(PXE, pxe, na) \
++       func(DHCP, dhcp, na)
+ 
+ #define CONFIG_BOOTCOMMAND \
+ 	"run findfdt; " \
++	"run distro_bootcmd; " \
+ 	"run mmcboot;" \
+ 	"setenv mmcdev 1; " \
+-	"setenv bootpart 1:2; " \
++	"setenv mmcpart 2; " \
+ 	"run mmcboot;" \
+ 	"run nandboot;"
+ 
++#include <config_distro_defaults.h>
++#include <config_distro_bootcmd.h>
++#endif
++
+ /* NS16550 Configuration */
+ #define CONFIG_SYS_NS16550_COM1		0x44e09000	/* Base EVM has UART0 */
+ #define CONFIG_SYS_NS16550_COM2		0x48022000	/* UART1 */
+Index: u-boot/include/configs/ti_armv7_common.h
+===================================================================
+--- u-boot.orig/include/configs/ti_armv7_common.h
++++ u-boot/include/configs/ti_armv7_common.h
+@@ -58,6 +58,8 @@
+ 	"fdt_addr_r=0x88000000\0" \
+ 	"rdaddr=0x88080000\0" \
+ 	"ramdisk_addr_r=0x88080000\0" \
++	"pxefile_addr_r=0x82000000\0" \
++	"scriptaddr=0x82000000\0" \
+ 	"bootm_size=0x10000000\0"
+ 
+ /*
+Index: u-boot/include/config_distro_defaults.h
+===================================================================
+--- u-boot.orig/include/config_distro_defaults.h
++++ u-boot/include/config_distro_defaults.h
+@@ -51,7 +51,9 @@
+ 
+ #define CONFIG_CMDLINE_EDITING
+ #define CONFIG_AUTO_COMPLETE
++#ifndef CONFIG_BOOTDELAY
+ #define CONFIG_BOOTDELAY     2
++#endif
+ #define CONFIG_SYS_LONGHELP
+ #define CONFIG_MENU
+ #define CONFIG_DOS_PARTITION

@@ -25,9 +25,7 @@ mx6cuboxi/config_distro_bootcmd.patch
 
 n900-bootz-raw-initrd.diff
 
-beagleboneblack/am335x-uenv.txt.diff
-beagleboneblack/am335x-bootscript.diff
-beagleboneblack/am335x-try-boot-from-first-partition.diff
+beagleboneblack/config_distro_bootcmd.patch
 beagleboneblack/usb-mass-storage.patch
 
 arndale/board-spl-rule.diff
