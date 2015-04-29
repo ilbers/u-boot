@@ -4,8 +4,10 @@
 # targets could be built on multiple architectures, but could instead install
 # the package for the architecture needed.
 u-boot-exynos [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/arndale/uboot.elf
+u-boot-exynos [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/odroid/uboot.elf
 
 # These bootloaders need to be statically linked.
 u-boot-exynos [armhf]: statically-linked-binary usr/lib/u-boot/arndale/uboot.elf
+u-boot-exynos [armhf]: statically-linked-binary usr/lib/u-boot/odroid/uboot.elf
 
 u-boot-exynos: description-synopsis-starts-with-article

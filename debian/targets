@@ -17,6 +17,9 @@ armel	-		sheevaplug	u-boot.kwb
 # Ian Campbell <ijc@hellion.org.uk>
 armhf	exynos		arndale		u-boot-dtb.bin spl/arndale-spl.bin
 
+# Joost van Zwieten <joostvanzwieten@gmail.com>, Odroid-U3
+armhf	exynos		odroid		u-boot-dtb.bin
+
 # Robert Nelson <robertcnelson@gmail.com>
 armhf	imx		mx53loco	u-boot.imx
 
