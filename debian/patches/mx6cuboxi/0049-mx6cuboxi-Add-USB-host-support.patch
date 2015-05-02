@@ -1,0 +1,104 @@
+From 933ac879cd65717a2366501e481f13aaad27ed1f Mon Sep 17 00:00:00 2001
+From: Fabio Estevam <fabio.estevam@freescale.com>
+Date: Wed, 29 Apr 2015 22:28:10 -0300
+Subject: [PATCH 49/51] mx6cuboxi: Add USB host support
+
+Enable USB Host1 port.
+
+Signed-off-by: Rabeeh Khoury <rabeeh@solid-run.com>
+Signed-off-by: Fabio Estevam <fabio.estevam@freescale.com>
+Tested-By: Vagrant Cascadian <vagrant@aikidev.net>
+---
+ board/solidrun/mx6cuboxi/mx6cuboxi.c | 26 ++++++++++++++++++++++++++
+ include/configs/mx6cuboxi.h          | 10 ++++++++++
+ 2 files changed, 36 insertions(+)
+
+diff --git a/board/solidrun/mx6cuboxi/mx6cuboxi.c b/board/solidrun/mx6cuboxi/mx6cuboxi.c
+index eab92f1..9aa0259 100644
+--- a/board/solidrun/mx6cuboxi/mx6cuboxi.c
++++ b/board/solidrun/mx6cuboxi/mx6cuboxi.c
+@@ -31,6 +31,8 @@
+ #include <asm/io.h>
+ #include <asm/arch/sys_proto.h>
+ #include <spl.h>
++#include <usb.h>
++#include <usb/ehci-fsl.h>
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+ 
+@@ -52,6 +54,7 @@ DECLARE_GLOBAL_DATA_PTR;
+ 	PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm | PAD_CTL_SRE_FAST)
+ 
+ #define ETH_PHY_RESET	IMX_GPIO_NR(4, 15)
++#define USB_H1_VBUS	IMX_GPIO_NR(1, 0)
+ 
+ int dram_init(void)
+ {
+@@ -79,6 +82,10 @@ static iomux_v3_cfg_t const hb_cbi_sense[] = {
+ 	IOMUX_PADS(PAD_EIM_DA4__GPIO3_IO04   | MUX_PAD_CTRL(UART_PAD_CTRL)),
+ };
+ 
++static iomux_v3_cfg_t const usb_pads[] = {
++	IOMUX_PADS(PAD_GPIO_0__GPIO1_IO00 | MUX_PAD_CTRL(NO_PAD_CTRL)),
++};
++
+ static void setup_iomux_uart(void)
+ {
+ 	SETUP_IOMUX_PADS(uart1_pads);
+@@ -253,6 +260,21 @@ static int setup_display(void)
+ }
+ #endif /* CONFIG_VIDEO_IPUV3 */
+ 
++#ifdef CONFIG_USB_EHCI_MX6
++static void setup_usb(void)
++{
++	SETUP_IOMUX_PADS(usb_pads);
++}
++
++int board_ehci_hcd_init(int port)
++{
++	if (port == 1)
++		gpio_direction_output(USB_H1_VBUS, 1);
++
++	return 0;
++}
++#endif
++
+ int board_early_init_f(void)
+ {
+ 	int ret = 0;
+@@ -261,6 +283,10 @@ int board_early_init_f(void)
+ #ifdef CONFIG_VIDEO_IPUV3
+ 	ret = setup_display();
+ #endif
++
++#ifdef CONFIG_USB_EHCI_MX6
++	setup_usb();
++#endif
+ 	return ret;
+ }
+ 
+diff --git a/include/configs/mx6cuboxi.h b/include/configs/mx6cuboxi.h
+index 207a2a6..34d24dc 100644
+--- a/include/configs/mx6cuboxi.h
++++ b/include/configs/mx6cuboxi.h
+@@ -82,6 +82,16 @@
+ #define CONFIG_IMX_HDMI
+ #define CONFIG_IMX_VIDEO_SKIP
+ 
++/* USB */
++#define CONFIG_CMD_USB
++#define CONFIG_USB_EHCI
++#define CONFIG_USB_EHCI_MX6
++#define CONFIG_USB_STORAGE
++#define CONFIG_EHCI_HCD_INIT_AFTER_RESET
++#define CONFIG_MXC_USB_PORTSC		(PORT_PTS_UTMI | PORT_PTS_PTW)
++#define CONFIG_MXC_USB_FLAGS		0
++#define CONFIG_USB_MAX_CONTROLLER_COUNT	2
++
+ #define CONFIG_SYS_NO_FLASH
+ 
+ /* Command definition */
+-- 
+2.1.4
+

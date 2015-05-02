@@ -1,0 +1,57 @@
+From d9b627c747d007941bcb27e4d922a441c1b9c840 Mon Sep 17 00:00:00 2001
+From: Fabio Estevam <fabio.estevam@freescale.com>
+Date: Wed, 29 Apr 2015 22:28:11 -0300
+Subject: [PATCH 50/51] mx6cuboxi: Allow HDMI and USB keyboard to be
+ stdout/stdin
+
+There are users of Cuboxi and Hummingboard that use these boards without
+connecting them to a USB/serial adapter.
+
+Allow such usage by allowing the HDMI port to act as stdout and USB keyboard
+as stdin.
+
+The serial console still also works as stdin/stdout.
+
+Signed-off-by: Rabeeh Khoury <rabeeh@solid-run.com>
+Signed-off-by: Fabio Estevam <fabio.estevam@freescale.com>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+Tested-by: Vagrant Cascadian <vagrant@aikidev.net>
+---
+ include/configs/mx6cuboxi.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/include/configs/mx6cuboxi.h b/include/configs/mx6cuboxi.h
+index 34d24dc..4e07f59 100644
+--- a/include/configs/mx6cuboxi.h
++++ b/include/configs/mx6cuboxi.h
+@@ -81,6 +81,7 @@
+ #define CONFIG_VIDEO_BMP_LOGO
+ #define CONFIG_IMX_HDMI
+ #define CONFIG_IMX_VIDEO_SKIP
++#define CONFIG_CONSOLE_MUX
+ 
+ /* USB */
+ #define CONFIG_CMD_USB
+@@ -91,6 +92,9 @@
+ #define CONFIG_MXC_USB_PORTSC		(PORT_PTS_UTMI | PORT_PTS_PTW)
+ #define CONFIG_MXC_USB_FLAGS		0
+ #define CONFIG_USB_MAX_CONTROLLER_COUNT	2
++#define CONFIG_USB_KEYBOARD
++#define CONFIG_SYS_USB_EVENT_POLL
++#define CONFIG_PREBOOT			"usb start"
+ 
+ #define CONFIG_SYS_NO_FLASH
+ 
+@@ -113,6 +117,9 @@
+ 
+ #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
+ #define CONFIG_EXTRA_ENV_SETTINGS \
++	"stdin=serial,usbkbd\0" \
++	"stdout=serial,vga\0" \
++	"stderr=serial,vga\0" \
+ 	"script=boot.scr\0" \
+ 	"image=zImage\0" \
+ 	"fdtfile=undefined\0" \
+-- 
+2.1.4
+
