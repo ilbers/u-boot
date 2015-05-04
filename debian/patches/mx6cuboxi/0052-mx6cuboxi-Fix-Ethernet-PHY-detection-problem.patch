@@ -1,0 +1,99 @@
+From 6b845f79b9bd5422cc87470bb38606ed35601ade Mon Sep 17 00:00:00 2001
+From: Fabio Estevam <fabio.estevam@freescale.com>
+Date: Mon, 4 May 2015 11:22:55 -0300
+Subject: [PATCH 52/53] mx6cuboxi: Fix Ethernet PHY detection problem
+
+mx6cuboxi sometimes fails to recognize the Ethernet PHY:
+
+Net:   Phy 0 not found
+
+The explanation for this behavior comes from from Rabeeh Khoury:
+
+"The LED_ACT pin on the carrier-one boards had a pull down that
+forces the phy address to 0x0; where on CuBox-i and the production
+HummingBoard that pin is connected directly to LED that depending
+on the pull down strength of the LED it might be sampled as '0' or '1' thus
+the phy address might appear as either address 0x0 or 0x4."
+
+"This is AR8035 implementation; in reset stage the LED pin is configured as
+input, and pull up/down does matter. In this case it configures the PHY
+address.
+
+After reset is deasserted the same LED pin becomes output and then
+according to the previous pull/up it should be active high/low"
+
+One way to properly fix this behavior is to place external pull-up/down
+resistors in the LED line, but from a software standpoint we can fix it
+by telling phy_find_by_mask() to scan the PHY at addresses
+0x0 and 0x4.
+
+Reported-by: Vagrant Cascadian <vagrant@aikidev.net>
+Signed-off-by: Rabeeh Khoury <rabeeh@solid-run.com>
+Signed-off-by: Fabio Estevam <fabio.estevam@freescale.com>
+Acked-by: Stefano Babic <sbabic@denx.de>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+Tested-By: Vagrant Cascadian <vagrant@aikidev.net>
+---
+ board/solidrun/mx6cuboxi/mx6cuboxi.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/board/solidrun/mx6cuboxi/mx6cuboxi.c b/board/solidrun/mx6cuboxi/mx6cuboxi.c
+index 9aa0259..e83d2fe 100644
+--- a/board/solidrun/mx6cuboxi/mx6cuboxi.c
++++ b/board/solidrun/mx6cuboxi/mx6cuboxi.c
+@@ -25,6 +25,7 @@
+ #include <asm/imx-common/video.h>
+ #include <mmc.h>
+ #include <fsl_esdhc.h>
++#include <malloc.h>
+ #include <miiphy.h>
+ #include <netdev.h>
+ #include <asm/arch/crm_regs.h>
+@@ -152,9 +153,14 @@ int board_phy_config(struct phy_device *phydev)
+ 	return 0;
+ }
+ 
++/* On Cuboxi Ethernet PHY can be located at addresses 0x0 or 0x4 */
++#define ETH_PHY_MASK	((1 << 0x0) | (1 << 0x4))
++
+ int board_eth_init(bd_t *bis)
+ {
+ 	struct iomuxc *const iomuxc_regs = (struct iomuxc *)IOMUXC_BASE_ADDR;
++	struct mii_dev *bus;
++	struct phy_device *phydev;
+ 
+ 	int ret = enable_fec_anatop_clock(ENET_25MHZ);
+ 	if (ret)
+@@ -165,7 +171,28 @@ int board_eth_init(bd_t *bis)
+ 
+ 	setup_iomux_enet();
+ 
+-	return cpu_eth_init(bis);
++	bus = fec_get_miibus(IMX_FEC_BASE, -1);
++	if (!bus)
++		return -EINVAL;
++
++	phydev = phy_find_by_mask(bus, ETH_PHY_MASK, PHY_INTERFACE_MODE_RGMII);
++	if (!phydev) {
++		ret = -EINVAL;
++		goto free_bus;
++	}
++
++	debug("using phy at address %d\n", phydev->addr);
++	ret = fec_probe(bis, -1, IMX_FEC_BASE, bus, phydev);
++	if (ret)
++		goto free_phydev;
++
++	return 0;
++
++free_phydev:
++	free(phydev);
++free_bus:
++	free(bus);
++	return ret;
+ }
+ 
+ #ifdef CONFIG_VIDEO_IPUV3
+-- 
+2.1.4
+
