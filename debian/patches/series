@@ -26,6 +26,7 @@ mx6cuboxi/0049-mx6cuboxi-Add-USB-host-support.patch
 mx6cuboxi/0050-mx6cuboxi-Allow-HDMI-and-USB-keyboard-to-be-stdout-s.patch
 mx6cuboxi/0052-mx6cuboxi-Fix-Ethernet-PHY-detection-problem.patch
 mx6cuboxi/0053-mx6cuboxi-Pull-down-PAD_ENET_RXD0-RXD1.patch
+mx6cuboxi/0054-mx6cuboxi-Skip-usb-initialization-when-booting-witho.patch
 mx6cuboxi/config_distro_bootcmd.patch
 
 n900-bootz-raw-initrd.diff
