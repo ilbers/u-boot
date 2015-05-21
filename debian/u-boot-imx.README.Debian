@@ -6,9 +6,10 @@ MX53LOCO:
 
  dd bs=1024 if=u-boot.imx of=/dev/sdX seek=1
 
-wandboard_quad:
+wandboard (quad, dual-lite and solo):
 
- dd if=/usr/lib/u-boot/wandboard_quad/u-boot.imx of=/dev/mmcblkX bs=512 seek=2
+ dd if=/usr/lib/u-boot/wandboard/SPL of=/dev/mmcblk0 bs=1k seek=1
+ dd if=/usr/lib/u-boot/wandboard/u-boot.img of=/dev/mmcblk0 bs=1k seek=69
 
 mx6cuboxi (Cubox-i and Hummingboard):
 

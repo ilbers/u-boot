@@ -7,6 +7,7 @@ tools-only-in-no-dot-config-targets.diff
 Makefile-add-kwb-target-to-all.patch
 hurd.diff
 
+wandboard/wandboard-Switch-to-SPL-support.patch
 wandboard/config_distro_bootcmd.patch
 
 udoo/udoo_quad-support.patch
