@@ -49,15 +49,15 @@ armhf	imx		wandboard	u-boot.img spl/u-boot-spl.bin SPL
 armhf	omap		am335x_boneblack u-boot.img spl/u-boot-spl.bin MLO
 
 # Robert Nelson <robertcnelson@gmail.com>
-armhf	omap		igep0020	u-boot.bin spl/u-boot-spl.bin MLO
+armhf	omap		igep0020	u-boot.img spl/u-boot-spl.bin MLO
 
 armhf	omap		nokia_rx51	u-boot.bin
 
 # Robert Nelson <robertcnelson@gmail.com>
-armhf	omap		omap3_beagle	u-boot.bin spl/u-boot-spl.bin MLO
+armhf	omap		omap3_beagle	u-boot.img spl/u-boot-spl.bin MLO
 
 # Robert Nelson <robertcnelson@gmail.com>
-armhf	omap		omap4_panda	u-boot.bin spl/u-boot-spl.bin MLO
+armhf	omap		omap4_panda	u-boot.img spl/u-boot-spl.bin MLO
 
 # Joey Hess <joeyh@debian.org>
 # Christian Kastner <debian@kvr.at>
