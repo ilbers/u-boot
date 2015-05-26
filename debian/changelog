@@ -1,3 +1,21 @@
+u-boot (2015.04+dfsg1-2) unstable; urgency=medium
+
+  [ Joost van Zwieten ]
+  * u-boot-exynos: Enable odroid target.
+
+  [ Vagrant Cascadian ]
+  * u-boot-imx/mx6cuboxi:
+    + Add patches to enable HDMI and USB support.
+    + Add patches to fix Ethernet PHY detection.
+  * u-boot-imx/wandboard: Add patch from u-boot-imx to build a single SPL
+    target for all variants.
+
+  [ Robert Nelson ]
+  * u-boot-omap: Include u-boot.img instead of u-boot.bin for igep0020,
+    omap3_beagle and omap4_panda.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Mon, 25 May 2015 20:36:37 -0700
+
 u-boot (2015.04+dfsg1-1) experimental; urgency=medium
 
   [ Ian Campbell ]
