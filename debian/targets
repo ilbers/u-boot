@@ -95,6 +95,9 @@ armhf	sunxi		Cubietruck	u-boot-sunxi-with-spl.bin
 # Patrice Go <patgsiosisr@gmail.com>
 armhf	sunxi		Linksprite_pcDuino3	u-boot-sunxi-with-spl.bin
 
+# Jochen Sprickerhof <debian@jochen.sprickerhof.de>
+armhf	sunxi		Mini-X	u-boot-sunxi-with-spl.bin
+
 avr32	-		hammerhead	u-boot.img
 
 mips	-		qemu_mips	u-boot.bin
