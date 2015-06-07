@@ -1,0 +1,16 @@
+== Installation ==
+
+At this point, you must install U-Boot to flash yourself from a host
+system using the Linux_For_Tegra tools.
+
+sudo ./flash.sh -L /usr/lib/u-boot/jetson-tk1/u-boot-dtb-tegra.bin jetson-tk1 mmcblk1p1
+
+It seems that L4T R19.3.0 is currently required (image does not boot
+if flashed with L4T R21.X).
+
+TODO: Figure out how to do this with tools within Debian,
+e.g. tegracrm and cbootimage.
+
+== U-Boot environment tools ==
+
+fw_printenv / fw_setenv read /etc/fw_env.config for configuration.
