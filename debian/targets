@@ -2,7 +2,7 @@
 # --------------------------------------------
 armel	-		dockstar	u-boot.kwb
 
-# Ian Campbell <ijc@hellion.org.uk>
+# Ian Campbell <ijc@debian.org>
 armel	-		dreamplug	u-boot.kwb
 
 # drEagle <drEagle@doukki.net>
@@ -14,7 +14,7 @@ armel	-		rpi		u-boot.bin
 # drEagle <drEagle@doukki.net>
 armel	-		sheevaplug	u-boot.kwb
 
-# Ian Campbell <ijc@hellion.org.uk>
+# Ian Campbell <ijc@debian.org>
 armhf	exynos		arndale		u-boot-dtb.bin spl/arndale-spl.bin
 
 # Joost van Zwieten <joostvanzwieten@gmail.com>, Odroid-U3
@@ -72,7 +72,7 @@ armhf	sunxi		A20-OLinuXino-Lime2	u-boot-sunxi-with-spl.bin
 # Arne Ploese <aploese@gmx.de>
 armhf  sunxi		A20-OLinuXino_MICRO	u-boot-sunxi-with-spl.bin
 
-# Ian Campbell <ijc@hellion.org.uk>
+# Ian Campbell <ijc@debian.org>
 # Vagrant Cascadian <vagrant@debian.org>
 armhf	sunxi		Bananapi	u-boot-sunxi-with-spl.bin
 
@@ -83,11 +83,11 @@ armhf	sunxi		Bananapro	u-boot-sunxi-with-spl.bin
 armhf	sunxi		Cubieboard	u-boot-sunxi-with-spl.bin
 
 # Philip Rinn <rinni@inventati.org>
-# Ian Campbell <ijc@hellion.org.uk>
+# Ian Campbell <ijc@debian.org>
 # Karsten Merker <merker@debian.org>
 armhf	sunxi		Cubieboard2	u-boot-sunxi-with-spl.bin
 
-# Ian Campbell <ijc@hellion.org.uk>
+# Ian Campbell <ijc@debian.org>
 # Robert Nelson <robertcnelson@gmail.com>
 # Karsten Merker <merker@debian.org>
 armhf	sunxi		Cubietruck	u-boot-sunxi-with-spl.bin
