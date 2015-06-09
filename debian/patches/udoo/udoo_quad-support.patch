@@ -11,18 +11,11 @@ Author: Michael Fladischer <FladischerMichael@fladi.at>
 Last-Update: 2014-07-01
 Forwarded: no
 
---- a/include/configs/udoo.h
-+++ b/include/configs/udoo.h
-@@ -93,6 +93,8 @@
- #define CONFIG_GENERIC_MMC
- #define CONFIG_BOUNCE_BUFFER
- #define CONFIG_CMD_EXT2
-+#define CONFIG_CMD_EXT4
-+#define CONFIG_CMD_FS_GENERIC
- #define CONFIG_CMD_FAT
- #define CONFIG_DOS_PARTITION
- 
-@@ -128,12 +130,16 @@
+Index: u-boot/include/configs/udoo.h
+===================================================================
+--- u-boot.orig/include/configs/udoo.h
++++ u-boot/include/configs/udoo.h
+@@ -90,12 +90,16 @@
  		"fi\0" \
  	"mmcargs=setenv bootargs console=${console},${baudrate} " \
  		"root=${mmcroot}\0" \
@@ -42,7 +35,7 @@ Forwarded: no
  	"mmcboot=echo Booting from mmc ...; " \
  		"run mmcargs; " \
  		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
-@@ -175,16 +181,32 @@
+@@ -137,16 +141,32 @@
  		"fi;\0"
  
  #define CONFIG_BOOTCOMMAND \
@@ -83,13 +76,5 @@ Forwarded: no
 +		"fi;" \
 +	"fi;"
  
- /* Miscellaneous configurable options */
- #define CONFIG_SYS_LONGHELP
-@@ -226,6 +248,7 @@
- 
- #define CONFIG_OF_LIBFDT
- #define CONFIG_CMD_BOOTZ
-+#define CONFIG_SUPPORT_RAW_INITRD
- 
- #ifndef CONFIG_SYS_DCACHE_OFF
- #define CONFIG_CMD_CACHE
+ /* Print Buffer Size */
+ #define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
