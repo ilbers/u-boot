@@ -1,6 +1,5 @@
 add-debian-revision-to-u-boot-version
 mipsel-native-endianness.diff
-no-error-on-set-but-unused-variables.diff
 no-force-CROSS_COMPILE-powerpc.diff
 tools-generic-builds.patch
 tools-only-in-no-dot-config-targets.diff
