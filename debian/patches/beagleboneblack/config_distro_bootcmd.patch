@@ -17,8 +17,8 @@ Index: u-boot/include/configs/am335x_evm.h
 +	"mmcpart=2\0" \
  	"mmcroot=/dev/mmcblk0p2 ro\0" \
  	"mmcrootfstype=ext4 rootwait\0" \
- 	"rootpath=/export/rootfs\0" \
-@@ -119,8 +119,8 @@
+ 	"ramroot=/dev/ram0 rw\0" \
+@@ -110,8 +110,8 @@
  		"root=${ramroot} " \
  		"rootfstype=${ramrootfstype}\0" \
  	"loadramdisk=load mmc ${mmcdev} ${rdaddr} ramdisk.gz\0" \
@@ -29,12 +29,11 @@ Index: u-boot/include/configs/am335x_evm.h
  	"mmcloados=run mmcargs; " \
  		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
  			"if run loadfdt; then " \
-@@ -181,17 +181,28 @@
- 		"if test $fdtfile = undefined; then " \
+@@ -166,17 +166,30 @@
  			"echo WARNING: Could not determine device tree to use; fi; \0" \
  	NANDARGS \
+ 	NETARGS \
 -	DFUARGS
--#endif
 +	DFUARGS \
 +	BOOTENV
 +
@@ -43,6 +42,8 @@ Index: u-boot/include/configs/am335x_evm.h
 +       func(MMC, mmc, 1) \
 +       func(PXE, pxe, na) \
 +       func(DHCP, dhcp, na)
++
+ #endif
  
  #define CONFIG_BOOTCOMMAND \
  	"run findfdt; " \
@@ -50,7 +51,7 @@ Index: u-boot/include/configs/am335x_evm.h
  	"run mmcboot;" \
  	"setenv mmcdev 1; " \
 -	"setenv bootpart 1:2; " \
-+	"setenv mmcpart 2; " \
++	"setenv bootpart 2; " \
  	"run mmcboot;" \
  	"run nandboot;"
  
@@ -78,7 +79,7 @@ Index: u-boot/include/config_distro_defaults.h
 ===================================================================
 --- u-boot.orig/include/config_distro_defaults.h
 +++ u-boot/include/config_distro_defaults.h
-@@ -51,7 +51,9 @@
+@@ -54,7 +54,9 @@
  
  #define CONFIG_CMDLINE_EDITING
  #define CONFIG_AUTO_COMPLETE
