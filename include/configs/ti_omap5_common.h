@@ -58,7 +58,6 @@
 #define CONFIG_SYS_NS16550_CLK		48000000
 
 /* Per-SoC commands */
-#undef CONFIG_CMD_NET
 #undef CONFIG_CMD_NFS
 
 /*
@@ -66,6 +65,10 @@
  */
 #ifndef PARTS_DEFAULT
 #define PARTS_DEFAULT
+#endif
+
+#ifndef DFUARGS
+#define DFUARGS
 #endif
 
 #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
@@ -88,11 +91,6 @@
 		"vram=${vram} " \
 		"root=${mmcroot} " \
 		"rootfstype=${mmcrootfstype}\0" \
-	"netargs=setenv bootargs console=${console} " \
-		"${optargs} " \
-		"root=/dev/nfs " \
-		"nfsroot=${serverip}:${rootpath},${nfsopts} rw " \
-		"ip=dhcp\0" \
 	"loadbootscript=fatload mmc ${mmcdev} ${loadaddr} boot.scr\0" \
 	"bootscript=echo Running bootscript from mmc${mmcdev} ...; " \
 		"source ${loadaddr}\0" \
@@ -119,13 +117,6 @@
 				"bootz ${loadaddr} - ${fdtaddr}; " \
 			"fi;" \
 		"fi;\0" \
-	"netboot=echo Booting from network ...; " \
-		"set env autoload no; " \
-		"dhcp; " \
-		"tftp ${loadaddr} ${bootfile}; " \
-		"tftp ${fdtaddr} ${fdtfile}; " \
-		"run netargs; " \
-		"bootz ${loadaddr} - ${fdtaddr}\0" \
 	"findfdt="\
 		"if test $board_name = omap5_uevm; then " \
 			"setenv fdtfile omap5-uevm.dtb; fi; " \
@@ -138,14 +129,23 @@
 		"if test $fdtfile = undefined; then " \
 			"echo WARNING: Could not determine device tree to use; fi; \0" \
 	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
+	DFUARGS \
+	NETARGS \
+
 
 #define CONFIG_BOOTCOMMAND \
+	"if test ${dofastboot} -eq 1; then " \
+		"echo Boot fastboot requested, resetting dofastboot ...;" \
+		"setenv dofastboot 0; saveenv;" \
+		"echo Booting into fastboot ...; fastboot;" \
+	"fi;" \
 	"run findfdt; " \
 	"run mmcboot;" \
 	"setenv mmcdev 1; " \
 	"setenv bootpart 1:2; " \
 	"setenv mmcroot /dev/mmcblk0p2 rw; " \
 	"run mmcboot;" \
+	""
 
 
 /*

@@ -132,14 +132,7 @@ config ARC_CACHE_LINE_SHIFT
 
 choice
 	prompt "Target select"
-
-config TARGET_DUMMY
-	bool "Dummy target"
-	help
-	  Please select one of real target boards below!
-	  This target is only meant to force "makedefconfig" to put
-	  TARGET_xxx in defconfig even this is the first target from the list
-	  below.
+	optional
 
 config TARGET_TB100
 	bool "Support tb100"

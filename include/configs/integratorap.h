@@ -18,7 +18,6 @@
 #include "integrator-common.h"
 
 /* Integrator/AP-specific configuration */
-#define CONFIG_ARCH_INTEGRATOR
 #define CONFIG_SYS_HZ_CLOCK		24000000	/* Timer 1 is clocked at 24Mhz */
 
 /*
@@ -69,7 +68,6 @@
 #define CONFIG_CMD_PCI
 #define CONFIG_PCI_PNP
 
-#define CONFIG_NET_MULTI
 #define CONFIG_TULIP
 #define CONFIG_EEPRO100
 #define CONFIG_SYS_RX_ETH_BUFFER	8	/* use 8 rx buffer on eepro100	*/

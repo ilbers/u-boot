@@ -76,7 +76,6 @@
 #undef CONFIG_CMD_IMI
 #undef CONFIG_CMD_IMLS
 #undef CONFIG_CMD_NFS		/* NFS support */
-#undef CONFIG_CMD_NET		/* network support */
 
 /* turn on command-line edit/hist/auto */
 #define CONFIG_COMMAND_HISTORY
@@ -89,6 +88,9 @@
 
 #define CONFIG_CONSOLE_MUX
 #define CONFIG_SYS_CONSOLE_IS_IN_ENV
+#ifndef CONFIG_SPL_BUILD
+#define CONFIG_SYS_STDIO_DEREGISTER
+#endif
 
 /*
  * Miscellaneous configurable options
