@@ -15,19 +15,6 @@ udoo/udoo-standardized-variables
 
 mx53loco
 
-mx6cuboxi/0001-mx6-Add-initial-SPL-support-for-HummingBoard-i2eX.patch
-mx6cuboxi/0042-mx6cuboxi-Fix-the-defconfig-name.patch
-mx6cuboxi/0043-mx6cuboxi-Prepare-for-multi-SoC-support.patch
-mx6cuboxi/0044-mx6cuboxi-Introduce-multi-SoC-support.patch
-mx6cuboxi/0045-mx6cuboxi-Differentiate-Cubox-i-and-Hummingboard.patch
-mx6cuboxi/0046-mx6cuboxi-Use-more-standard-namings-for-fdt-variable.patch
-mx6cuboxi/0047-mx6cuboxi-Load-the-correct-fdtfile-variable.patch
-mx6cuboxi/0048-mx6cuboxi-Add-HDMI-output-support.patch
-mx6cuboxi/0049-mx6cuboxi-Add-USB-host-support.patch
-mx6cuboxi/0050-mx6cuboxi-Allow-HDMI-and-USB-keyboard-to-be-stdout-s.patch
-mx6cuboxi/0052-mx6cuboxi-Fix-Ethernet-PHY-detection-problem.patch
-mx6cuboxi/0053-mx6cuboxi-Pull-down-PAD_ENET_RXD0-RXD1.patch
-mx6cuboxi/0054-mx6cuboxi-Skip-usb-initialization-when-booting-witho.patch
 mx6cuboxi/config_distro_bootcmd.patch
 
 n900-bootz-raw-initrd.diff
