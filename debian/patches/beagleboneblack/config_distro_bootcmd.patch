@@ -29,11 +29,12 @@ Index: u-boot/include/configs/am335x_evm.h
  	"mmcloados=run mmcargs; " \
  		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
  			"if run loadfdt; then " \
-@@ -166,17 +166,30 @@
+@@ -166,17 +166,28 @@
  			"echo WARNING: Could not determine device tree to use; fi; \0" \
  	NANDARGS \
  	NETARGS \
 -	DFUARGS
+-#endif
 +	DFUARGS \
 +	BOOTENV
 +
@@ -42,8 +43,6 @@ Index: u-boot/include/configs/am335x_evm.h
 +       func(MMC, mmc, 1) \
 +       func(PXE, pxe, na) \
 +       func(DHCP, dhcp, na)
-+
- #endif
  
  #define CONFIG_BOOTCOMMAND \
  	"run findfdt; " \
