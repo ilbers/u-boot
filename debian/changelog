@@ -1,3 +1,41 @@
+u-boot (2015.07+dfsg1-1) unstable; urgency=medium
+
+  [ Jochen Sprickerhof ]
+  * u-boot-sunxi: enable Mini-X target (Closes: #787266).
+
+  [ Ian Campbell ]
+  * Add support for Tegra Jetson TK-1 (Closes: #788689)
+
+  [ Vagrant Cascadian ]
+  New upstream version:
+  * mx6cuboxi:
+    - Remove patches applied upstream.
+    - Refresh distro bootcmd patch.
+  * wandboard:
+    - Remove wandboard SPL patch, applied upstream.
+    - Refresh distro bootcmd patch.
+  * beagleboneblack:
+    - Refresh distro bootcmd patch.
+  * udoo_quad:
+    - Refresh support patch.
+  * Drop no-error-on-set-but-unused-variable patch, no longer relevent.
+  * Add patch to ensure that CONFIG_SANDBOX is set when running "make env".
+  
+  * Use patch applied upstream to use SOURCE_DATE_EPOCH when set.
+  * debian/rules: Use the Date from debian/changelog to set
+    SOURCE_DATE_EPOCH.
+
+  * Add example fw_env.config for mx6cuboxi (Closes: #786877).
+  * Add example fw_env.config for wandboard.
+
+  * Add Build-Depends on dpkg-dev (>= 1.17.0), as debian/rules uses
+    "dpkg-parsechangelog --show-field" introduced in that
+    version. (Closes: #768099).
+
+  * debian/watch: Update to use ftp server.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sat, 01 Aug 2015 07:29:07 -0700
+
 u-boot (2015.04+dfsg1-2) unstable; urgency=medium
 
   [ Joost van Zwieten ]
