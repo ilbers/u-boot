@@ -96,11 +96,11 @@
 #endif
 
 #ifdef CONFIG_USB_DAVINCI
-#define CONFIG_MUSB_HCD
+#define CONFIG_USB_MUSB_HCD
 #define CONFIG_CMD_USB
 #define CONFIG_USB_STORAGE
 #else
-#undef CONFIG_MUSB_HCD
+#undef CONFIG_USB_MUSB_HCD
 #undef CONFIG_CMD_USB
 #undef CONFIG_USB_STORAGE
 #endif
@@ -110,7 +110,6 @@
 
 /* U-Boot general configuration */
 #define CONFIG_BOOTFILE		"uImage"	/* Boot file name */
-#define CONFIG_SYS_PROMPT	"DM355 EVM # "	/* Monitor Command Prompt */
 #define CONFIG_SYS_CBSIZE	1024		/* Console I/O Buffer Size  */
 #define CONFIG_SYS_PBSIZE			/* Print buffer size */ \
 		(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)

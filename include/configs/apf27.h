@@ -40,6 +40,7 @@
 #define CONFIG_SPL_LDSCRIPT	"arch/$(ARCH)/cpu/u-boot-spl.lds"
 #define CONFIG_SPL_MAX_SIZE	2048
 #define CONFIG_SPL_TEXT_BASE    0xA0000000
+#define CONFIG_SPL_SERIAL_SUPPORT
 
 /* NAND boot config */
 #define CONFIG_SPL_NAND_SUPPORT
@@ -139,7 +140,6 @@
  * U-Boot general configurations
  */
 #define CONFIG_SYS_LONGHELP
-#define CONFIG_SYS_PROMPT		"BIOS> "	/* prompt string */
 #define CONFIG_SYS_CBSIZE		2048		/* console I/O buffer */
 #define CONFIG_SYS_PBSIZE		\
 				(CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)

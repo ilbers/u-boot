@@ -165,11 +165,6 @@
 #define CONFIG_CMD_EECONFIG      /* Gateworks EEPROM config cmd */
 #define CONFIG_CMD_UBI
 #define CONFIG_RBTREE
-#define CONFIG_CMD_FUSE          /* eFUSE read/write support */
-#ifdef CONFIG_CMD_FUSE
-#define CONFIG_MXC_OCOTP
-#endif
-
 
 /* Ethernet support */
 #define CONFIG_FEC_MXC
@@ -205,8 +200,8 @@
 /* USB Mass Storage Gadget */
 #define CONFIG_USB_GADGET
 #define CONFIG_CMD_USB_MASS_STORAGE
-#define CONFIG_USB_GADGET_MASS_STORAGE
-#define CONFIG_USBDOWNLOAD_GADGET
+#define CONFIG_USB_FUNCTION_MASS_STORAGE
+#define CONFIG_USB_GADGET_DOWNLOAD
 #define CONFIG_USB_GADGET_VBUS_DRAW    2
 
 /* Netchip IDs */
@@ -231,7 +226,6 @@
 #define CONFIG_IMX_VIDEO_SKIP
 
 /* Miscellaneous configurable options */
-#define CONFIG_SYS_PROMPT	             "Ventana > "
 #define CONFIG_HWCONFIG
 
 /* Print Buffer Size */

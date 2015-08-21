@@ -50,6 +50,8 @@ config LIB_RAND
 	help
 	  This library provides pseudo-random number generator functions.
 
+source lib/dhry/Kconfig
+
 source lib/rsa/Kconfig
 
 menu "Hashing Support"
@@ -95,5 +97,7 @@ config ERRNO_STR
 	  corresponding text message:
 	  - if errno is null or positive number - a pointer to "Success" message
 	  - if errno is negative - a pointer to errno related message
+
+source lib/efi/Kconfig
 
 endmenu

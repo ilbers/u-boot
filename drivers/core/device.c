@@ -47,6 +47,9 @@ int device_bind(struct udevice *parent, const struct driver *drv,
 	INIT_LIST_HEAD(&dev->sibling_node);
 	INIT_LIST_HEAD(&dev->child_head);
 	INIT_LIST_HEAD(&dev->uclass_node);
+#ifdef CONFIG_DEVRES
+	INIT_LIST_HEAD(&dev->devres_head);
+#endif
 	dev->platdata = platdata;
 	dev->name = name;
 	dev->of_offset = of_offset;
@@ -132,6 +135,8 @@ int device_bind(struct udevice *parent, const struct driver *drv,
 		dm_dbg("Bound device %s to %s\n", dev->name, parent->name);
 	*devp = dev;
 
+	dev->flags |= DM_FLAG_BOUND;
+
 	return 0;
 
 fail_child_post_bind:
@@ -168,6 +173,8 @@ fail_alloc2:
 		dev->platdata = NULL;
 	}
 fail_alloc1:
+	devres_release_all(dev);
+
 	free(dev);
 
 	return ret;
@@ -284,7 +291,6 @@ int device_probe_child(struct udevice *dev, void *parent_priv)
 			goto fail;
 	}
 
-	dev->flags |= DM_FLAG_ACTIVATED;
 	if (drv->probe) {
 		ret = drv->probe(dev);
 		if (ret) {
@@ -330,7 +336,7 @@ void *dev_get_platdata(struct udevice *dev)
 void *dev_get_parent_platdata(struct udevice *dev)
 {
 	if (!dev) {
-		dm_warn("%s: null device", __func__);
+		dm_warn("%s: null device\n", __func__);
 		return NULL;
 	}
 
@@ -340,7 +346,7 @@ void *dev_get_parent_platdata(struct udevice *dev)
 void *dev_get_uclass_platdata(struct udevice *dev)
 {
 	if (!dev) {
-		dm_warn("%s: null device", __func__);
+		dm_warn("%s: null device\n", __func__);
 		return NULL;
 	}
 
@@ -459,15 +465,40 @@ int device_find_child_by_of_offset(struct udevice *parent, int of_offset,
 	return -ENODEV;
 }
 
-int device_get_child_by_of_offset(struct udevice *parent, int seq,
+int device_get_child_by_of_offset(struct udevice *parent, int node,
 				  struct udevice **devp)
 {
 	struct udevice *dev;
 	int ret;
 
 	*devp = NULL;
-	ret = device_find_child_by_of_offset(parent, seq, &dev);
+	ret = device_find_child_by_of_offset(parent, node, &dev);
 	return device_get_device_tail(dev, ret, devp);
+}
+
+static struct udevice *_device_find_global_by_of_offset(struct udevice *parent,
+							int of_offset)
+{
+	struct udevice *dev, *found;
+
+	if (parent->of_offset == of_offset)
+		return parent;
+
+	list_for_each_entry(dev, &parent->child_head, sibling_node) {
+		found = _device_find_global_by_of_offset(dev, of_offset);
+		if (found)
+			return found;
+	}
+
+	return NULL;
+}
+
+int device_get_global_by_of_offset(int of_offset, struct udevice **devp)
+{
+	struct udevice *dev;
+
+	dev = _device_find_global_by_of_offset(gd->dm_root, of_offset);
+	return device_get_device_tail(dev, dev ? 0 : -ENOENT, devp);
 }
 
 int device_find_first_child(struct udevice *parent, struct udevice **devp)
@@ -528,17 +559,22 @@ const char *dev_get_uclass_name(struct udevice *dev)
 	return dev->uclass->uc_drv->name;
 }
 
+fdt_addr_t dev_get_addr(struct udevice *dev)
+{
 #ifdef CONFIG_OF_CONTROL
-fdt_addr_t dev_get_addr(struct udevice *dev)
-{
-	return fdtdec_get_addr(gd->fdt_blob, dev->of_offset, "reg");
-}
+	fdt_addr_t addr;
+
+	addr = fdtdec_get_addr(gd->fdt_blob, dev->of_offset, "reg");
+	if (addr != FDT_ADDR_T_NONE) {
+		if (device_get_uclass_id(dev->parent) == UCLASS_SIMPLE_BUS)
+			addr = simple_bus_translate(dev->parent, addr);
+	}
+
+	return addr;
 #else
-fdt_addr_t dev_get_addr(struct udevice *dev)
-{
 	return FDT_ADDR_T_NONE;
-}
 #endif
+}
 
 bool device_has_children(struct udevice *dev)
 {
@@ -566,4 +602,14 @@ bool device_is_last_sibling(struct udevice *dev)
 	if (!parent)
 		return false;
 	return list_is_last(&dev->sibling_node, &parent->child_head);
+}
+
+int device_set_name(struct udevice *dev, const char *name)
+{
+	name = strdup(name);
+	if (!name)
+		return -ENOMEM;
+	dev->name = name;
+
+	return 0;
 }

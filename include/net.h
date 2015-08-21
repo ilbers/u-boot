@@ -93,6 +93,14 @@ struct eth_pdata {
 	int phy_interface;
 };
 
+enum eth_recv_flags {
+	/*
+	 * Check hardware device for new packets (otherwise only return those
+	 * which are already in the memory buffer ready to process)
+	 */
+	ETH_RECV_CHECK_DEVICE		= 1 << 0,
+};
+
 /**
  * struct eth_ops - functions of Ethernet MAC controllers
  *
@@ -111,7 +119,9 @@ struct eth_pdata {
  * mcast: Join or leave a multicast group (for TFTP) - optional
  * write_hwaddr: Write a MAC address to the hardware (used to pass it to Linux
  *		 on some platforms like ARM). This function expects the
- *		 eth_pdata::enetaddr field to be populated - optional
+ *		 eth_pdata::enetaddr field to be populated. The method can
+ *		 return -ENOSYS to indicate that this is not implemented for
+		 this hardware - optional.
  * read_rom_hwaddr: Some devices have a backup of the MAC address stored in a
  *		    ROM on the board. This is how the driver should expose it
  *		    to the network stack. This function should fill in the
@@ -120,7 +130,7 @@ struct eth_pdata {
 struct eth_ops {
 	int (*start)(struct udevice *dev);
 	int (*send)(struct udevice *dev, void *packet, int length);
-	int (*recv)(struct udevice *dev, uchar **packetp);
+	int (*recv)(struct udevice *dev, int flags, uchar **packetp);
 	int (*free_pkt)(struct udevice *dev, uchar *packet, int length);
 	void (*stop)(struct udevice *dev);
 #ifdef CONFIG_MCAST_TFTP

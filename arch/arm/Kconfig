@@ -64,7 +64,7 @@ config SEMIHOSTING
 
 choice
 	prompt "Target select"
-	optional
+	default ARCH_VERSATILE
 
 config ARCH_AT91
 	bool "Atmel AT91"
@@ -121,6 +121,7 @@ config TARGET_MAXBCM
 config TARGET_DEVKIT3250
 	bool "Support devkit3250"
 	select CPU_ARM926EJS
+	select SUPPORT_SPL
 
 config TARGET_WORK_92105
 	bool "Support work_92105"
@@ -227,6 +228,9 @@ config TARGET_STV0991
 	select CPU_V7
 	select DM
 	select DM_SERIAL
+	select DM_SPI
+	select DM_SPI_FLASH
+	select SPI_FLASH
 
 config TARGET_X600
 	bool "Support x600"
@@ -454,6 +458,8 @@ config ARCH_HIGHBANK
 
 config ARCH_INTEGRATOR
 	bool "ARM Ltd. Integrator family"
+	select DM
+	select DM_SERIAL
 
 config ARCH_KEYSTONE
 	bool "TI Keystone"
@@ -575,6 +581,13 @@ config TARGET_MX6SXSABRESD
 	select DM
 	select DM_THERMAL
 
+config TARGET_MX6UL_14X14_EVK
+	bool "Support mx6ul_14x14_evk"
+	select CPU_V7
+	select DM
+	select DM_THERMAL
+	select SUPPORT_SPL
+
 config TARGET_GW_VENTANA
 	bool "Support gw_ventana"
 	select CPU_V7
@@ -622,14 +635,6 @@ config RMOBILE
 	bool "Renesas ARM SoCs"
 	select CPU_V7
 
-config TARGET_CM_FX6
-	bool "Support cm_fx6"
-	select CPU_V7
-	select SUPPORT_SPL
-	select DM
-	select DM_SERIAL
-	select DM_GPIO
-
 config ARCH_SOCFPGA
 	bool "Altera SOCFPGA family"
 	select CPU_V7
@@ -638,13 +643,25 @@ config ARCH_SOCFPGA
 	select DM_SPI_FLASH
 	select DM_SPI
 
+config TARGET_CM_T43
+	bool "Support cm_t43"
+	select CPU_V7
+	select SUPPORT_SPL
+
 config ARCH_SUNXI
 	bool "Support sunxi (Allwinner) SoCs"
+	select CMD_USB
 	select DM
 	select DM_GPIO
+	select DM_ETH
+	select DM_SERIAL
+	select DM_USB
 	select OF_CONTROL
 	select OF_SEPARATE
 	select SPL_DISABLE_OF_CONTROL
+	select USB
+	select USB_STORAGE
+	select USB_KEYBOARD
 
 config TARGET_SNOWBALL
 	bool "Support snowball"
@@ -672,23 +689,12 @@ config ARCH_ZYNQ
 	select DM_SPI
 	select DM_SPI_FLASH
 
-config TARGET_XILINX_ZYNQMP
+config ARCH_ZYNQMP
 	bool "Support Xilinx ZynqMP Platform"
 	select ARM64
 
 config TEGRA
 	bool "NVIDIA Tegra"
-	select SUPPORT_SPL
-	select SPL
-	select OF_CONTROL
-	select SPL_DISABLE_OF_CONTROL
-	select CPU_V7
-	select DM
-	select DM_SPI_FLASH
-	select DM_SERIAL
-	select DM_I2C
-	select DM_SPI
-	select DM_GPIO
 
 config TARGET_VEXPRESS64_AEMV8A
 	bool "Support vexpress_aemv8a"
@@ -734,6 +740,13 @@ config TARGET_LS2085ARDB
 	  The LS2085A Reference design board (RDB) is a high-performance
 	  development platform that supports the QorIQ LS2085A
 	  Layerscape Architecture processor.
+
+config TARGET_HIKEY
+	bool "Support HiKey 96boards Consumer Edition Platform"
+	select ARM64
+	  help
+	  Support for HiKey 96boards platform. It features a HI6220
+	  SoC, with 8xA53 CPU, mali450 gpu, and 1GB RAM.
 
 config TARGET_LS1021AQDS
 	bool "Support ls1021aqds"
@@ -865,6 +878,8 @@ source "arch/arm/mach-zynq/Kconfig"
 
 source "arch/arm/cpu/armv7/Kconfig"
 
+source "arch/arm/cpu/armv8/zynqmp/Kconfig"
+
 source "arch/arm/cpu/armv8/Kconfig"
 
 source "arch/arm/imx-common/Kconfig"
@@ -880,6 +895,7 @@ source "board/Marvell/gplugd/Kconfig"
 source "board/armadeus/apf27/Kconfig"
 source "board/armltd/vexpress/Kconfig"
 source "board/armltd/vexpress64/Kconfig"
+source "board/hisilicon/hikey/Kconfig"
 source "board/bachmann/ot1200/Kconfig"
 source "board/balloon3/Kconfig"
 source "board/barco/platinum/Kconfig"
@@ -891,6 +907,7 @@ source "board/broadcom/bcmcygnus/Kconfig"
 source "board/broadcom/bcmnsp/Kconfig"
 source "board/cirrus/edb93xx/Kconfig"
 source "board/compulab/cm_t335/Kconfig"
+source "board/compulab/cm_t43/Kconfig"
 source "board/compulab/cm_fx6/Kconfig"
 source "board/congatec/cgtqmx6eval/Kconfig"
 source "board/creative/xfi3/Kconfig"
@@ -920,6 +937,7 @@ source "board/freescale/mx6qsabreauto/Kconfig"
 source "board/freescale/mx6sabresd/Kconfig"
 source "board/freescale/mx6slevk/Kconfig"
 source "board/freescale/mx6sxsabresd/Kconfig"
+source "board/freescale/mx6ul_14x14_evk/Kconfig"
 source "board/freescale/vf610twr/Kconfig"
 source "board/gateworks/gw_ventana/Kconfig"
 source "board/genesi/mx51_efikamx/Kconfig"
@@ -982,7 +1000,6 @@ source "board/warp/Kconfig"
 source "board/woodburn/Kconfig"
 source "board/work-microwave/work_92105/Kconfig"
 source "board/xaeniax/Kconfig"
-source "board/xilinx/zynqmp/Kconfig"
 source "board/zipitz2/Kconfig"
 
 source "arch/arm/Kconfig.debug"

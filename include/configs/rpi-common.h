@@ -14,7 +14,6 @@
 #define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_BCM2835
 #define CONFIG_ARCH_CPU_INIT
-#define CONFIG_SYS_DCACHE_OFF
 
 #define CONFIG_SYS_TIMER_RATE		1000000
 #define CONFIG_SYS_TIMER_COUNTER	\
@@ -116,7 +115,6 @@
 
 /* Shell */
 #define CONFIG_SYS_MAXARGS		8
-#define CONFIG_SYS_PROMPT		"U-Boot> "
 #define CONFIG_COMMAND_HISTORY
 
 /* Commands */

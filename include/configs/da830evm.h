@@ -135,7 +135,7 @@
  * USB configuration
  */
 #define CONFIG_USB_DA8XX	/* Platform hookup to MUSB controller */
-#define CONFIG_MUSB_HCD
+#define CONFIG_USB_MUSB_HCD
 
 /*
  * U-Boot general configuration
@@ -143,7 +143,6 @@
 #undef CONFIG_MISC_INIT_R
 #undef CONFIG_BOOTDELAY
 #define CONFIG_BOOTFILE		"uImage" /* Boot file name */
-#define CONFIG_SYS_PROMPT	"U-Boot > " /* Command Prompt */
 #define CONFIG_SYS_CBSIZE	1024 /* Console I/O Buffer Size	*/
 #define CONFIG_SYS_PBSIZE	(CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)
 #define CONFIG_SYS_MAXARGS	16 /* max number of command args */
@@ -233,7 +232,7 @@
 
 #ifdef CONFIG_USB_DA8XX
 
-#ifdef CONFIG_MUSB_HCD		/* include support for usb host */
+#ifdef CONFIG_USB_MUSB_HCD		/* include support for usb host */
 #define CONFIG_CMD_USB		/* include support for usb cmd */
 
 #define CONFIG_USB_STORAGE	/* MSC class support */
@@ -244,9 +243,9 @@
 #define CONFIG_PREBOOT "usb start"
 #endif /* CONFIG_USB_KEYBOARD */
 
-#endif /* CONFIG_MUSB_HCD */
+#endif /* CONFIG_USB_MUSB_HCD */
 
-#ifdef CONFIG_MUSB_UDC
+#ifdef CONFIG_USB_MUSB_UDC
 /* USB device configuration */
 #define CONFIG_USB_DEVICE		1
 #define CONFIG_USB_TTY			1
@@ -256,7 +255,7 @@
 #define CONFIG_USBD_PRODUCTID		0x5678
 #define CONFIG_USBD_MANUFACTURER	"Texas Instruments"
 #define CONFIG_USBD_PRODUCT_NAME	"DA830EVM"
-#endif /* CONFIG_MUSB_UDC */
+#endif /* CONFIG_USB_MUSB_UDC */
 
 #endif /* CONFIG_USB_DA8XX */
 

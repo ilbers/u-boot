@@ -143,7 +143,6 @@
 #define CONFIG_MISC_INIT_R
 #undef CONFIG_BOOTDELAY
 #define CONFIG_BOOTFILE		"uImage"	/* Boot file name */
-#define CONFIG_SYS_PROMPT		"U-Boot > "	/* Monitor Command Prompt */
 #define CONFIG_SYS_CBSIZE		1024		/* Console I/O Buffer Size  */
 #define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)	/* Print buffer sz */
 #define CONFIG_SYS_MAXARGS		16		/* max number of command args */
@@ -156,7 +155,7 @@
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_CRC32_VERIFY
 #define CONFIG_MX_CYCLIC
-#define CONFIG_MUSB_HCD
+#define CONFIG_USB_MUSB_HCD
 #define CONFIG_USB_DAVINCI
 /*===================*/
 /* Linux Information */
@@ -194,7 +193,7 @@
 /*==========================*/
 #ifdef CONFIG_USB_DAVINCI
 #define CONFIG_CMD_USB
-#ifdef CONFIG_MUSB_HCD
+#ifdef CONFIG_USB_MUSB_HCD
 #define CONFIG_USB_STORAGE
 #define CONFIG_CMD_STORAGE
 #define CONFIG_CMD_FAT

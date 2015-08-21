@@ -45,13 +45,24 @@ void lpc32xx_mac_init(void)
 {
 	/* Enable MAC interface */
 	writel(CLK_MAC_REG | CLK_MAC_SLAVE | CLK_MAC_MASTER
-		| CLK_MAC_MII, &clk->macclk_ctrl);
+#if defined(CONFIG_RMII)
+		| CLK_MAC_RMII,
+#else
+		| CLK_MAC_MII,
+#endif
+		&clk->macclk_ctrl);
 }
 
 void lpc32xx_mlc_nand_init(void)
 {
 	/* Enable NAND interface */
 	writel(CLK_NAND_MLC | CLK_NAND_MLC_INT, &clk->flashclk_ctrl);
+}
+
+void lpc32xx_slc_nand_init(void)
+{
+	/* Enable SLC NAND interface */
+	writel(CLK_NAND_SLC | CLK_NAND_SLC_SELECT, &clk->flashclk_ctrl);
 }
 
 void lpc32xx_i2c_init(unsigned int devnum)

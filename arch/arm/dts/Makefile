@@ -9,6 +9,7 @@ dtb-$(CONFIG_EXYNOS4) += exynos4210-origen.dtb \
 
 dtb-$(CONFIG_EXYNOS5) += exynos5250-arndale.dtb \
 	exynos5250-snow.dtb \
+	exynos5250-spring.dtb \
 	exynos5250-smdk5250.dtb \
 	exynos5420-smdk5420.dtb \
 	exynos5420-peach-pit.dtb \
@@ -32,7 +33,10 @@ dtb-$(CONFIG_TEGRA) += tegra20-harmony.dtb \
 	tegra114-dalmore.dtb \
 	tegra124-jetson-tk1.dtb \
 	tegra124-nyan-big.dtb \
-	tegra124-venice2.dtb
+	tegra124-venice2.dtb \
+	tegra210-e2220-1170.dtb \
+	tegra210-p2371-0000.dtb \
+	tegra210-p2571.dtb
 dtb-$(CONFIG_ARCH_UNIPHIER) += \
 	uniphier-ph1-sld3-ref.dtb \
 	uniphier-ph1-pro4-ref.dtb \
@@ -45,18 +49,22 @@ dtb-$(CONFIG_ARCH_ZYNQ) += zynq-zc702.dtb \
 	zynq-microzed.dtb \
 	zynq-picozed.dtb \
 	zynq-zc770-xm010.dtb \
+	zynq-zc770-xm011.dtb \
 	zynq-zc770-xm012.dtb \
 	zynq-zc770-xm013.dtb
-dtb-$(CONFIG_AM33XX) += am335x-boneblack.dtb
+dtb-$(CONFIG_AM33XX) += am335x-boneblack.dtb am335x-evm.dtb
 
 dtb-$(CONFIG_ARCH_SOCFPGA) +=				\
 	socfpga_arria5_socdk.dtb			\
 	socfpga_cyclone5_socdk.dtb			\
 	socfpga_cyclone5_socrates.dtb
+dtb-$(CONFIG_TARGET_DRA7XX_EVM) += dra72-evm.dtb
 dtb-$(CONFIG_TARGET_STV0991) += stv0991.dtb
 
 dtb-$(CONFIG_LS102XA) += ls1021a-qds.dtb \
 	ls1021a-twr.dtb
+dtb-$(CONFIG_FSL_LSCH3) += fsl-ls2085a-qds.dtb \
+	fsl-ls2085a-rdb.dtb
 
 dtb-$(CONFIG_MACH_SUN4I) += \
 	sun4i-a10-a1000.dtb \
@@ -69,6 +77,7 @@ dtb-$(CONFIG_MACH_SUN4I) += \
 	sun4i-a10-inet-3f.dtb \
 	sun4i-a10-inet-3w.dtb \
 	sun4i-a10-inet97fv2.dtb \
+	sun4i-a10-itead-iteaduino-plus.dtb \
 	sun4i-a10-jesurun-q5.dtb \
 	sun4i-a10-marsboard.dtb \
 	sun4i-a10-mini-xplus.dtb \
@@ -77,6 +86,7 @@ dtb-$(CONFIG_MACH_SUN4I) += \
 	sun4i-a10-olinuxino-lime.dtb \
 	sun4i-a10-pcduino.dtb
 dtb-$(CONFIG_MACH_SUN5I) += \
+	sun5i-a10s-auxtek-t003.dtb \
 	sun5i-a10s-auxtek-t004.dtb \
 	sun5i-a10s-mk802.dtb \
 	sun5i-a10s-olinuxino-micro.dtb \

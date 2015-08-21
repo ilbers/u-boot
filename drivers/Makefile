@@ -1,3 +1,4 @@
+obj-$(CONFIG_CLK) += clk/
 obj-$(CONFIG_DM) += core/
 obj-$(CONFIG_DM_DEMO) += demo/
 obj-$(CONFIG_BIOSEMU) += bios_emulator/
@@ -7,9 +8,11 @@ obj-$(CONFIG_CPU) += cpu/
 obj-y += crypto/
 obj-$(CONFIG_FPGA) += fpga/
 obj-y += hwmon/
+obj-$(CONFIG_LED) += led/
 obj-y += misc/
 obj-y += pcmcia/
 obj-y += dfu/
+obj-$(CONFIG_RAM) += ram/
 obj-y += rtc/
 obj-y += sound/
 obj-y += tpm/

@@ -9,9 +9,6 @@
 
 #include "ls2085a_common.h"
 
-#define CONFIG_IDENT_STRING		" LS2085A-QDS"
-#define CONFIG_BOOTP_VCI_STRING		"U-boot.LS2085A-QDS"
-
 #define CONFIG_DISPLAY_BOARDINFO
 
 #ifndef __ASSEMBLY__
@@ -263,6 +260,8 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_SYS_LS_MC_DPC_ADDR	0x580800000ULL
 
 #define CONFIG_SYS_LS_MC_BOOT_TIMEOUT_MS 5000
+#define CONFIG_SYS_LS_MC_AIOP_IMG_IN_NOR
+#define CONFIG_SYS_LS_MC_AIOP_IMG_ADDR	0x580900000ULL
 
 /*
  * I2C
@@ -272,6 +271,15 @@ unsigned long get_board_ddr_clk(void);
 
 /* I2C bus multiplexer */
 #define I2C_MUX_CH_DEFAULT      0x8
+
+/* SPI */
+#ifdef CONFIG_FSL_DSPI
+#define CONFIG_CMD_SF
+#define CONFIG_SPI_FLASH
+#define CONFIG_SPI_FLASH_STMICRO
+#define CONFIG_SPI_FLASH_SST
+#define CONFIG_SPI_FLASH_EON
+#endif
 
 /*
  * MMC
@@ -287,6 +295,7 @@ unsigned long get_board_ddr_clk(void);
 #define RTC
 #define CONFIG_RTC_DS3231               1
 #define CONFIG_SYS_I2C_RTC_ADDR         0x68
+#define CONFIG_CMD_DATE
 
 /* EEPROM */
 #define CONFIG_ID_EEPROM
@@ -332,7 +341,7 @@ unsigned long get_board_ddr_clk(void);
 	"initrd_high=0xffffffffffffffff\0"	\
 	"kernel_start=0x581100000\0"		\
 	"kernel_load=0xa0000000\0"		\
-	"kernel_size=0x1000000\0"
+	"kernel_size=0x28000000\0"
 
 #ifdef CONFIG_FSL_MC_ENET
 #define CONFIG_FSL_MEMAC
@@ -352,5 +361,18 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_PHY_GIGE		/* Include GbE speed/duplex detection */
 
 #endif
+
+/*
+ * USB
+ */
+#define CONFIG_HAS_FSL_XHCI_USB
+#define CONFIG_USB_XHCI
+#define CONFIG_USB_XHCI_FSL
+#define CONFIG_USB_XHCI_DWC3
+#define CONFIG_USB_MAX_CONTROLLER_COUNT		2
+#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS	2
+#define CONFIG_CMD_USB
+#define CONFIG_USB_STORAGE
+#define CONFIG_CMD_EXT2
 
 #endif /* __LS2_QDS_H */

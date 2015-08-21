@@ -31,6 +31,7 @@ static const char * const compat_names[COMPAT_COUNT] = {
 	COMPAT(NVIDIA_TEGRA124_SOR, "nvidia,tegra124-sor"),
 	COMPAT(NVIDIA_TEGRA124_PMC, "nvidia,tegra124-pmc"),
 	COMPAT(NVIDIA_TEGRA20_DC, "nvidia,tegra20-dc"),
+	COMPAT(NVIDIA_TEGRA210_SDMMC, "nvidia,tegra210-sdhci"),
 	COMPAT(NVIDIA_TEGRA124_SDMMC, "nvidia,tegra124-sdhci"),
 	COMPAT(NVIDIA_TEGRA30_SDMMC, "nvidia,tegra30-sdhci"),
 	COMPAT(NVIDIA_TEGRA20_SDMMC, "nvidia,tegra20-sdhci"),
@@ -38,6 +39,7 @@ static const char * const compat_names[COMPAT_COUNT] = {
 	COMPAT(NVIDIA_TEGRA30_PCIE, "nvidia,tegra30-pcie"),
 	COMPAT(NVIDIA_TEGRA20_PCIE, "nvidia,tegra20-pcie"),
 	COMPAT(NVIDIA_TEGRA124_XUSB_PADCTL, "nvidia,tegra124-xusb-padctl"),
+	COMPAT(NVIDIA_TEGRA210_XUSB_PADCTL, "nvidia,tegra210-xusb-padctl"),
 	COMPAT(SMSC_LAN9215, "smsc,lan9215"),
 	COMPAT(SAMSUNG_EXYNOS5_SROMC, "samsung,exynos-sromc"),
 	COMPAT(SAMSUNG_S3C2440_I2C, "samsung,s3c2440-i2c"),
@@ -60,10 +62,7 @@ static const char * const compat_names[COMPAT_COUNT] = {
 	COMPAT(INFINEON_SLB9645_TPM, "infineon,slb9645tt"),
 	COMPAT(SAMSUNG_EXYNOS5_I2C, "samsung,exynos5-hsi2c"),
 	COMPAT(SANDBOX_LCD_SDL, "sandbox,lcd-sdl"),
-	COMPAT(TI_TPS65090, "ti,tps65090"),
-	COMPAT(COMPAT_NXP_PTN3460, "nxp,ptn3460"),
 	COMPAT(SAMSUNG_EXYNOS_SYSMMU, "samsung,sysmmu-v3.3"),
-	COMPAT(PARADE_PS8625, "parade,ps8625"),
 	COMPAT(INTEL_MICROCODE, "intel,microcode"),
 	COMPAT(MEMORY_SPD, "memory-spd"),
 	COMPAT(INTEL_PANTHERPOINT_AHCI, "intel,pantherpoint-ahci"),
@@ -76,6 +75,9 @@ static const char * const compat_names[COMPAT_COUNT] = {
 	COMPAT(SOCIONEXT_XHCI, "socionext,uniphier-xhci"),
 	COMPAT(COMPAT_INTEL_PCH, "intel,bd82x6x"),
 	COMPAT(COMPAT_INTEL_IRQ_ROUTER, "intel,irq-router"),
+	COMPAT(ALTERA_SOCFPGA_DWMAC, "altr,socfpga-stmmac"),
+	COMPAT(COMPAT_INTEL_BAYTRAIL_FSP, "intel,baytrail-fsp"),
+	COMPAT(COMPAT_INTEL_BAYTRAIL_FSP_MDP, "intel,baytrail-fsp-mdp"),
 };
 
 const char *fdtdec_get_compatible(enum fdt_compat_id id)
@@ -102,8 +104,8 @@ fdt_addr_t fdtdec_get_addr_size(const void *blob, int node,
 			size = (fdt_size_t *)((char *)cell +
 					sizeof(fdt_addr_t));
 			*sizep = fdt_size_to_cpu(*size);
-			debug("addr=%08lx, size=%08x\n",
-			      (ulong)addr, *sizep);
+			debug("addr=%08lx, size=%llx\n",
+			      (ulong)addr, (u64)*sizep);
 		} else {
 			debug("%08lx\n", (ulong)addr);
 		}
@@ -505,8 +507,7 @@ int fdtdec_get_alias_seq(const void *blob, const char *base, int offset,
 		const char *prop;
 		const char *name;
 		const char *slash;
-		const char *p;
-		int len;
+		int len, val;
 
 		prop = fdt_getprop_by_offset(blob, prop_offset, &name, &len);
 		debug("   - %s, %s\n", name, prop);
@@ -517,12 +518,11 @@ int fdtdec_get_alias_seq(const void *blob, const char *base, int offset,
 		slash = strrchr(prop, '/');
 		if (strcmp(slash + 1, find_name))
 			continue;
-		for (p = name + strlen(name) - 1; p > name; p--) {
-			if (!isdigit(*p)) {
-				*seqp = simple_strtoul(p + 1, NULL, 10);
-				debug("Found seq %d\n", *seqp);
-				return 0;
-			}
+		val = trailing_strtol(name);
+		if (val != -1) {
+			*seqp = val;
+			debug("Found seq %d\n", *seqp);
+			return 0;
 		}
 	}
 
@@ -570,6 +570,13 @@ int fdtdec_prepare_fdt(void)
 		puts("Missing DTB\n");
 #else
 		puts("No valid device tree binary found - please append one to U-Boot binary, use u-boot-dtb.bin or define CONFIG_OF_EMBED. For sandbox, use -d <file.dtb>\n");
+# ifdef DEBUG
+		if (gd->fdt_blob) {
+			printf("fdt_blob=%p\n", gd->fdt_blob);
+			print_buffer((ulong)gd->fdt_blob, gd->fdt_blob, 4,
+				     32, 0);
+		}
+# endif
 #endif
 		return -1;
 	}
@@ -1144,7 +1151,7 @@ int fdtdec_setup(void)
 #  else
 	/* FDT is at end of image */
 	gd->fdt_blob = (ulong *)&_end;
-#endif
+#  endif
 # elif defined(CONFIG_OF_HOSTFILE)
 	if (sandbox_read_fdt_from_file()) {
 		puts("Failed to read control FDT\n");

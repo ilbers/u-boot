@@ -705,6 +705,7 @@ The following options need to be configured:
 		CONFIG_ARM_ERRATA_454179
 		CONFIG_ARM_ERRATA_621766
 		CONFIG_ARM_ERRATA_798870
+		CONFIG_ARM_ERRATA_801819
 
 - Tegra SoC options:
 		CONFIG_TEGRA_SUPPORT_NON_SECURE
@@ -1671,7 +1672,7 @@ The following options need to be configured:
 		key for the Replay Protection Memory Block partition in eMMC.
 
 - USB Device Firmware Update (DFU) class support:
-		CONFIG_DFU_FUNCTION
+		CONFIG_USB_FUNCTION_DFU
 		This enables the USB portion of the DFU USB class
 
 		CONFIG_CMD_DFU
@@ -1716,6 +1717,9 @@ The following options need to be configured:
 		sending again an USB request to the device.
 
 - USB Device Android Fastboot support:
+		CONFIG_USB_FUNCTION_FASTBOOT
+		This enables the USB part of the fastboot gadget
+
 		CONFIG_CMD_FASTBOOT
 		This enables the command "fastboot" which enables the Android
 		fastboot mode for the platform's USB device. Fastboot is a USB
@@ -1727,12 +1731,12 @@ The following options need to be configured:
 		This enables support for booting images which use the Android
 		image format header.
 
-		CONFIG_USB_FASTBOOT_BUF_ADDR
+		CONFIG_FASTBOOT_BUF_ADDR
 		The fastboot protocol requires a large memory buffer for
 		downloads. Define this to the starting RAM address to use for
 		downloaded images.
 
-		CONFIG_USB_FASTBOOT_BUF_SIZE
+		CONFIG_FASTBOOT_BUF_SIZE
 		The fastboot protocol requires a large memory buffer for
 		downloads. This buffer should be as large as possible for a
 		platform. Define this to the size available RAM for fastboot.
@@ -5062,6 +5066,33 @@ within that device.
 	Specifies that MC firmware is located in NOR flash, mapped as
 	normal addressable memory via the LBC. CONFIG_SYS_LS_MC_FW_ADDR is the
 	virtual address in NOR flash.
+
+Freescale Layerscape Debug Server Support:
+-------------------------------------------
+The Freescale Layerscape Debug Server Support supports the loading of
+"Debug Server firmware" and triggering SP boot-rom.
+This firmware often needs to be loaded during U-Boot booting.
+
+- CONFIG_FSL_DEBUG_SERVER
+	Enable the Debug Server for Layerscape SoCs.
+
+- CONFIG_SYS_DEBUG_SERVER_DRAM_BLOCK_MIN_SIZE
+	Define minimum DDR size required for debug server image
+
+- CONFIG_SYS_MEM_TOP_HIDE_MIN
+	Define minimum DDR size to be hided from top of the DDR memory
+
+Reproducible builds
+-------------------
+
+In order to achieve reproducible builds, timestamps used in the U-Boot build
+process have to be set to a fixed value.
+
+This is done using the SOURCE_DATE_EPOCH environment variable.
+SOURCE_DATE_EPOCH is to be set on the build host's shell, not as a configuration
+option for U-Boot or an environment variable in U-Boot.
+
+SOURCE_DATE_EPOCH should be set to a number of seconds since the epoch, in UTC.
 
 Building the Software:
 ======================

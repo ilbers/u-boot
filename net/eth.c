@@ -287,7 +287,13 @@ static int eth_write_hwaddr(struct udevice *dev)
 			return -EINVAL;
 		}
 
+		/*
+		 * Drivers are allowed to decide not to implement this at
+		 * run-time. E.g. Some devices may use it and some may not.
+		 */
 		ret = eth_get_ops(dev)->write_hwaddr(dev);
+		if (ret == -ENOSYS)
+			ret = 0;
 		if (ret)
 			printf("\nWarning: %s failed to set MAC address\n",
 			       dev->name);
@@ -404,6 +410,7 @@ int eth_rx(void)
 {
 	struct udevice *current;
 	uchar *packet;
+	int flags;
 	int ret;
 	int i;
 
@@ -415,8 +422,10 @@ int eth_rx(void)
 		return -EINVAL;
 
 	/* Process up to 32 packets at one time */
+	flags = ETH_RECV_CHECK_DEVICE;
 	for (i = 0; i < 32; i++) {
-		ret = eth_get_ops(current)->recv(current, &packet);
+		ret = eth_get_ops(current)->recv(current, flags, &packet);
+		flags = 0;
 		if (ret > 0)
 			net_process_received_packet(packet, ret);
 		if (ret >= 0 && eth_get_ops(current)->free_pkt)

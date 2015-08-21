@@ -112,8 +112,8 @@
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO 146
 #define CONFIG_OMAP_EHCI_PHY2_RESET_GPIO 147
 #else /* !CONFIG_USB_MUSB_AM35X */
-#define CONFIG_MUSB_HOST
-#define CONFIG_MUSB_PIO_ONLY
+#define CONFIG_USB_MUSB_HOST
+#define CONFIG_USB_MUSB_PIO_ONLY
 #endif /* CONFIG_USB_MUSB_AM35X */
 
 #define CONFIG_USB_STORAGE
@@ -227,7 +227,6 @@
 #define CONFIG_SYS_AUTOLOAD		"no"
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
 #define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser */
-#define CONFIG_SYS_PROMPT		"CM-T3517 # "
 #define CONFIG_SYS_CBSIZE		512	/* Console I/O Buffer Size */
 /* Print Buffer Size */
 #define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \

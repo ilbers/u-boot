@@ -21,15 +21,13 @@
  * A typedef for a physical address. Note that fdt data is always big
  * endian even on a litle endian machine.
  */
+typedef phys_addr_t fdt_addr_t;
+typedef phys_size_t fdt_size_t;
 #ifdef CONFIG_PHYS_64BIT
-typedef u64 fdt_addr_t;
-typedef u64 fdt_size_t;
 #define FDT_ADDR_T_NONE (-1ULL)
 #define fdt_addr_to_cpu(reg) be64_to_cpu(reg)
 #define fdt_size_to_cpu(reg) be64_to_cpu(reg)
 #else
-typedef u32 fdt_addr_t;
-typedef u32 fdt_size_t;
 #define FDT_ADDR_T_NONE (-1U)
 #define fdt_addr_to_cpu(reg) be32_to_cpu(reg)
 #define fdt_size_to_cpu(reg) be32_to_cpu(reg)
@@ -137,6 +135,7 @@ enum fdt_compat_id {
 	COMPAT_NVIDIA_TEGRA124_SOR,	/* Tegra 124 Serial Output Resource */
 	COMPAT_NVIDIA_TEGRA124_PMC,	/* Tegra 124 power mgmt controller */
 	COMPAT_NVIDIA_TEGRA20_DC,	/* Tegra 2 Display controller */
+	COMPAT_NVIDIA_TEGRA210_SDMMC,	/* Tegra210 SDMMC controller */
 	COMPAT_NVIDIA_TEGRA124_SDMMC,	/* Tegra124 SDMMC controller */
 	COMPAT_NVIDIA_TEGRA30_SDMMC,	/* Tegra30 SDMMC controller */
 	COMPAT_NVIDIA_TEGRA20_SDMMC,	/* Tegra20 SDMMC controller */
@@ -145,6 +144,8 @@ enum fdt_compat_id {
 	COMPAT_NVIDIA_TEGRA20_PCIE,	/* Tegra 20 PCIe controller */
 	COMPAT_NVIDIA_TEGRA124_XUSB_PADCTL,
 					/* Tegra124 XUSB pad controller */
+	COMPAT_NVIDIA_TEGRA210_XUSB_PADCTL,
+					/* Tegra210 XUSB pad controller */
 	COMPAT_SMSC_LAN9215,		/* SMSC 10/100 Ethernet LAN9215 */
 	COMPAT_SAMSUNG_EXYNOS5_SROMC,	/* Exynos5 SROMC */
 	COMPAT_SAMSUNG_S3C2440_I2C,	/* Exynos I2C Controller */
@@ -167,10 +168,7 @@ enum fdt_compat_id {
 	COMPAT_INFINEON_SLB9645_TPM,	/* Infineon SLB9645 TPM */
 	COMPAT_SAMSUNG_EXYNOS5_I2C,	/* Exynos5 High Speed I2C Controller */
 	COMPAT_SANDBOX_LCD_SDL,		/* Sandbox LCD emulation with SDL */
-	COMPAT_TI_TPS65090,		/* Texas Instrument TPS65090 */
-	COMPAT_NXP_PTN3460,		/* NXP PTN3460 DP/LVDS bridge */
 	COMPAT_SAMSUNG_EXYNOS_SYSMMU,	/* Exynos sysmmu */
-	COMPAT_PARADE_PS8625,		/* Parade PS8622 EDP->LVDS bridge */
 	COMPAT_INTEL_MICROCODE,		/* Intel microcode update */
 	COMPAT_MEMORY_SPD,		/* Memory SPD information */
 	COMPAT_INTEL_PANTHERPOINT_AHCI,	/* Intel Pantherpoint AHCI */
@@ -183,6 +181,9 @@ enum fdt_compat_id {
 	COMPAT_SOCIONEXT_XHCI,		/* Socionext UniPhier xHCI */
 	COMPAT_INTEL_PCH,		/* Intel PCH */
 	COMPAT_INTEL_IRQ_ROUTER,	/* Intel Interrupt Router */
+	COMPAT_ALTERA_SOCFPGA_DWMAC,	/* SoCFPGA Ethernet controller */
+	COMPAT_INTEL_BAYTRAIL_FSP,	/* Intel Bay Trail FSP */
+	COMPAT_INTEL_BAYTRAIL_FSP_MDP,	/* Intel FSP memory-down params */
 
 	COMPAT_COUNT,
 };

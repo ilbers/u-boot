@@ -250,14 +250,18 @@ static ulong mmc_bread(int dev_num, lbaint_t start, lbaint_t blkcnt, void *dst)
 		return 0;
 	}
 
-	if (mmc_set_blocklen(mmc, mmc->read_bl_len))
+	if (mmc_set_blocklen(mmc, mmc->read_bl_len)) {
+		debug("%s: Failed to set blocklen\n", __func__);
 		return 0;
+	}
 
 	do {
 		cur = (blocks_todo > mmc->cfg->b_max) ?
 			mmc->cfg->b_max : blocks_todo;
-		if(mmc_read_blocks(mmc, dst, start, cur) != cur)
+		if (mmc_read_blocks(mmc, dst, start, cur) != cur) {
+			debug("%s: Failed to read blocks\n", __func__);
 			return 0;
+		}
 		blocks_todo -= cur;
 		start += cur;
 		dst += cur * mmc->read_bl_len;
@@ -1758,11 +1762,18 @@ static void do_preinit(void)
 
 int mmc_initialize(bd_t *bis)
 {
+	static int initialized = 0;
+	if (initialized)	/* Avoid initializing mmc multiple times */
+		return 0;
+	initialized = 1;
+
 	INIT_LIST_HEAD (&mmc_devices);
 	cur_dev_num = 0;
 
+#ifndef CONFIG_DM_MMC
 	if (board_mmc_init(bis) < 0)
 		cpu_mmc_init(bis);
+#endif
 
 #ifndef CONFIG_SPL_BUILD
 	print_mmc_devices(',');

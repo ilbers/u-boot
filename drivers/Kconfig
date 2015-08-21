@@ -1,5 +1,7 @@
 menu "Device Drivers"
 
+source "drivers/clk/Kconfig"
+
 source "drivers/core/Kconfig"
 
 source "drivers/cpu/Kconfig"
@@ -20,6 +22,8 @@ source "drivers/net/Kconfig"
 
 source "drivers/input/Kconfig"
 
+source "drivers/led/Kconfig"
+
 source "drivers/serial/Kconfig"
 
 source "drivers/tpm/Kconfig"
@@ -31,6 +35,8 @@ source "drivers/spi/Kconfig"
 source "drivers/gpio/Kconfig"
 
 source "drivers/power/Kconfig"
+
+source "drivers/ram/Kconfig"
 
 source "drivers/hwmon/Kconfig"
 

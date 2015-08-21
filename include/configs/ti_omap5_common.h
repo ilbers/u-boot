@@ -40,14 +40,12 @@
 #define CONFIG_SYS_DEFAULT_LPDDR2_TIMINGS
 #endif
 
-#ifndef CONFIG_SPL_BUILD
 #define CONFIG_PALMAS_POWER
-#endif
 
 #include <asm/arch/cpu.h>
 #include <asm/arch/omap.h>
 
-#include <configs/ti_armv7_common.h>
+#include <configs/ti_armv7_omap.h>
 
 /*
  * Hardware drivers
@@ -81,6 +79,7 @@
 	"vram=16M\0" \
 	"partitions=" PARTS_DEFAULT "\0" \
 	"optargs=\0" \
+	"dofastboot=0\0" \
 	"mmcdev=0\0" \
 	"mmcroot=/dev/mmcblk0p2 rw\0" \
 	"mmcrootfstype=ext4 rootwait\0" \
@@ -135,7 +134,7 @@
 	"if test ${dofastboot} -eq 1; then " \
 		"echo Boot fastboot requested, resetting dofastboot ...;" \
 		"setenv dofastboot 0; saveenv;" \
-		"echo Booting into fastboot ...; fastboot;" \
+		"echo Booting into fastboot ...; fastboot 0;" \
 	"fi;" \
 	"run findfdt; " \
 	"run mmcboot;" \

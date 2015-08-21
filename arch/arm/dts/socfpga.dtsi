@@ -20,6 +20,10 @@
 		timer1 = &timer1;
 		timer2 = &timer2;
 		timer3 = &timer3;
+		spi0 = &qspi;
+		spi1 = &spi0;
+		spi2 = &spi1;
+		mmc = &mmc;
 	};
 
 	cpus {
@@ -639,6 +643,7 @@
 			ext-decoder = <0>;  /* external decoder */
 			num-cs = <4>;
 			fifo-depth = <128>;
+			sram-size = <128>;
 			bus-num = <2>;
 			status = "disabled";
 		};

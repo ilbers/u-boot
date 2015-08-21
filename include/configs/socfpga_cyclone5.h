@@ -7,9 +7,6 @@
 #define __CONFIG_SOCFPGA_CYCLONE5_H__
 
 #include <asm/arch/socfpga_base_addrs.h>
-#include "../../board/altera/socfpga/pinmux_config.h"
-#include "../../board/altera/socfpga/iocsr_config.h"
-#include "../../board/altera/socfpga/pll_config.h"
 
 /* U-Boot Commands */
 #define CONFIG_SYS_NO_FLASH
@@ -46,13 +43,11 @@
 #else
 #define CONFIG_BOOTCOMMAND	"run mmcload; run mmcboot"
 #endif
-#define CONFIG_LOADADDR		0x8000
+#define CONFIG_LOADADDR		0x01000000
 #define CONFIG_SYS_LOAD_ADDR	CONFIG_LOADADDR
 
 /* Ethernet on SoC (EMAC) */
 #if defined(CONFIG_CMD_NET)
-#define CONFIG_EMAC_BASE		SOCFPGA_EMAC1_ADDRESS
-#define CONFIG_PHY_INTERFACE_MODE	PHY_INTERFACE_MODE_RGMII
 
 /* PHY */
 #define CONFIG_PHY_MICREL

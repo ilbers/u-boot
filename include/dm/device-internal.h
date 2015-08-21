@@ -107,14 +107,84 @@ int device_unbind(struct udevice *dev);
 static inline int device_unbind(struct udevice *dev) { return 0; }
 #endif
 
+/**
+ * device_remove_children() - Stop all device's children
+ * @dev:	The device whose children are to be removed
+ * @return 0 on success, -ve on error
+ */
+#ifdef CONFIG_DM_DEVICE_REMOVE
+int device_remove_children(struct udevice *dev);
+#else
+static inline int device_remove_children(struct udevice *dev) { return 0; }
+#endif
+
+/**
+ * device_unbind_children() - Unbind all device's children from the device
+ *
+ * On error, the function continues to unbind all children, and reports the
+ * first error.
+ *
+ * @dev:	The device that is to be stripped of its children
+ * @return 0 on success, -ve on error
+ */
+#ifdef CONFIG_DM_DEVICE_REMOVE
+int device_unbind_children(struct udevice *dev);
+#else
+static inline int device_unbind_children(struct udevice *dev) { return 0; }
+#endif
+
 #ifdef CONFIG_DM_DEVICE_REMOVE
 void device_free(struct udevice *dev);
 #else
 static inline void device_free(struct udevice *dev) {}
 #endif
 
+/**
+ * simple_bus_translate() - translate a bus address to a system address
+ *
+ * This handles the 'ranges' property in a simple bus. It translates the
+ * device address @addr to a system address using this property.
+ *
+ * @dev:	Simple bus device (parent of target device)
+ * @addr:	Address to translate
+ * @return new address
+ */
+fdt_addr_t simple_bus_translate(struct udevice *dev, fdt_addr_t addr);
+
 /* Cast away any volatile pointer */
 #define DM_ROOT_NON_CONST		(((gd_t *)gd)->dm_root)
 #define DM_UCLASS_ROOT_NON_CONST	(((gd_t *)gd)->uclass_root)
 
+/* device resource management */
+#ifdef CONFIG_DEVRES
+
+/**
+ * devres_release_probe - Release managed resources allocated after probing
+ * @dev: Device to release resources for
+ *
+ * Release all resources allocated for @dev when it was probed or later.
+ * This function is called on driver removal.
+ */
+void devres_release_probe(struct udevice *dev);
+
+/**
+ * devres_release_all - Release all managed resources
+ * @dev: Device to release resources for
+ *
+ * Release all resources associated with @dev.  This function is
+ * called on driver unbinding.
+ */
+void devres_release_all(struct udevice *dev);
+
+#else /* ! CONFIG_DEVRES */
+
+static inline void devres_release_probe(struct udevice *dev)
+{
+}
+
+static inline void devres_release_all(struct udevice *dev)
+{
+}
+
+#endif /* ! CONFIG_DEVRES */
 #endif

@@ -72,7 +72,7 @@ static unsigned int lpc32xx_i2c_set_bus_speed(struct i2c_adapter *adap,
 	if (speed == 0)
 		return -EINVAL;
 
-	half_period = (105000000 / speed) / 2;
+	half_period = (get_hclk_clk_rate() / speed) / 2;
 
 	if ((half_period > 255) || (half_period < 0))
 		return -EINVAL;
@@ -172,12 +172,12 @@ static int lpc32xx_i2c_read(struct i2c_adapter *adap, u8 dev, uint addr,
 				*(data++) = readl(&i2c->rx);
 			}
 		}
+		/* wait for end of transation */
+		while (!((stat = readl(&i2c->stat)) & LPC32XX_I2C_STAT_TDI))
+			;
+		/* clear end-of-transaction flag */
+		writel(1, &i2c->stat);
 	}
-	/* wait for end of transation */
-	while (!((stat = readl(&i2c->stat)) & LPC32XX_I2C_STAT_TDI))
-		;
-	/* clear end-of-transaction flag */
-	writel(1, &i2c->stat);
 	/* success */
 	return 0;
 }
@@ -200,6 +200,8 @@ static int lpc32xx_i2c_write(struct i2c_adapter *adap, u8 dev, uint addr,
 	if (alen | length)
 		/* Address slave in write mode */
 		writel((dev<<1) | LPC32XX_I2C_TX_START, &i2c->tx);
+	else
+		return 0;
 	/* write address bytes */
 	while (alen) {
 		/* wait for transmit fifo not full */
