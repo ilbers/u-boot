@@ -25,5 +25,3 @@ arndale/board-spl-rule.diff
 sh4-fix-linker-name-prefix.patch
 
 ensure-config-sandbox-for-make-env.patch
-
-reproducible/0001-Reproducible-U-Boot-build-support-using-SOURCE_DATE_.patch
