@@ -1,3 +1,12 @@
+u-boot (2015.10~rc2+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Install mkenvimage. Patch from Ubuntu.
+  * Refreshed patches for arndale, beaglebone black, and mx53loco.
+  * Remove reproducibility patch, applied upstream.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 01 Sep 2015 17:10:40 -0500
+
 u-boot (2015.07+dfsg1-1) unstable; urgency=medium
 
   [ Jochen Sprickerhof ]
