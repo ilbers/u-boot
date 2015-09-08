@@ -47,9 +47,23 @@ int arch_cpu_init(void)
 #if defined(CONFIG_NAND_FSMC)
 	periph1_clken |= MISC_FSMCENB;
 #endif
+#if defined(CONFIG_USB_EHCI_SPEAR)
+	periph1_clken |= PERIPH_USBH1 | PERIPH_USBH2;
+#endif
 
 	writel(periph1_clken, &misc_p->periph1_clken);
+
 	return 0;
+}
+
+void enable_caches(void)
+{
+#ifndef CONFIG_SYS_ICACHE_OFF
+	icache_enable();
+#endif
+#ifndef CONFIG_SYS_DCACHE_OFF
+	dcache_enable();
+#endif
 }
 
 #ifdef CONFIG_DISPLAY_CPUINFO

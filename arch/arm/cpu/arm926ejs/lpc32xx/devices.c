@@ -41,6 +41,13 @@ void lpc32xx_uart_init(unsigned int uart_id)
 	       &clk->u3clk + (uart_id - 3));
 }
 
+void lpc32xx_dma_init(void)
+{
+	/* Enable DMA interface */
+	writel(DMA_CLK_ENABLE, &clk->dmaclk_ctrl);
+
+}
+
 void lpc32xx_mac_init(void)
 {
 	/* Enable MAC interface */
@@ -63,6 +70,12 @@ void lpc32xx_slc_nand_init(void)
 {
 	/* Enable SLC NAND interface */
 	writel(CLK_NAND_SLC | CLK_NAND_SLC_SELECT, &clk->flashclk_ctrl);
+}
+
+void lpc32xx_usb_init(void)
+{
+	/* Do not route the UART 5 Tx/Rx pins to the USB D+ and USB D- pins. */
+	clrbits_le32(&ctrl->ctrl, UART_CTRL_UART5_USB_MODE);
 }
 
 void lpc32xx_i2c_init(unsigned int devnum)

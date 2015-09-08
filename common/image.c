@@ -155,6 +155,9 @@ static const table_entry_t uimage_type[] = {
 	{	IH_TYPE_ATMELIMAGE, "atmelimage", "ATMEL ROM-Boot Image",},
 	{	IH_TYPE_X86_SETUP,  "x86_setup",  "x86 setup.bin",    },
 	{	IH_TYPE_LPC32XXIMAGE, "lpc32xximage",  "LPC32XX Boot Image", },
+	{	IH_TYPE_RKIMAGE,    "rkimage",    "Rockchip Boot Image" },
+	{	IH_TYPE_RKSD,       "rksd",       "Rockchip SD Boot Image" },
+	{	IH_TYPE_RKSPI,      "rkspi",      "Rockchip SPI Boot Image" },
 	{	-1,		    "",		  "",			},
 };
 
@@ -1215,10 +1218,10 @@ int boot_get_loadable(int argc, char * const argv[], bootm_headers_t *images,
 		conf_noffset = fit_conf_get_node(buf, images->fit_uname_cfg);
 
 		for (loadables_index = 0;
-		     !fdt_get_string_index(buf, conf_noffset,
+		     fdt_get_string_index(buf, conf_noffset,
 				FIT_LOADABLE_PROP,
 				loadables_index,
-				(const char **)&uname) > 0;
+				(const char **)&uname) == 0;
 		     loadables_index++)
 		{
 			fit_img_result = fit_image_load(images,

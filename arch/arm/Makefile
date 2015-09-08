@@ -44,6 +44,7 @@ PLATFORM_CPPFLAGS += $(arch-y) $(tune-y)
 machine-$(CONFIG_ARCH_AT91)		+= at91
 machine-$(CONFIG_ARCH_BCM283X)		+= bcm283x
 machine-$(CONFIG_ARCH_DAVINCI)		+= davinci
+machine-$(CONFIG_ARCH_EXYNOS)		+= exynos
 machine-$(CONFIG_ARCH_HIGHBANK)		+= highbank
 machine-$(CONFIG_ARCH_KEYSTONE)		+= keystone
 # TODO: rename CONFIG_KIRKWOOD -> CONFIG_ARCH_KIRKWOOD
@@ -54,6 +55,7 @@ machine-$(CONFIG_ARCH_NOMADIK)		+= nomadik
 # TODO: rename CONFIG_ORION5X -> CONFIG_ARCH_ORION5X
 machine-$(CONFIG_ORION5X)		+= orion5x
 machine-$(CONFIG_ARCH_SOCFPGA)		+= socfpga
+machine-$(CONFIG_ARCH_ROCKCHIP)		+= rockchip
 machine-$(CONFIG_TEGRA)			+= tegra
 machine-$(CONFIG_ARCH_UNIPHIER)		+= uniphier
 machine-$(CONFIG_ARCH_VERSATILE)	+= versatile

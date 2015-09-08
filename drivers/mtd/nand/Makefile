@@ -12,7 +12,6 @@ NORMAL_DRIVERS=y
 endif
 
 obj-$(CONFIG_SPL_NAND_AM33XX_BCH) += am335x_spl_bch.o
-obj-$(CONFIG_SPL_NAND_SUNXI) += sunxi_nand_spl.o
 obj-$(CONFIG_SPL_NAND_DENALI) += denali_spl.o
 obj-$(CONFIG_SPL_NAND_DOCG4) += docg4_spl.o
 obj-$(CONFIG_SPL_NAND_SIMPLE) += nand_spl_simple.o
@@ -34,6 +33,7 @@ obj-y += nand_ids.o
 obj-y += nand_util.o
 obj-y += nand_ecc.o
 obj-y += nand_base.o
+obj-y += nand_timings.o
 
 endif # not spl
 
@@ -61,6 +61,7 @@ obj-$(CONFIG_NAND_MXC) += mxc_nand.o
 obj-$(CONFIG_NAND_MXS) += mxs_nand.o
 obj-$(CONFIG_NAND_NDFC) += ndfc.o
 obj-$(CONFIG_NAND_NOMADIK) += nomadik.o
+obj-$(CONFIG_NAND_PXA3XX) += pxa3xx_nand.o
 obj-$(CONFIG_NAND_S3C2410) += s3c2410_nand.o
 obj-$(CONFIG_NAND_SPEAR) += spr_nand.o
 obj-$(CONFIG_TEGRA_NAND) += tegra_nand.o
@@ -75,5 +76,6 @@ obj-$(CONFIG_NAND_FSL_ELBC) += fsl_elbc_spl.o
 obj-$(CONFIG_NAND_FSL_IFC) += fsl_ifc_spl.o
 obj-$(CONFIG_NAND_MXC) += mxc_nand_spl.o
 obj-$(CONFIG_NAND_MXS) += mxs_nand_spl.o mxs_nand.o
+obj-$(CONFIG_NAND_SUNXI) += sunxi_nand_spl.o
 
 endif # drivers

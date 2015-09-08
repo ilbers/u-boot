@@ -28,9 +28,7 @@
 #define CONFIG_PCI_IO_PHYS		CONFIG_PCI_IO_BUS
 #define CONFIG_PCI_IO_SIZE		0xe000
 
-#define CONFIG_PCI_CONFIG_HOST_BRIDGE
 #define CONFIG_PCI_PNP
-#define CONFIG_E1000
 
 #define CONFIG_STD_DEVICES_SETTINGS	"stdin=serial,vga\0" \
 					"stdout=serial,vga\0" \

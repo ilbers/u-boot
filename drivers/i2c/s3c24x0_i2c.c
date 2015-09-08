@@ -1002,7 +1002,7 @@ static int s3c24x0_i2c_write(struct i2c_adapter *adap, uchar chip, uint addr,
 	}
 }
 
-#ifdef CONFIG_OF_CONTROL
+#if CONFIG_IS_ENABLED(OF_CONTROL)
 static void process_nodes(const void *blob, int node_list[], int count,
 			 int is_highspeed)
 {
@@ -1101,7 +1101,7 @@ int i2c_reset_port_fdt(const void *blob, int node)
 
 	return 0;
 }
-#endif /* CONFIG_OF_CONTROL */
+#endif /* CONFIG_IS_ENABLED(OF_CONTROL) */
 
 #ifdef CONFIG_EXYNOS5
 static void exynos_i2c_init(struct i2c_adapter *adap, int speed, int slaveaddr)
@@ -1397,12 +1397,10 @@ static int s3c_i2c_ofdata_to_platdata(struct udevice *dev)
 
 	if (i2c_bus->is_highspeed) {
 		flags = PINMUX_FLAG_HS_MODE;
-		i2c_bus->hsregs = (struct exynos5_hsi2c *)
-				fdtdec_get_addr(blob, node, "reg");
+		i2c_bus->hsregs = (struct exynos5_hsi2c *)dev_get_addr(dev);
 	} else {
 		flags = 0;
-		i2c_bus->regs = (struct s3c24x0_i2c *)
-				fdtdec_get_addr(blob, node, "reg");
+		i2c_bus->regs = (struct s3c24x0_i2c *)dev_get_addr(dev);
 	}
 
 	i2c_bus->id = pinmux_decode_periph_id(blob, node);

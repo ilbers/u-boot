@@ -353,7 +353,7 @@ static const struct dm_serial_ops pl01x_serial_ops = {
 	.setbrg = pl01x_serial_setbrg,
 };
 
-#ifdef CONFIG_OF_CONTROL
+#if CONFIG_IS_ENABLED(OF_CONTROL)
 static const struct udevice_id pl01x_serial_id[] ={
 	{.compatible = "arm,pl011", .data = TYPE_PL011},
 	{.compatible = "arm,pl010", .data = TYPE_PL010},
@@ -365,7 +365,7 @@ static int pl01x_serial_ofdata_to_platdata(struct udevice *dev)
 	struct pl01x_serial_platdata *plat = dev_get_platdata(dev);
 	fdt_addr_t addr;
 
-	addr = fdtdec_get_addr(gd->fdt_blob, dev->of_offset, "reg");
+	addr = dev_get_addr(dev);
 	if (addr == FDT_ADDR_T_NONE)
 		return -EINVAL;
 

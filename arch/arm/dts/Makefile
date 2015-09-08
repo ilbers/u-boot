@@ -15,6 +15,9 @@ dtb-$(CONFIG_EXYNOS5) += exynos5250-arndale.dtb \
 	exynos5420-peach-pit.dtb \
 	exynos5800-peach-pi.dtb \
 	exynos5422-odroidxu3.dtb
+dtb-$(CONFIG_ARCH_ROCKCHIP) += \
+	rk3288-firefly.dtb \
+	rk3288-jerry.dtb
 dtb-$(CONFIG_TEGRA) += tegra20-harmony.dtb \
 	tegra20-medcom-wide.dtb \
 	tegra20-paz00.dtb \
@@ -38,9 +41,10 @@ dtb-$(CONFIG_TEGRA) += tegra20-harmony.dtb \
 	tegra210-p2371-0000.dtb \
 	tegra210-p2571.dtb
 dtb-$(CONFIG_ARCH_UNIPHIER) += \
-	uniphier-ph1-sld3-ref.dtb \
-	uniphier-ph1-pro4-ref.dtb \
 	uniphier-ph1-ld4-ref.dtb \
+	uniphier-ph1-ld6b-ref.dtb \
+	uniphier-ph1-pro4-ref.dtb \
+	uniphier-ph1-sld3-ref.dtb \
 	uniphier-ph1-sld8-ref.dtb
 dtb-$(CONFIG_ARCH_ZYNQ) += zynq-zc702.dtb \
 	zynq-zc706.dtb \
@@ -56,7 +60,10 @@ dtb-$(CONFIG_AM33XX) += am335x-boneblack.dtb am335x-evm.dtb
 
 dtb-$(CONFIG_ARCH_SOCFPGA) +=				\
 	socfpga_arria5_socdk.dtb			\
+	socfpga_cyclone5_mcvevk.dtb			\
 	socfpga_cyclone5_socdk.dtb			\
+	socfpga_cyclone5_de0_nano_soc.dtb			\
+	socfpga_cyclone5_sockit.dtb			\
 	socfpga_cyclone5_socrates.dtb
 dtb-$(CONFIG_TARGET_DRA7XX_EVM) += dra72-evm.dtb
 dtb-$(CONFIG_TARGET_STV0991) += stv0991.dtb
@@ -95,6 +102,7 @@ dtb-$(CONFIG_MACH_SUN5I) += \
 	sun5i-a13-forfun-q88db.dtb \
 	sun5i-a13-hsg-h702.dtb \
 	sun5i-a13-inet-86vs.dtb \
+	sun5i-a13-inet-98v-rev2.dtb \
 	sun5i-a13-olinuxino.dtb \
 	sun5i-a13-olinuxino-micro.dtb \
 	sun5i-a13-tzx-q8-713b7.dtb \
@@ -120,6 +128,7 @@ dtb-$(CONFIG_MACH_SUN7I) += \
 	sun7i-a20-m3.dtb \
 	sun7i-a20-m5.dtb \
 	sun7i-a20-mk808c.dtb \
+	sun7i-a20-olimex-som-evb.dtb \
 	sun7i-a20-olinuxino-lime.dtb \
 	sun7i-a20-olinuxino-lime2.dtb \
 	sun7i-a20-olinuxino-micro.dtb \
@@ -133,6 +142,7 @@ dtb-$(CONFIG_MACH_SUN7I) += \
 	sun7i-a20-yones-toptech-bd1078.dtb
 dtb-$(CONFIG_MACH_SUN8I_A23) += \
 	sun8i-a23-evb.dtb \
+	sun8i-a23-gt90h-v4.dtb \
 	sun8i-a23-ippo-q8h-v5.dtb \
 	sun8i-a23-ippo-q8h-v1.2.dtb
 dtb-$(CONFIG_MACH_SUN8I_A33) += \

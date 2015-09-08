@@ -31,7 +31,7 @@ struct udevice;
  * devices which use device tree.
  * @of_offset: Offset of device tree node for this device. This is -1 for
  * devices which don't use device tree.
- * @devp: Returns a pointer to the bound device
+ * @devp: if non-NULL, returns a pointer to the bound device
  * @return 0 if OK, -ve on error
  */
 int device_bind(struct udevice *parent, const struct driver *drv,
@@ -48,7 +48,7 @@ int device_bind(struct udevice *parent, const struct driver *drv,
  * @pre_reloc_only: If true, bind the driver only if its DM_INIT_F flag is set.
  * If false bind the driver always.
  * @info: Name and platdata for this device
- * @devp: Returns a pointer to the bound device
+ * @devp: if non-NULL, returns a pointer to the bound device
  * @return 0 if OK, -ve on error
  */
 int device_bind_by_name(struct udevice *parent, bool pre_reloc_only,
@@ -87,7 +87,7 @@ int device_probe_child(struct udevice *dev, void *parent_priv);
  * @dev: Pointer to device to remove
  * @return 0 if OK, -ve on error (an error here is normally a very bad thing)
  */
-#ifdef CONFIG_DM_DEVICE_REMOVE
+#if CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)
 int device_remove(struct udevice *dev);
 #else
 static inline int device_remove(struct udevice *dev) { return 0; }
@@ -101,7 +101,7 @@ static inline int device_remove(struct udevice *dev) { return 0; }
  * @dev: Pointer to device to unbind
  * @return 0 if OK, -ve on error
  */
-#ifdef CONFIG_DM_DEVICE_REMOVE
+#if CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)
 int device_unbind(struct udevice *dev);
 #else
 static inline int device_unbind(struct udevice *dev) { return 0; }
@@ -112,7 +112,7 @@ static inline int device_unbind(struct udevice *dev) { return 0; }
  * @dev:	The device whose children are to be removed
  * @return 0 on success, -ve on error
  */
-#ifdef CONFIG_DM_DEVICE_REMOVE
+#if CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)
 int device_remove_children(struct udevice *dev);
 #else
 static inline int device_remove_children(struct udevice *dev) { return 0; }
@@ -127,13 +127,13 @@ static inline int device_remove_children(struct udevice *dev) { return 0; }
  * @dev:	The device that is to be stripped of its children
  * @return 0 on success, -ve on error
  */
-#ifdef CONFIG_DM_DEVICE_REMOVE
+#if CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)
 int device_unbind_children(struct udevice *dev);
 #else
 static inline int device_unbind_children(struct udevice *dev) { return 0; }
 #endif
 
-#ifdef CONFIG_DM_DEVICE_REMOVE
+#if CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)
 void device_free(struct udevice *dev);
 #else
 static inline void device_free(struct udevice *dev) {}

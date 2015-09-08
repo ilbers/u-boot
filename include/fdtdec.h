@@ -45,16 +45,6 @@ struct fdt_memory {
 #define SPL_BUILD	0
 #endif
 
-#ifdef CONFIG_OF_CONTROL
-# if defined(CONFIG_SPL_BUILD) && defined(SPL_DISABLE_OF_CONTROL)
-#  define OF_CONTROL 0
-# else
-#  define OF_CONTROL 1
-# endif
-#else
-# define OF_CONTROL 0
-#endif
-
 /*
  * Information about a resource. start is the first address of the resource
  * and end is the last address (inclusive). The length of the resource will
@@ -164,8 +154,6 @@ enum fdt_compat_id {
 	COMPAT_MAXIM_MAX77686_PMIC,	/* MAX77686 PMIC */
 	COMPAT_GENERIC_SPI_FLASH,	/* Generic SPI Flash chip */
 	COMPAT_MAXIM_98095_CODEC,	/* MAX98095 Codec */
-	COMPAT_INFINEON_SLB9635_TPM,	/* Infineon SLB9635 TPM */
-	COMPAT_INFINEON_SLB9645_TPM,	/* Infineon SLB9645 TPM */
 	COMPAT_SAMSUNG_EXYNOS5_I2C,	/* Exynos5 High Speed I2C Controller */
 	COMPAT_SANDBOX_LCD_SDL,		/* Sandbox LCD emulation with SDL */
 	COMPAT_SAMSUNG_EXYNOS_SYSMMU,	/* Exynos sysmmu */
@@ -182,6 +170,7 @@ enum fdt_compat_id {
 	COMPAT_INTEL_PCH,		/* Intel PCH */
 	COMPAT_INTEL_IRQ_ROUTER,	/* Intel Interrupt Router */
 	COMPAT_ALTERA_SOCFPGA_DWMAC,	/* SoCFPGA Ethernet controller */
+	COMPAT_ALTERA_SOCFPGA_DWMMC,	/* SoCFPGA DWMMC controller */
 	COMPAT_INTEL_BAYTRAIL_FSP,	/* Intel Bay Trail FSP */
 	COMPAT_INTEL_BAYTRAIL_FSP_MDP,	/* Intel FSP memory-down params */
 

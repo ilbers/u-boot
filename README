@@ -1382,9 +1382,6 @@ The following options need to be configured:
 		Management command for E1000 devices.  When used on devices
 		with SPI support you can reprogram the EEPROM from U-Boot.
 
-		CONFIG_E1000_FALLBACK_MAC
-		default MAC for empty EEPROM after production.
-
 		CONFIG_EEPRO100
 		Support for Intel 82557/82559/82559ER chips.
 		Optional CONFIG_EEPRO100_SROM_WRITE enables EEPROM
@@ -1496,12 +1493,6 @@ The following options need to be configured:
 		CONFIG_TPM_TIS_I2C
 		Support for i2c bus TPM devices. Only one device
 		per system is supported at this time.
-
-			CONFIG_TPM_TIS_I2C_BUS_NUMBER
-			Define the the i2c bus number for the TPM device
-
-			CONFIG_TPM_TIS_I2C_SLAVE_ADDRESS
-			Define the TPM's address on the i2c bus
 
 			CONFIG_TPM_TIS_I2C_BURST_LIMITATION
 			Define the burst count bytes upper limit

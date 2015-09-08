@@ -15,6 +15,7 @@
 #include <dm/device.h>
 #include <dm/device-internal.h>
 #include <dm/lists.h>
+#include <dm/pinctrl.h>
 #include <dm/platdata.h>
 #include <dm/uclass.h>
 #include <dm/uclass-internal.h>
@@ -32,13 +33,16 @@ int device_bind(struct udevice *parent, const struct driver *drv,
 	struct uclass *uc;
 	int size, ret = 0;
 
-	*devp = NULL;
+	if (devp)
+		*devp = NULL;
 	if (!name)
 		return -EINVAL;
 
 	ret = uclass_get(drv->id, &uc);
-	if (ret)
+	if (ret) {
+		debug("Missing uclass for driver %s\n", drv->name);
 		return ret;
+	}
 
 	dev = calloc(1, sizeof(struct udevice));
 	if (!dev)
@@ -59,7 +63,7 @@ int device_bind(struct udevice *parent, const struct driver *drv,
 
 	dev->seq = -1;
 	dev->req_seq = -1;
-	if (IS_ENABLED(CONFIG_OF_CONTROL) && IS_ENABLED(CONFIG_DM_SEQ_ALIAS)) {
+	if (CONFIG_IS_ENABLED(OF_CONTROL) && IS_ENABLED(CONFIG_DM_SEQ_ALIAS)) {
 		/*
 		* Some devices, such as a SPI bus, I2C bus and serial ports
 		* are numbered using aliases.
@@ -133,14 +137,15 @@ int device_bind(struct udevice *parent, const struct driver *drv,
 
 	if (parent)
 		dm_dbg("Bound device %s to %s\n", dev->name, parent->name);
-	*devp = dev;
+	if (devp)
+		*devp = dev;
 
 	dev->flags |= DM_FLAG_BOUND;
 
 	return 0;
 
 fail_child_post_bind:
-	if (IS_ENABLED(CONFIG_DM_DEVICE_REMOVE)) {
+	if (CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)) {
 		if (drv->unbind && drv->unbind(dev)) {
 			dm_warn("unbind() method failed on dev '%s' on error path\n",
 				dev->name);
@@ -148,14 +153,14 @@ fail_child_post_bind:
 	}
 
 fail_bind:
-	if (IS_ENABLED(CONFIG_DM_DEVICE_REMOVE)) {
+	if (CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)) {
 		if (uclass_unbind_device(dev)) {
 			dm_warn("Failed to unbind dev '%s' on error path\n",
 				dev->name);
 		}
 	}
 fail_uclass_bind:
-	if (IS_ENABLED(CONFIG_DM_DEVICE_REMOVE)) {
+	if (CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)) {
 		list_del(&dev->sibling_node);
 		if (dev->flags & DM_FLAG_ALLOC_PARENT_PDATA) {
 			free(dev->parent_platdata);
@@ -226,17 +231,17 @@ int device_probe_child(struct udevice *dev, void *parent_priv)
 	drv = dev->driver;
 	assert(drv);
 
-	/* Allocate private data if requested */
-	if (drv->priv_auto_alloc_size) {
+	/* Allocate private data if requested and not reentered */
+	if (drv->priv_auto_alloc_size && !dev->priv) {
 		dev->priv = alloc_priv(drv->priv_auto_alloc_size, drv->flags);
 		if (!dev->priv) {
 			ret = -ENOMEM;
 			goto fail;
 		}
 	}
-	/* Allocate private data if requested */
+	/* Allocate private data if requested and not reentered */
 	size = dev->uclass->uc_drv->per_device_auto_alloc_size;
-	if (size) {
+	if (size && !dev->uclass_priv) {
 		dev->uclass_priv = calloc(1, size);
 		if (!dev->uclass_priv) {
 			ret = -ENOMEM;
@@ -251,7 +256,7 @@ int device_probe_child(struct udevice *dev, void *parent_priv)
 			size = dev->parent->uclass->uc_drv->
 					per_child_auto_alloc_size;
 		}
-		if (size) {
+		if (size && !dev->parent_priv) {
 			dev->parent_priv = alloc_priv(size, drv->flags);
 			if (!dev->parent_priv) {
 				ret = -ENOMEM;
@@ -264,6 +269,15 @@ int device_probe_child(struct udevice *dev, void *parent_priv)
 		ret = device_probe(dev->parent);
 		if (ret)
 			goto fail;
+
+		/*
+		 * The device might have already been probed during
+		 * the call to device_probe() on its parent device
+		 * (e.g. PCI bridge devices). Test the flags again
+		 * so that we don't mess up the device.
+		 */
+		if (dev->flags & DM_FLAG_ACTIVATED)
+			return 0;
 	}
 
 	seq = uclass_resolve_seq(dev);
@@ -274,6 +288,9 @@ int device_probe_child(struct udevice *dev, void *parent_priv)
 	dev->seq = seq;
 
 	dev->flags |= DM_FLAG_ACTIVATED;
+
+	/* continue regardless of the result of pinctrl */
+	pinctrl_select_state(dev, "default");
 
 	ret = uclass_pre_probe_device(dev);
 	if (ret)
@@ -561,11 +578,11 @@ const char *dev_get_uclass_name(struct udevice *dev)
 
 fdt_addr_t dev_get_addr(struct udevice *dev)
 {
-#ifdef CONFIG_OF_CONTROL
+#if CONFIG_IS_ENABLED(OF_CONTROL)
 	fdt_addr_t addr;
 
 	addr = fdtdec_get_addr(gd->fdt_blob, dev->of_offset, "reg");
-	if (addr != FDT_ADDR_T_NONE) {
+	if (CONFIG_IS_ENABLED(SIMPLE_BUS) && addr != FDT_ADDR_T_NONE) {
 		if (device_get_uclass_id(dev->parent) == UCLASS_SIMPLE_BUS)
 			addr = simple_bus_translate(dev->parent, addr);
 	}

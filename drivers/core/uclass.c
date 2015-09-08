@@ -58,7 +58,12 @@ static int uclass_add(enum uclass_id id, struct uclass **ucp)
 	if (!uc_drv) {
 		debug("Cannot find uclass for id %d: please add the UCLASS_DRIVER() declaration for this UCLASS_... id\n",
 		      id);
-		return -ENOENT;
+		/*
+		 * Use a strange error to make this case easier to find. When
+		 * a uclass is not available it can prevent driver model from
+		 * starting up and this failure is otherwise hard to debug.
+		 */
+		return -EPFNOSUPPORT;
 	}
 	uc = calloc(1, sizeof(*uc));
 	if (!uc)
@@ -435,7 +440,7 @@ err:
 	return ret;
 }
 
-#ifdef CONFIG_DM_DEVICE_REMOVE
+#if CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)
 int uclass_unbind_device(struct udevice *dev)
 {
 	struct uclass *uc;
@@ -515,7 +520,7 @@ int uclass_post_probe_device(struct udevice *dev)
 	return 0;
 }
 
-#ifdef CONFIG_DM_DEVICE_REMOVE
+#if CONFIG_IS_ENABLED(DM_DEVICE_REMOVE)
 int uclass_pre_remove_device(struct udevice *dev)
 {
 	struct uclass_driver *uc_drv;

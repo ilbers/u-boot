@@ -1,7 +1,7 @@
 VERSION = 2015
 PATCHLEVEL = 10
 SUBLEVEL =
-EXTRAVERSION = -rc2
+EXTRAVERSION = -rc3
 NAME =
 
 # *DOCUMENTATION*
@@ -1004,22 +1004,6 @@ OBJCOPYFLAGS_u-boot.spr = -I binary -O binary --pad-to=$(CONFIG_SPL_PAD_TO) \
 u-boot.spr: spl/u-boot-spl.img u-boot.img FORCE
 	$(call if_changed,pad_cat)
 
-MKIMAGEFLAGS_u-boot-spl.gph = -A $(ARCH) -T gpimage -C none \
-	-a $(CONFIG_SPL_TEXT_BASE) -e $(CONFIG_SPL_TEXT_BASE) -n SPL
-spl/u-boot-spl.gph: spl/u-boot-spl.bin FORCE
-	$(call if_changed,mkimage)
-
-OBJCOPYFLAGS_u-boot-spi.gph = -I binary -O binary --pad-to=$(CONFIG_SPL_PAD_TO) \
-			  --gap-fill=0
-u-boot-spi.gph: spl/u-boot-spl.gph u-boot.img FORCE
-	$(call if_changed,pad_cat)
-
-MKIMAGEFLAGS_u-boot-nand.gph = -A $(ARCH) -T gpimage -C none \
-	-a $(CONFIG_SYS_TEXT_BASE) -e $(CONFIG_SYS_TEXT_BASE) -n U-Boot
-u-boot-nand.gph: u-boot.bin FORCE
-	$(call if_changed,mkimage)
-	@dd if=/dev/zero bs=8 count=1 2>/dev/null >> $@
-
 ifneq ($(CONFIG_ARCH_SOCFPGA),)
 quiet_cmd_socboot = SOCBOOT $@
 cmd_socboot = cat	spl/u-boot-spl-dtb.sfp spl/u-boot-spl-dtb.sfp	\
@@ -1040,6 +1024,7 @@ IFDTOOL_FLAGS  = -f 0:$(objtree)/u-boot.dtb
 IFDTOOL_FLAGS += -m 0x$(shell $(NM) u-boot |grep _dt_ucode_base_size |cut -d' ' -f1)
 IFDTOOL_FLAGS += -U $(CONFIG_SYS_TEXT_BASE):$(objtree)/u-boot.bin
 IFDTOOL_FLAGS += -w $(CONFIG_SYS_X86_START16):$(objtree)/u-boot-x86-16bit.bin
+IFDTOOL_FLAGS += -C
 
 ifneq ($(CONFIG_HAVE_INTEL_ME),)
 IFDTOOL_ME_FLAGS  = -D $(srctree)/board/$(BOARDDIR)/descriptor.bin
@@ -1278,11 +1263,29 @@ define filechk_version.h
 	echo \#define LD_VERSION_STRING \"$$($(LD) --version | head -n 1)\"; )
 endef
 
+# The SOURCE_DATE_EPOCH mechanism requires a date that behaves like GNU date.
+# The BSD date on the other hand behaves different and would produce errors
+# with the misused '-d' switch.  Respect that and search a working date with
+# well known pre- and suffixes for the GNU variant of date.
 define filechk_timestamp.h
-	(SOURCE_DATE="$${SOURCE_DATE_EPOCH:+@$$SOURCE_DATE_EPOCH}"; \
-	LC_ALL=C date -u -d "$${SOURCE_DATE:-now}" +'#define U_BOOT_DATE "%b %d %C%y"'; \
-	LC_ALL=C date -u -d "$${SOURCE_DATE:-now}" +'#define U_BOOT_TIME "%T"'; \
-	LC_ALL=C date -u -d "$${SOURCE_DATE:-now}" +'#define U_BOOT_TZ "%z"' )
+	(if test -n "$${SOURCE_DATE_EPOCH}"; then \
+		SOURCE_DATE="@$${SOURCE_DATE_EPOCH}"; \
+		DATE=""; \
+		for date in gdate date.gnu date; do \
+			$${date} -u -d "$${SOURCE_DATE}" >/dev/null 2>&1 && DATE="$${date}"; \
+		done; \
+		if test -n "$${DATE}"; then \
+			LC_ALL=C $${DATE} -u -d "$${SOURCE_DATE}" +'#define U_BOOT_DATE "%b %d %C%y"'; \
+			LC_ALL=C $${DATE} -u -d "$${SOURCE_DATE}" +'#define U_BOOT_TIME "%T"'; \
+			LC_ALL=C $${DATE} -u -d "$${SOURCE_DATE}" +'#define U_BOOT_TZ "%z"'; \
+		else \
+			return 42; \
+		fi; \
+	else \
+		LC_ALL=C date +'#define U_BOOT_DATE "%b %d %C%y"'; \
+		LC_ALL=C date +'#define U_BOOT_TIME "%T"'; \
+		LC_ALL=C date +'#define U_BOOT_TZ "%z"'; \
+	fi)
 endef
 
 $(version_h): include/config/uboot.release FORCE
