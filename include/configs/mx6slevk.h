@@ -14,7 +14,6 @@
 #ifdef CONFIG_SPL
 #define CONFIG_SPL_LIBCOMMON_SUPPORT
 #define CONFIG_SPL_MMC_SUPPORT
-#define CONFIG_SPL_FAT_SUPPORT
 #include "imx6_spl.h"
 #endif
 
@@ -197,6 +196,6 @@
 #define CONFIG_SYS_MMC_ENV_DEV		1	/* SDHC2*/
 #endif
 
-#define CONFIG_IMX6_THERMAL
+#define CONFIG_IMX_THERMAL
 
 #endif				/* __CONFIG_H */

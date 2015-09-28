@@ -15,7 +15,6 @@
 #ifdef CONFIG_SPL
 #define CONFIG_SPL_LIBCOMMON_SUPPORT
 #define CONFIG_SPL_MMC_SUPPORT
-#define CONFIG_SPL_FAT_SUPPORT
 #include "imx6_spl.h"
 #endif
 
@@ -177,7 +176,7 @@
 #define CONFIG_PCIE_IMX_POWER_GPIO	IMX_GPIO_NR(2, 1)
 #endif
 
-#define CONFIG_IMX6_THERMAL
+#define CONFIG_IMX_THERMAL
 
 #define CONFIG_CMD_TIME
 

@@ -107,7 +107,9 @@ static void eth_common_init(void)
 		if (cpu_eth_init(gd->bd) < 0)
 			printf("CPU Net Initialization Failed\n");
 	} else {
+#ifndef CONFIG_DM_ETH
 		printf("Net Initialization Skipped\n");
+#endif
 	}
 }
 
@@ -193,10 +195,11 @@ struct udevice *eth_get_dev_by_name(const char *devname)
 	const char *startp = NULL;
 	struct udevice *it;
 	struct uclass *uc;
+	int len = strlen("eth");
 
 	/* Must be longer than 3 to be an alias */
-	if (strlen(devname) > strlen("eth")) {
-		startp = devname + strlen("eth");
+	if (!strncmp(devname, "eth", len) && strlen(devname) > len) {
+		startp = devname + len;
 		seq = simple_strtoul(startp, &endp, 10);
 	}
 
