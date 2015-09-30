@@ -133,10 +133,10 @@ Files:
  common/splash.c
  fs/jffs2/compr_lzo.c
  arch/arm/include/asm/arch-am33xx/hardware_ti816x.h
- arch/arm/cpu/armv7/exynos/dmc_init_exynos4.c
- arch/arm/cpu/armv7/exynos/lowlevel_init.c
- arch/arm/cpu/armv7/exynos/clock_init_exynos4.c
- arch/arm/cpu/armv7/exynos/common_setup.h
+ arch/arm/mach-exynos/dmc_init_exynos4.c
+ arch/arm/mach-exynos/lowlevel_init.c
+ arch/arm/mach-exynos/clock_init_exynos4.c
+ arch/arm/mach-exynos/common_setup.h
  arch/arm/cpu/armv7/am33xx/clock_ti816x.c
 Copyright: 
   2013 Texas Instruments, Inc
