@@ -1,3 +1,17 @@
+u-boot (2015.10~rc4+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release candidate.
+  * Updated udoo patches and debian/targets, upstream switched to a single
+    target that supports both udoo quad and dual.
+  * u-boot-sunxi: Add Linksprite_pcDuino target (Closes: #799035). Thanks
+    to Robert Hegner for testing!
+  * Refreshed patches for beaglebone black.
+  * Add patch to fix build variation based on timezone, by removing call
+    to "mktime".
+  * debian/copyright: Updated new locations for exynos files.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Wed, 30 Sep 2015 12:00:30 -0700
+
 u-boot (2015.10~rc2+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
