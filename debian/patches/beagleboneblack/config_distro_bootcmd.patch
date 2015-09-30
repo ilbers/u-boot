@@ -2,34 +2,26 @@ Index: u-boot/include/configs/am335x_evm.h
 ===================================================================
 --- u-boot.orig/include/configs/am335x_evm.h
 +++ u-boot/include/configs/am335x_evm.h
-@@ -71,7 +71,6 @@
- #define CONFIG_EXTRA_ENV_SETTINGS \
+@@ -72,7 +72,6 @@
  	DEFAULT_LINUX_BOOT_ENV \
+ 	DEFAULT_MMC_TI_ARGS \
  	"boot_fdt=try\0" \
 -	"bootpart=0:2\0" \
  	"bootdir=/boot\0" \
  	"bootfile=zImage\0" \
  	"fdtfile=undefined\0" \
-@@ -81,6 +80,7 @@
- 		"name=rootfs,start=2MiB,size=-,uuid=${uuid_gpt_rootfs}\0" \
- 	"optargs=\0" \
- 	"mmcdev=0\0" \
-+	"mmcpart=2\0" \
- 	"mmcroot=/dev/mmcblk0p2 ro\0" \
- 	"mmcrootfstype=ext4 rootwait\0" \
- 	"ramroot=/dev/ram0 rw\0" \
-@@ -110,8 +110,8 @@
+@@ -104,8 +103,8 @@
  		"root=${ramroot} " \
  		"rootfstype=${ramrootfstype}\0" \
  	"loadramdisk=load mmc ${mmcdev} ${rdaddr} ramdisk.gz\0" \
 -	"loadimage=load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootfile}\0" \
 -	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile}\0" \
-+	"loadimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bootdir}/${bootfile}\0" \
-+	"loadfdt=load mmc ${mmcdev}:${mmcpart} ${fdtaddr} ${bootdir}/${fdtfile}\0" \
- 	"mmcloados=run mmcargs; " \
++	"loadimage=load mmc ${mmcdev}:${bootpart} ${loadaddr} ${bootdir}/${bootfile}\0" \
++	"loadfdt=load mmc ${mmcdev}:${bootpart} ${fdtaddr} ${bootdir}/${fdtfile}\0" \
+ 	"mmcloados=run args_mmc; " \
  		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
  			"if run loadfdt; then " \
-@@ -166,17 +166,28 @@
+@@ -160,17 +159,28 @@
  			"echo WARNING: Could not determine device tree to use; fi; \0" \
  	NANDARGS \
  	NETARGS \
@@ -65,7 +57,7 @@ Index: u-boot/include/configs/ti_armv7_common.h
 ===================================================================
 --- u-boot.orig/include/configs/ti_armv7_common.h
 +++ u-boot/include/configs/ti_armv7_common.h
-@@ -58,6 +58,8 @@
+@@ -56,6 +56,8 @@
  	"fdt_addr_r=0x88000000\0" \
  	"rdaddr=0x88080000\0" \
  	"ramdisk_addr_r=0x88080000\0" \
@@ -73,12 +65,12 @@ Index: u-boot/include/configs/ti_armv7_common.h
 +	"scriptaddr=0x82000000\0" \
  	"bootm_size=0x10000000\0"
  
- /*
+ #define DEFAULT_MMC_TI_ARGS \
 Index: u-boot/include/config_distro_defaults.h
 ===================================================================
 --- u-boot.orig/include/config_distro_defaults.h
 +++ u-boot/include/config_distro_defaults.h
-@@ -54,7 +54,9 @@
+@@ -60,7 +60,9 @@
  
  #define CONFIG_CMDLINE_EDITING
  #define CONFIG_AUTO_COMPLETE
