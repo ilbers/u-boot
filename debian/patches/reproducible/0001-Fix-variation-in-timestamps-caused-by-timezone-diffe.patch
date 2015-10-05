@@ -1,0 +1,43 @@
+From: Vagrant Cascadian <vagrant@debian.org>
+Last-Updated: 2015-10-02
+Forwarded: https://patchwork.ozlabs.org/patch/525630/
+Subject: [PATCH] Fix variation in timestamps caused by timezone differences.
+  When building with SOURCE_DATE_EPOCH set, avoid use of mktime in
+  default_image.c, which converts the timestamp into localtime. This
+  causes variation based on timezone when building u-boot.img and
+  u-boot-sunxi-with-spl.bin targets.
+
+---
+ tools/default_image.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/tools/default_image.c b/tools/default_image.c
+index 18940af..3ed7014 100644
+--- a/tools/default_image.c
++++ b/tools/default_image.c
+@@ -89,7 +89,6 @@ static void image_set_header(void *ptr, struct stat *sbuf, int ifd,
+ {
+ 	uint32_t checksum;
+ 	char *source_date_epoch;
+-	struct tm *time_universal;
+ 	time_t time;
+ 
+ 	image_header_t * hdr = (image_header_t *)ptr;
+@@ -103,13 +102,10 @@ static void image_set_header(void *ptr, struct stat *sbuf, int ifd,
+ 	if (source_date_epoch != NULL) {
+ 		time = (time_t) strtol(source_date_epoch, NULL, 10);
+ 
+-		time_universal = gmtime(&time);
+-		if (time_universal == NULL) {
++		if (gmtime(&time) == NULL) {
+ 			fprintf(stderr, "%s: SOURCE_DATE_EPOCH is not valid\n",
+ 				__func__);
+ 			time = 0;
+-		} else {
+-			time = mktime(time_universal);
+ 		}
+ 	} else {
+ 		time = sbuf->st_mtime;
+-- 
+2.1.4
+
