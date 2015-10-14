@@ -25,3 +25,4 @@ arndale/board-spl-rule.diff
 sh4-fix-linker-name-prefix.patch
 
 ensure-config-sandbox-for-make-env.patch
+mksunxiboot-spl.patch
