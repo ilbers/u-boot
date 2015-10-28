@@ -4,6 +4,7 @@
 # targets could be built on multiple architectures, but could instead install
 # the package for the architecture needed.
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/A10-OLinuXino-Lime/uboot.elf
+u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/A20-Olimex-SOM-EVB/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/A20-OLinuXino-Lime/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/A20-OLinuXino-Lime2/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/A20-OLinuXino_MICRO/uboot.elf
@@ -18,6 +19,7 @@ u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib
 
 # These bootloaders need to be statically linked.
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/A10-OLinuXino-Lime/uboot.elf
+u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/A20-Olimex-SOM-EVB/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/A20-OLinuXino-Lime/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/A20-OLinuXino-Lime2/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/A20-OLinuXino_MICRO/uboot.elf

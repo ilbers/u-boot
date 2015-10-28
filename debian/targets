@@ -66,6 +66,9 @@ armhf	omap		omap4_panda	u-boot.img spl/u-boot-spl.bin MLO
 # Christian Kastner <debian@kvr.at>
 armhf	sunxi		A10-OLinuXino-Lime	u-boot-sunxi-with-spl.bin
 
+# Karsten Merker <merker@debian.org>
+armhf	sunxi		A20-Olimex-SOM-EVB	u-boot-sunxi-with-spl.bin
+
 # Christian Kastner <debian@kvr.at>
 armhf	sunxi		A20-OLinuXino-Lime	u-boot-sunxi-with-spl.bin
 
