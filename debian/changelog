@@ -1,3 +1,20 @@
+u-boot (2015.10+dfsg1-1) unstable; urgency=medium
+
+  [ Vagrant Cascadian ]
+  * New upstream version.
+  * Remove patch to fix variation caused by timezone differences, applied
+    upstream.
+  * Add patch to use a relative path to include the sunxi spl header,
+    which allows mksunxiboot to build on any architecture. Thanks to Ian
+    Campbell for the initial patch!
+  * Add patch from upstream to fix non-Android booting with ramdisk and/or
+    device tree.
+
+  [ Karsten Merker ]
+  * u-boot-sunxi: Enable the A20-Olimex-SOM-EVB target (Closes: #803335).
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Thu, 29 Oct 2015 13:35:23 -0700
+
 u-boot (2015.10~rc4+dfsg1-1) unstable; urgency=medium
 
   * New upstream release candidate.
