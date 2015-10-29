@@ -26,3 +26,5 @@ sh4-fix-linker-name-prefix.patch
 
 ensure-config-sandbox-for-make-env.patch
 mksunxiboot-spl.patch
+
+upstream/image.c-Fix-non-Android-booting-with-ramdisk-and-or-.patch
