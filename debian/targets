@@ -62,6 +62,10 @@ armhf	omap		omap3_beagle	u-boot.img spl/u-boot-spl.bin MLO
 # Robert Nelson <robertcnelson@gmail.com>
 armhf	omap		omap4_panda	u-boot.img spl/u-boot-spl.bin MLO
 
+# Emilio Pozuelo Monfort <pochu@debian.org>
+# Sjoerd Simons <sjoerd@debian.org>
+armhf	rockchip	firefly-rk3288		u-boot.img spl/u-boot-spl-dtb.bin
+
 # Joey Hess <joeyh@debian.org>
 # Christian Kastner <debian@kvr.at>
 armhf	sunxi		A10-OLinuXino-Lime	u-boot-sunxi-with-spl.bin
