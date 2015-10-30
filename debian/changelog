@@ -1,3 +1,11 @@
+u-boot (2015.10+dfsg1-2~exp0) UNRELEASED; urgency=medium
+
+  * Build rockchip package, with firefly-rk3288 as the initial
+    target. Thanks to Emilio Pozuelo Monfort and Sjoerd Simons.
+    (Closes: #803166).
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Fri, 30 Oct 2015 11:38:37 -0700
+
 u-boot (2015.10+dfsg1-1) unstable; urgency=medium
 
   [ Vagrant Cascadian ]
