@@ -28,3 +28,5 @@ upstream/image.c-Fix-non-Android-booting-with-ramdisk-and-or-.patch
 upstream/distro-bootcmd-imx/0001-arm-imx-Switch-Wandboard-to-use-config_distro_bootcm.patch
 upstream/distro-bootcmd-imx/0002-arm-imx-Switch-mx6cuboxi-to-use-config_distro_bootcm.patch
 upstream/distro-bootcmd-imx/0003-imx6-fix-warnings-due-to-switch-to-distro-environmen.patch
+
+mx6cuboxi/serial_console_speed.patch
