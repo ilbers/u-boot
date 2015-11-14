@@ -13,7 +13,6 @@ mx53loco
 
 n900-bootz-raw-initrd.diff
 
-beagleboneblack/config_distro_bootcmd.patch
 beagleboneblack/usb-mass-storage.patch
 
 arndale/board-spl-rule.diff
@@ -30,3 +29,7 @@ upstream/distro-bootcmd-imx/0002-arm-imx-Switch-mx6cuboxi-to-use-config_distro_b
 upstream/distro-bootcmd-imx/0003-imx6-fix-warnings-due-to-switch-to-distro-environmen.patch
 
 mx6cuboxi/serial_console_speed.patch
+
+upstream/am33x_distro_bootcmd/0001-config_distro_bootcmd.h-Use-a-private-variable-for-b.patch
+upstream/am33x_distro_bootcmd/0002-configs-ti_armv7_common.h-Add-default-addresses-for-.patch
+upstream/am33x_distro_bootcmd/0003-configs-am335x_evm-Support-distro-bootcmds.patch
