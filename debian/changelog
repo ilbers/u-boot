@@ -1,3 +1,15 @@
+u-boot (2015.10+dfsg1-2) unstable; urgency=medium
+
+  * Add missing content to u-boot-rockchip package.
+  * Update wandboard and mx6cuboxi patches to use config_distro_bootcmd
+    patches from u-boot-imx.
+  * Patch mx6cuboxi to specify the baudrate in the console setting.
+  * Update BeagleBone Black patches to use config_distro_bootcmd from
+    upstream.
+  * Patch to switch novena to use distro_bootcmd.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sat, 14 Nov 2015 09:22:47 -0600
+
 u-boot (2015.10+dfsg1-2~exp1) experimental; urgency=medium
 
   * Build rockchip package, with firefly-rk3288 as the initial
