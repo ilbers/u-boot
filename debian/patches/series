@@ -6,14 +6,10 @@ tools-only-in-no-dot-config-targets.diff
 Makefile-add-kwb-target-to-all.patch
 hurd.diff
 
-wandboard/config_distro_bootcmd.patch
-
 udoo/udoo_quad-support.patch
 udoo/udoo-standardized-variables
 
 mx53loco
-
-mx6cuboxi/config_distro_bootcmd.patch
 
 n900-bootz-raw-initrd.diff
 
@@ -28,3 +24,7 @@ ensure-config-sandbox-for-make-env.patch
 mksunxiboot-spl.patch
 
 upstream/image.c-Fix-non-Android-booting-with-ramdisk-and-or-.patch
+
+upstream/distro-bootcmd-imx/0001-arm-imx-Switch-Wandboard-to-use-config_distro_bootcm.patch
+upstream/distro-bootcmd-imx/0002-arm-imx-Switch-mx6cuboxi-to-use-config_distro_bootcm.patch
+upstream/distro-bootcmd-imx/0003-imx6-fix-warnings-due-to-switch-to-distro-environmen.patch
