@@ -1,2 +1,2 @@
 #!/bin/sh
-debian/bin/u-boot-install-targets exynos
+debian/bin/u-boot-install-targets exynos "doc/README.odroid"
