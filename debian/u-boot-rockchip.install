@@ -1,2 +1,2 @@
 #!/bin/sh
-debian/bin/u-boot-install-targets rockchip
+debian/bin/u-boot-install-targets rockchip "doc/README.rockchip"
