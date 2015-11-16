@@ -41,6 +41,7 @@ override_dh_auto_build:
 			chmod -x $$builddir/$$target; \
 			echo $$builddir/$$target /usr/lib/u-boot/$$platform/ \
 				>> debian/build/targets.$$subarch; \
+			echo $$platform >> debian/build/platforms.$$subarch; \
 		done ; \
 	        case $${subarch} in \
 	        sunxi) builddir=$${builddir}_FEL ;\
@@ -85,6 +86,10 @@ override_dh_auto_test:
 override_dh_clean:
 	rm -rf debian/build/
 	dh_clean
+
+override_dh_gencontrol:
+	debian/bin/update-substvars
+	dh_gencontrol
 
 get-orig-source:
 	# Use uscan from the devscripts package to download new

@@ -20,6 +20,7 @@ Description: A boot loader for embedded systems
  intended to be easy to port and to debug, and runs on many
  supported architectures, including PPC, ARM, MIPS, x86, m68k,
  NIOS, and Microblaze.
+ ${uboot:platforms}
 
 Package: u-boot-imx
 Architecture: armhf
@@ -35,6 +36,7 @@ Description: A boot loader for imx systems
  NIOS, and Microblaze.
  .
  This package includes boot loaders for various imx platforms.
+ ${uboot:platforms}
 
 Package: u-boot-tegra
 Architecture: armhf
@@ -50,6 +52,7 @@ Description: A boot loader for tegra systems
  NIOS, and Microblaze.
  .
  This package includes boot loaders for various tegra platforms.
+ ${uboot:platforms}
 
 Package: u-boot-omap
 Architecture: armhf
@@ -66,6 +69,7 @@ Description: A boot loader for omap systems
  .
  This package includes boot loaders for various omap and related
  platforms.
+ ${uboot:platforms}
 
 Package: u-boot-sunxi
 Architecture: armhf
@@ -82,6 +86,7 @@ Description: A boot loader for sunxi systems
  .
  This package includes boot loaders for various Allwinner/sunxi
  platforms.
+ ${uboot:platforms}
 
 Package: u-boot-exynos
 Architecture: armhf
@@ -95,6 +100,7 @@ Description: A boot loader for exynos systems
  NIOS, and Microblaze.
  .
  This package includes boot loaders for various Exynos platforms.
+ ${uboot:platforms}
 
 Package: u-boot-rockchip
 Architecture: armhf
@@ -108,6 +114,7 @@ Description: A boot loader for rockchip systems
  NIOS, and Microblaze.
  .
  This package includes boot loaders for various Rockchip platforms.
+ ${uboot:platforms}
 
 Package: u-boot-tools
 Architecture: linux-any
