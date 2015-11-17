@@ -1,6 +1,6 @@
-From b14d6846c8e269b073e2017a6958149844eafc5f Mon Sep 17 00:00:00 2001
+From 3d99e862691bb7053ba9e1537a971971976fde13 Mon Sep 17 00:00:00 2001
 From: Stefano Babic <sbabic@denx.de>
-Date: Fri, 13 Nov 2015 10:52:29 +0100
+Date: Fri, 13 Nov 2015 10:49:01 +0100
 Subject: [PATCH 3/3] imx6: fix warnings due to switch to distro environment
 
 wandboard and mx6cuboxi have warnings because BOOT_DELAY
