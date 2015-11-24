@@ -35,3 +35,5 @@ upstream/am33x_distro_bootcmd/0002-configs-ti_armv7_common.h-Add-default-address
 upstream/am33x_distro_bootcmd/0003-configs-am335x_evm-Support-distro-bootcmds.patch
 
 novena/0001-arm-novena-Switch-novena-to-config_distro_bootcmd.patch
+novena/fdtfile.patch
+novena/fix-fdt_addr_r.patch

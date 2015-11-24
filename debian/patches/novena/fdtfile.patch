@@ -1,0 +1,12 @@
+Index: u-boot/include/configs/novena.h
+===================================================================
+--- u-boot.orig/include/configs/novena.h
++++ u-boot/include/configs/novena.h
+@@ -192,6 +192,7 @@
+ #ifndef CONFIG_SPL_BUILD
+ #define CONFIG_EXTRA_ENV_SETTINGS					\
+ 	"fdt_high=0xffffffff\0"						\
++	"fdtfile=imx6q-novena.dtb\0"					\
+ 	"initrd_high=0xffffffff\0"					\
+ 	"consdev=ttymxc1\0"						\
+ 	"baudrate=115200\0"						\
