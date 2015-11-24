@@ -105,6 +105,9 @@ armhf	sunxi		Cubieboard2	u-boot-sunxi-with-spl.bin
 # Karsten Merker <merker@debian.org>
 armhf	sunxi		Cubietruck	u-boot-sunxi-with-spl.bin
 
+# Vagrant Cascadian <vagrant@debian.org>
+armhf	sunxi		Lamobo_R1	u-boot-sunxi-with-spl.bin
+
 # Robert Hegner <rhegner@hsr.ch>
 armhf	sunxi		Linksprite_pcDuino	u-boot-sunxi-with-spl.bin
 
