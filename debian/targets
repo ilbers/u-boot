@@ -70,6 +70,9 @@ armhf	rockchip	firefly-rk3288		u-boot.img spl/u-boot-spl-dtb.bin
 # Christian Kastner <debian@kvr.at>
 armhf	sunxi		A10-OLinuXino-Lime	u-boot-sunxi-with-spl.bin
 
+# Benedikt Wildenhain <esperanto@benedikt-wildenhain.de>
+armhf	sunxi		A10s-OLinuXino-M	u-boot-sunxi-with-spl.bin
+
 # Karsten Merker <merker@debian.org>
 armhf	sunxi		A20-Olimex-SOM-EVB	u-boot-sunxi-with-spl.bin
 
