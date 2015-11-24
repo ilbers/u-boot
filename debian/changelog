@@ -1,3 +1,19 @@
+u-boot (2015.10+dfsg1-3) unstable; urgency=medium
+
+  * u-boot-install-targets: Add support to install documentation.
+  * u-boot-exynos: Install README.odroid.
+  * u-boot-rockchip: Install README.rockchip.
+  * u-boot-omap: Install README.nokia_rx51.
+  * Add included platforms to u-boot package descriptions.
+  * u-boot-sunxi: Enable the A10s-OLinuXino-M target. Thanks to Benedikt
+    Wildenhain (Closes: #806151).
+  * u-boot-imx: Add novena patches to include fdtfile variable, and load
+    fdt file into correct address.
+  * u-boot-sunxi: Backport patches from upstream to enable the Lamobo_R1
+    target.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 24 Nov 2015 14:14:29 -0800
+
 u-boot (2015.10+dfsg1-2) unstable; urgency=medium
 
   * Add missing content to u-boot-rockchip package.
