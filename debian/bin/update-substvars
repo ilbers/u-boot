@@ -5,7 +5,7 @@ for file in debian/build/platforms.* ; do
 	-) package=u-boot ;;
 	*) package=u-boot-${subarch} ;;
     esac
-    echo $(sort -u ${file}) | \
+    echo $(LC_ALL=C sort -u ${file}) | \
 	sed -e 's, ,${Newline},g' \
 	-e 's,^,uboot:platforms=${Newline}Included platforms:${Newline},g' \
 	>> debian/${package}.substvars
