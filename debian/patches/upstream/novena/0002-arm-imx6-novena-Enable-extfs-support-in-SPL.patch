@@ -1,0 +1,29 @@
+From a80a999c9b5c128cad2f67b4b32036bd4d667904 Mon Sep 17 00:00:00 2001
+From: Marek Vasut <marex@denx.de>
+Date: Thu, 26 Nov 2015 00:18:45 +0100
+Subject: [PATCH 2/2] arm: imx6: novena: Enable extfs support in SPL
+
+Simple patch to enable support for extfs filesystem in SPL,
+this is useful to those who want to avoid vfat like plague.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Stefano Babic <sbabic@denx.de>
+---
+ include/configs/novena.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/configs/novena.h b/include/configs/novena.h
+index d88389a..4b4f2d7 100644
+--- a/include/configs/novena.h
++++ b/include/configs/novena.h
+@@ -82,6 +82,7 @@
+ 
+ /* SPL */
+ #define CONFIG_SPL_FAT_SUPPORT
++#define CONFIG_SPL_EXT_SUPPORT
+ #define CONFIG_SPL_MMC_SUPPORT
+ #include "imx6_spl.h"			/* common IMX6 SPL configuration */
+ 
+-- 
+2.1.4
+
