@@ -1,0 +1,61 @@
+From 18e02ffe5e626fe409ca9427e368c879f6ee450c Mon Sep 17 00:00:00 2001
+From: Marek Vasut <marex@denx.de>
+Date: Thu, 26 Nov 2015 14:08:50 +0100
+Subject: [PATCH 1/2] arm: imx6: novena, gw_ventana: Fix use of pfuze100 bit
+ definitions
+
+The following patch changed the PFUZE100 swbst register bit definitions
+and broke PMIC configuration on multiple boards, at least on the novena
+and gw_ventana. This patch fixes it.
+
+commit 8fa46350a4c7dca7710362f6c871098557b934ad
+Author: Peng Fan <Peng.Fan@freescale.com>
+Date:   Fri Aug 7 16:43:45 2015 +0800
+
+    power: regulator: add pfuze100 support
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Fabio Estevam <fabio.estevam@freescale.com>
+Cc: Peng Fan <Peng.Fan@freescale.com>
+Cc: Przemyslaw Marczak <p.marczak@samsung.com>
+Cc: Stefano Babic <sbabic@denx.de>
+Cc: Tim Harvey <tharvey@gateworks.com>
+Cc: Vagrant Cascadian <vagrant@aikidev.net>
+Reviewed-by: Przemyslaw Marczak <p.marczak@samsung.com>
+Tested-by: Vagrant Cascadian <vagrant@aikidev.net>
+Reviewed-by: Peng Fan <Peng.Fan@freescale.com>
+Acked-by: Tim Harvey <tharvey@gateworks.com>
+---
+ board/gateworks/gw_ventana/common.c | 2 +-
+ board/kosagi/novena/novena.c        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/board/gateworks/gw_ventana/common.c b/board/gateworks/gw_ventana/common.c
+index d406c83..a20190e 100644
+--- a/board/gateworks/gw_ventana/common.c
++++ b/board/gateworks/gw_ventana/common.c
+@@ -806,7 +806,7 @@ void setup_pmic(void)
+ 			/* Set SWBST to 5.0V and enable */
+ 			pmic_reg_read(p, PFUZE100_SWBSTCON1, &reg);
+ 			reg &= ~(SWBST_MODE_MASK | SWBST_VOL_MASK);
+-			reg |= (SWBST_5_00V | SWBST_MODE_AUTO);
++			reg |= (SWBST_5_00V | (SWBST_MODE_AUTO << SWBST_MODE_SHIFT));
+ 			pmic_reg_write(p, PFUZE100_SWBSTCON1, reg);
+ 		}
+ 	}
+diff --git a/board/kosagi/novena/novena.c b/board/kosagi/novena/novena.c
+index babba85..b3159d3 100644
+--- a/board/kosagi/novena/novena.c
++++ b/board/kosagi/novena/novena.c
+@@ -216,7 +216,7 @@ int power_init_board(void)
+ 	/* Set SWBST to 5.0V and enable (for USB) */
+ 	pmic_reg_read(p, PFUZE100_SWBSTCON1, &reg);
+ 	reg &= ~(SWBST_MODE_MASK | SWBST_VOL_MASK);
+-	reg |= (SWBST_5_00V | SWBST_MODE_AUTO);
++	reg |= (SWBST_5_00V | (SWBST_MODE_AUTO << SWBST_MODE_SHIFT));
+ 	pmic_reg_write(p, PFUZE100_SWBSTCON1, reg);
+ 
+ 	return 0;
+-- 
+2.1.4
+

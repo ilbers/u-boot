@@ -35,5 +35,6 @@ upstream/am33x_distro_bootcmd/0002-configs-ti_armv7_common.h-Add-default-address
 upstream/am33x_distro_bootcmd/0003-configs-am335x_evm-Support-distro-bootcmds.patch
 
 novena/0001-arm-novena-Switch-novena-to-config_distro_bootcmd.patch
+upstream/novena/0001-arm-imx6-novena-gw_ventana-Fix-use-of-pfuze100-bit-d.patch
 
 upstream/lamobo-r1/0001-sunxi-Add-support-for-the-Lamobo-R1-board.patch
