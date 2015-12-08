@@ -96,7 +96,7 @@ enum {
  * (the hubs) have this as parent data. Hubs are children of controllers or
  * other hubs and there is always a single root hub for each controller.
  * Therefore struct usb_device can always be accessed with
- * dev_get_parentdata(dev), where dev is a USB device.
+ * dev_get_parent_priv(dev), where dev is a USB device.
  *
  * Pointers exist for obtaining both the device (could be any uclass) and
  * controller (UCLASS_USB) from this structure. The controller does not have
@@ -938,6 +938,17 @@ int usb_emul_bulk(struct udevice *emul, struct usb_device *udev,
 		  unsigned long pipe, void *buffer, int length);
 
 /**
+ * usb_emul_int() - Send an interrupt packet to an emulator
+ *
+ * @emul:	Emulator device
+ * @udev:	USB device (which the emulator is causing to appear)
+ * See struct dm_usb_ops for details on other parameters
+ * @return 0 if OK, -ve on error
+ */
+int usb_emul_int(struct udevice *emul, struct usb_device *udev,
+		  unsigned long pipe, void *buffer, int length, int interval);
+
+/**
  * usb_emul_find() - Find an emulator for a particular device
  *
  * Check @pipe to find a device number on bus @bus and return it.
@@ -950,11 +961,29 @@ int usb_emul_bulk(struct udevice *emul, struct usb_device *udev,
 int usb_emul_find(struct udevice *bus, ulong pipe, struct udevice **emulp);
 
 /**
+ * usb_emul_find_for_dev() - Find an emulator for a particular device
+ *
+ * @bus:	USB bus (controller)
+ * @dev:	USB device to check
+ * @emulp:	Returns pointer to emulator, or NULL if not found
+ * @return 0 if found, -ve on error
+ */
+int usb_emul_find_for_dev(struct udevice *dev, struct udevice **emulp);
+
+/**
  * usb_emul_reset() - Reset all emulators ready for use
  *
  * Clear out any address information in the emulators and make then ready for
  * a new USB scan
  */
 void usb_emul_reset(struct udevice *dev);
+
+/**
+ * usb_show_tree() - show the USB device tree
+ *
+ * This shows a list of active USB devices along with basic information about
+ * each.
+ */
+void usb_show_tree(void);
 
 #endif /*_USB_H_ */

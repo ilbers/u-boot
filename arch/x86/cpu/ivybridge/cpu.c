@@ -118,7 +118,6 @@ static void set_spi_speed(void)
 int arch_cpu_init(void)
 {
 	post_code(POST_CPU_INIT);
-	timer_set_base(rdtsc());
 
 	return x86_cpu_init_f();
 }
@@ -339,4 +338,11 @@ int print_cpuinfo(void)
 	post_code(POST_CPU_INFO);
 
 	return 0;
+}
+
+void board_debug_uart_init(void)
+{
+	/* This enables the debug UART */
+	pci_x86_write_config(NULL, PCH_LPC_DEV, LPC_EN, COMA_LPC_EN,
+			     PCI_SIZE_16);
 }

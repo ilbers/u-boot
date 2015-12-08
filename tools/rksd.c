@@ -14,7 +14,7 @@
 #include "rkcommon.h"
 
 enum {
-	RKSD_SPL_HDR_START	= RK_CODE1_OFFSET * RK_BLK_SIZE,
+	RKSD_SPL_HDR_START	= RK_INIT_OFFSET * RK_BLK_SIZE,
 	RKSD_SPL_START		= RKSD_SPL_HDR_START + 4,
 	RKSD_HEADER_LEN		= RKSD_SPL_START,
 };
@@ -50,7 +50,7 @@ static void rksd_set_header(void *buf,  struct stat *sbuf,  int ifd,
 		       size);
 	}
 
-	memcpy(buf + RKSD_SPL_HDR_START, "RK32", 4);
+	memcpy(buf + RKSD_SPL_HDR_START, CONFIG_ROCKCHIP_SPL_HDR, 4);
 }
 
 static int rksd_extract_subimage(void *buf,  struct image_tool_params *params)
@@ -72,7 +72,7 @@ static int rksd_vrec_header(struct image_tool_params *params,
 {
 	int pad_size;
 
-	pad_size = RKSD_SPL_HDR_START + RK_MAX_CODE1_SIZE;
+	pad_size = RKSD_SPL_HDR_START + CONFIG_ROCKCHIP_MAX_SPL_SIZE;
 	debug("pad_size %x\n", pad_size);
 
 	return pad_size - params->file_size;

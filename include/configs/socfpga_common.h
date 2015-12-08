@@ -6,7 +6,6 @@
 #ifndef __CONFIG_SOCFPGA_CYCLONE5_COMMON_H__
 #define __CONFIG_SOCFPGA_CYCLONE5_COMMON_H__
 
-#define CONFIG_SYS_GENERIC_BOARD
 
 /* Virtual target or real hardware */
 #undef CONFIG_SOCFPGA_VIRTUAL_TARGET
@@ -89,7 +88,6 @@
 #define CONFIG_CMD_SPI
 #define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED		30000000
-#define CONFIG_SPI_FLASH_STMICRO
 #define CONFIG_SPI_FLASH_BAR
 /*
  * The base address is configurable in QSys, each board must specify the
@@ -154,8 +152,6 @@
 #define CONFIG_DWMMC
 #define CONFIG_SOCFPGA_DWMMC
 #define CONFIG_SOCFPGA_DWMMC_FIFO_DEPTH	1024
-#define CONFIG_SOCFPGA_DWMMC_DRVSEL	3
-#define CONFIG_SOCFPGA_DWMMC_SMPSEL	0
 /* FIXME */
 /* using smaller max blk cnt to avoid flooding the limited stack we have */
 #define CONFIG_SYS_MMC_MAX_BLK_COUNT	256	/* FIXME -- SPL only? */
@@ -191,10 +187,7 @@ unsigned int cm_get_l4_sp_clk_hz(void);
 /*
  * QSPI support
  */
-#define CONFIG_CADENCE_QSPI
 /* Enable multiple SPI NOR flash manufacturers */
-#define CONFIG_SPI_FLASH_STMICRO	/* Micron/Numonyx flash */
-#define CONFIG_SPI_FLASH_SPANSION	/* Spansion flash */
 #ifndef CONFIG_SPL_BUILD
 #define CONFIG_SPI_FLASH_MTD
 #define CONFIG_CMD_MTDPARTS
@@ -214,13 +207,11 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 /*
  * Designware SPI support
  */
-#define CONFIG_DESIGNWARE_SPI
 #define CONFIG_CMD_SPI
 
 /*
  * Serial Driver
  */
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE	-4
 #define CONFIG_SYS_NS16550_COM1		SOCFPGA_UART0_ADDRESS

@@ -611,6 +611,9 @@ The following options need to be configured:
 		CONFIG_SYS_FSL_OTHER_DDR_NUM_CTRLS
 		Number of controllers used for other than main memory.
 
+		CONFIG_SYS_FSL_HAS_DP_DDR
+		Defines the SoC has DP-DDR used for DPAA.
+
 		CONFIG_SYS_FSL_SEC_BE
 		Defines the SEC controller register space as Big Endian
 
@@ -796,17 +799,9 @@ The following options need to be configured:
 - vxWorks boot parameters:
 
 		bootvx constructs a valid bootline using the following
-		environments variables: bootfile, ipaddr, serverip, hostname.
+		environments variables: bootdev, bootfile, ipaddr, netmask,
+		serverip, gatewayip, hostname, othbootargs.
 		It loads the vxWorks image pointed bootfile.
-
-		CONFIG_SYS_VXWORKS_BOOT_DEVICE - The vxworks device name
-		CONFIG_SYS_VXWORKS_MAC_PTR - Ethernet 6 byte MA -address
-		CONFIG_SYS_VXWORKS_SERVERNAME - Name of the server
-		CONFIG_SYS_VXWORKS_BOOT_ADDR - Address of boot parameters
-
-		CONFIG_SYS_VXWORKS_ADD_PARAMS
-
-		Add it at the end of the bootline. E.g "u=username pw=secret"
 
 		Note: If a "bootargs" environment is defined, it will overwride
 		the defaults discussed just above.
@@ -875,18 +870,11 @@ The following options need to be configured:
 						(0-5, cf. cfb_console.c)
 			VIDEO_FB_ADRS		framebuffer address
 			VIDEO_KBD_INIT_FCT	keyboard int fct
-						(i.e. i8042_kbd_init())
+						(i.e. rx51_kp_init())
 			VIDEO_TSTC_FCT		test char fct
-						(i.e. i8042_tstc)
+						(i.e. rx51_kp_tstc)
 			VIDEO_GETC_FCT		get char fct
-						(i.e. i8042_getc)
-			CONFIG_CONSOLE_CURSOR	cursor drawing on/off
-						(requires blink timer
-						cf. i8042.c)
-			CONFIG_SYS_CONSOLE_BLINK_COUNT blink interval (cf. i8042.c)
-			CONFIG_CONSOLE_TIME	display time/date info in
-						upper right corner
-						(requires CONFIG_CMD_DATE)
+						(i.e. rx51_kp_getc)
 			CONFIG_VIDEO_LOGO	display Linux logo in
 						upper left corner
 			CONFIG_VIDEO_BMP_LOGO	use bmp_logo.h instead of
@@ -1480,8 +1468,8 @@ The following options need to be configured:
 		CONFIG_TPM
 		Support TPM devices.
 
-		CONFIG_TPM_TIS_I2C
-		Support for i2c bus TPM devices. Only one device
+		CONFIG_TPM_TIS_INFINEON
+		Support for Infineon i2c bus TPM devices. Only one device
 		per system is supported at this time.
 
 			CONFIG_TPM_TIS_I2C_BURST_LIMITATION
@@ -1782,21 +1770,15 @@ CBFS (Coreboot Filesystem) support
 		a default value of 65536 will be defined.
 
 - Keyboard Support:
-		CONFIG_ISA_KEYBOARD
+		See Kconfig help for available keyboard drivers.
 
-		Define this to enable standard (PC-Style) keyboard
-		support
+		CONFIG_KEYBOARD
 
-		CONFIG_I8042_KBD
-		Standard PC keyboard driver with US (is default) and
-		GERMAN key layout (switch via environment 'keymap=de') support.
-		Export function i8042_kbd_init, i8042_tstc and i8042_getc
-		for cfb_console. Supports cursor blinking.
-
-		CONFIG_CROS_EC_KEYB
-		Enables a Chrome OS keyboard using the CROS_EC interface.
-		This uses CROS_EC to communicate with a second microcontroller
-		which provides key scans on request.
+		Define this to enable a custom keyboard support.
+		This simply calls drv_keyboard_init() which must be
+		defined in your board-specific files. This option is deprecated
+		and is only used by novena. For new boards, use driver model
+		instead.
 
 - Video support:
 		CONFIG_VIDEO
@@ -1856,15 +1838,6 @@ CBFS (Coreboot Filesystem) support
 		variable, and if defined, enable the DIU as a console during
 		boot.  See the documentation file README.video for a
 		description of this variable.
-
-
-- Keyboard Support:
-		CONFIG_KEYBOARD
-
-		Define this to enable a custom keyboard support.
-		This simply calls drv_keyboard_init() which must be
-		defined in your board-specific files.
-		The only board using this so far is RBC823.
 
 - LCD Support:	CONFIG_LCD
 
@@ -2446,6 +2419,15 @@ CBFS (Coreboot Filesystem) support
 		  - CONFIG_SYS_I2C_IHS_CH3 activate hardware channel 3
 		  - CONFIG_SYS_I2C_IHS_SPEED_3 speed channel 3
 		  - CONFIG_SYS_I2C_IHS_SLAVE_3 slave addr channel 3
+		  - activate dual channel with CONFIG_SYS_I2C_IHS_DUAL
+		  - CONFIG_SYS_I2C_IHS_SPEED_0_1 speed channel 0_1
+		  - CONFIG_SYS_I2C_IHS_SLAVE_0_1 slave addr channel 0_1
+		  - CONFIG_SYS_I2C_IHS_SPEED_1_1 speed channel 1_1
+		  - CONFIG_SYS_I2C_IHS_SLAVE_1_1 slave addr channel 1_1
+		  - CONFIG_SYS_I2C_IHS_SPEED_2_1 speed channel 2_1
+		  - CONFIG_SYS_I2C_IHS_SLAVE_2_1 slave addr channel 2_1
+		  - CONFIG_SYS_I2C_IHS_SPEED_3_1 speed channel 3_1
+		  - CONFIG_SYS_I2C_IHS_SLAVE_3_1 slave addr channel 3_1
 
 		additional defines:
 
@@ -2712,11 +2694,6 @@ CBFS (Coreboot Filesystem) support
 
 		Enables the driver for SPI controller on SuperH. Currently
 		only SH7757 is supported.
-
-		CONFIG_SPI_X
-
-		Enables extended (16-bit) SPI EEPROM addressing.
-		(symmetrical to CONFIG_I2C_X)
 
 		CONFIG_SOFT_SPI
 
@@ -3502,6 +3479,10 @@ FIT uImage format:
 		without a fastmap.
 		default: 0
 
+		CONFIG_MTD_UBI_FM_DEBUG
+		Enable UBI fastmap debug
+		default: 0
+
 - UBIFS support
 		CONFIG_CMD_UBIFS
 
@@ -3572,6 +3553,9 @@ FIT uImage format:
 
 		CONFIG_SYS_SPL_MALLOC_START
 		Starting address of the malloc pool used in SPL.
+		When this option is set the full malloc is used in SPL and
+		it is set up by spl_init() and before that, the simple malloc()
+		can be used if CONFIG_SYS_MALLOC_F is defined.
 
 		CONFIG_SYS_SPL_MALLOC_SIZE
 		The size of the malloc pool used in SPL.
@@ -5458,10 +5442,10 @@ List of environment variables (most likely not complete):
 		  unset, then it will be made silent if the U-Boot console
 		  is silent.
 
-  tftpsrcport	- If this is set, the value is used for TFTP's
+  tftpsrcp	- If this is set, the value is used for TFTP's
 		  UDP source port.
 
-  tftpdstport	- If this is set, the value is used for TFTP's UDP
+  tftpdstp	- If this is set, the value is used for TFTP's UDP
 		  destination port instead of the Well Know Port 69.
 
   tftpblocksize - Block size to use for TFTP transfers; if not set,
@@ -5474,6 +5458,14 @@ List of environment variables (most likely not complete):
 		  Lowering this value may make downloads succeed
 		  faster in networks with high packet loss rates or
 		  with unreliable TFTP servers.
+
+  tftptimeoutcountmax	- maximum count of TFTP timeouts (no
+		  unit, minimum value = 0). Defines how many timeouts
+		  can happen during a single file transfer before that
+		  transfer is aborted. The default is 10, and 0 means
+		  'no timeouts allowed'. Increasing this value may help
+		  downloads succeed with high packet loss rates, or with
+		  unreliable TFTP servers or client hardware.
 
   vlan		- When set to a value < 4095 the traffic over
 		  Ethernet is encapsulated/received over 802.1q

@@ -99,6 +99,37 @@ static int spi_flash_set_qeb(struct spi_flash *flash, u8 idcode0)
 	}
 }
 
+#ifdef CONFIG_SPI_FLASH_BAR
+static int spi_flash_read_bank(struct spi_flash *flash, u8 idcode0)
+{
+	u8 curr_bank = 0;
+	int ret;
+
+	if (flash->size <= SPI_FLASH_16MB_BOUN)
+		goto bank_end;
+
+	switch (idcode0) {
+	case SPI_FLASH_CFI_MFR_SPANSION:
+		flash->bank_read_cmd = CMD_BANKADDR_BRRD;
+		flash->bank_write_cmd = CMD_BANKADDR_BRWR;
+	default:
+		flash->bank_read_cmd = CMD_EXTNADDR_RDEAR;
+		flash->bank_write_cmd = CMD_EXTNADDR_WREAR;
+	}
+
+	ret = spi_flash_read_common(flash, &flash->bank_read_cmd, 1,
+				    &curr_bank, 1);
+	if (ret) {
+		debug("SF: fail to read bank addr register\n");
+		return ret;
+	}
+
+bank_end:
+	flash->bank_curr = curr_bank;
+	return 0;
+}
+#endif
+
 static int spi_flash_validate_params(struct spi_slave *spi, u8 *idcode,
 				     struct spi_flash *flash)
 {
@@ -132,15 +163,16 @@ static int spi_flash_validate_params(struct spi_slave *spi, u8 *idcode,
 	flash->name = params->name;
 	flash->memory_map = spi->memory_map;
 	flash->dual_flash = flash->spi->option;
-#ifdef CONFIG_DM_SPI_FLASH
-	flash->flags = params->flags;
-#endif
+
+	/* Assign spi flash flags */
+	if (params->flags & SST_WR)
+		flash->flags |= SNOR_F_SST_WR;
 
 	/* Assign spi_flash ops */
 #ifndef CONFIG_DM_SPI_FLASH
 	flash->write = spi_flash_cmd_write_ops;
 #if defined(CONFIG_SPI_FLASH_SST)
-	if (params->flags & SST_WR) {
+	if (flash->flags & SNOR_F_SST_WR) {
 		if (flash->spi->op_mode_tx & SPI_OPM_TX_BP)
 			flash->write = sst_write_bp;
 		else
@@ -150,6 +182,20 @@ static int spi_flash_validate_params(struct spi_slave *spi, u8 *idcode,
 	flash->erase = spi_flash_cmd_erase_ops;
 	flash->read = spi_flash_cmd_read_ops;
 #endif
+
+	/* lock hooks are flash specific - assign them based on idcode0 */
+	switch (idcode[0]) {
+#if defined(CONFIG_SPI_FLASH_STMICRO) || defined(CONFIG_SPI_FLASH_SST)
+	case SPI_FLASH_CFI_MFR_STMICRO:
+	case SPI_FLASH_CFI_MFR_SST:
+		flash->flash_lock = stm_lock;
+		flash->flash_unlock = stm_unlock;
+		flash->flash_is_locked = stm_is_locked;
+#endif
+		break;
+	default:
+		debug("SF: Lock ops not supported for %02x flash\n", idcode[0]);
+	}
 
 	/* Compute the flash size */
 	flash->shift = (flash->dual_flash & SF_DUAL_PARALLEL_FLASH) ? 1 : 0;
@@ -226,34 +272,16 @@ static int spi_flash_validate_params(struct spi_slave *spi, u8 *idcode,
 		flash->dummy_byte = 1;
 	}
 
-	/* Poll cmd selection */
-	flash->poll_cmd = CMD_READ_STATUS;
 #ifdef CONFIG_SPI_FLASH_STMICRO
 	if (params->flags & E_FSR)
-		flash->poll_cmd = CMD_FLAG_STATUS;
+		flash->flags |= SNOR_F_USE_FSR;
 #endif
 
 	/* Configure the BAR - discover bank cmds and read current bank */
 #ifdef CONFIG_SPI_FLASH_BAR
-	u8 curr_bank = 0;
-	if (flash->size > SPI_FLASH_16MB_BOUN) {
-		int ret;
-
-		flash->bank_read_cmd = (idcode[0] == 0x01) ?
-					CMD_BANKADDR_BRRD : CMD_EXTNADDR_RDEAR;
-		flash->bank_write_cmd = (idcode[0] == 0x01) ?
-					CMD_BANKADDR_BRWR : CMD_EXTNADDR_WREAR;
-
-		ret = spi_flash_read_common(flash, &flash->bank_read_cmd, 1,
-					    &curr_bank, 1);
-		if (ret) {
-			debug("SF: fail to read bank addr register\n");
-			return ret;
-		}
-		flash->bank_curr = curr_bank;
-	} else {
-		flash->bank_curr = curr_bank;
-	}
+	int ret = spi_flash_read_bank(flash, idcode[0]);
+	if (ret < 0)
+		return ret;
 #endif
 
 	/* Flash powers up read-only, so clear BP# bits */
@@ -451,7 +479,7 @@ int spi_flash_std_write(struct udevice *dev, u32 offset, size_t len,
 	struct spi_flash *flash = dev_get_uclass_priv(dev);
 
 #if defined(CONFIG_SPI_FLASH_SST)
-	if (flash->flags & SST_WR) {
+	if (flash->flags & SNOR_F_SST_WR) {
 		if (flash->spi->op_mode_tx & SPI_OPM_TX_BP)
 			return sst_write_bp(flash, offset, len, buf);
 		else
@@ -471,7 +499,7 @@ int spi_flash_std_erase(struct udevice *dev, u32 offset, size_t len)
 
 int spi_flash_std_probe(struct udevice *dev)
 {
-	struct spi_slave *slave = dev_get_parentdata(dev);
+	struct spi_slave *slave = dev_get_parent_priv(dev);
 	struct dm_spi_slave_platdata *plat = dev_get_parent_platdata(dev);
 	struct spi_flash *flash;
 

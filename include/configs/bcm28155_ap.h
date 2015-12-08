@@ -13,7 +13,6 @@
 /* CPU, chip, mach, etc */
 #define CONFIG_KONA
 #define CONFIG_SKIP_LOWLEVEL_INIT
-#define CONFIG_SYS_GENERIC_BOARD
 
 /*
  * Memory configuration
@@ -80,7 +79,6 @@
 #define CONFIG_SYS_INIT_SP_ADDR		CONFIG_SYS_TEXT_BASE
 
 /* Serial Info */
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 /* Post pad 3 bytes after each reg addr */
 #define CONFIG_SYS_NS16550_REG_SIZE	(-4)
@@ -127,7 +125,6 @@
 #define CONFIG_CMD_ASKENV
 #define CONFIG_CMD_CACHE
 #define CONFIG_CMD_FAT
-#define CONFIG_CMD_GPIO
 #define CONFIG_CMD_I2C
 #define CONFIG_CMD_MMC
 #define CONFIG_CMD_BOOTZ

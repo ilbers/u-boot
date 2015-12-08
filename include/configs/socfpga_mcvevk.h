@@ -6,7 +6,7 @@
 #ifndef __CONFIG_DENX_MCVEVK_H__
 #define __CONFIG_DENX_MCVEVK_H__
 
-#include <asm/arch/socfpga_base_addrs.h>
+#include <asm/arch/base_addr_ac5.h>
 
 /* U-Boot Commands */
 #define CONFIG_SYS_NO_FLASH
@@ -23,7 +23,6 @@
 #define CONFIG_CMD_EXT4_WRITE
 #define CONFIG_CMD_FAT
 #define CONFIG_CMD_FS_GENERIC
-#define CONFIG_CMD_GPIO
 #define CONFIG_CMD_GREPENV
 #define CONFIG_CMD_MII
 #define CONFIG_CMD_MMC

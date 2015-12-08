@@ -51,6 +51,11 @@ enum {
 
 #define SST_WR		(SST_BP | SST_WP)
 
+enum spi_nor_option_flags {
+	SNOR_F_SST_WR		= (1 << 0),
+	SNOR_F_USE_FSR		= (1 << 1),
+};
+
 #define SPI_FLASH_3B_ADDR_LEN		3
 #define SPI_FLASH_CMD_LEN		(1 + SPI_FLASH_3B_ADDR_LEN)
 #define SPI_FLASH_16MB_BOUN		0x1000000
@@ -59,6 +64,7 @@ enum {
 #define SPI_FLASH_CFI_MFR_SPANSION	0x01
 #define SPI_FLASH_CFI_MFR_STMICRO	0x20
 #define SPI_FLASH_CFI_MFR_MACRONIX	0xc2
+#define SPI_FLASH_CFI_MFR_SST		0xbf
 #define SPI_FLASH_CFI_MFR_WINBOND	0xef
 
 /* Erase commands */
@@ -100,6 +106,9 @@ enum {
 #define STATUS_QEB_WINSPAN		(1 << 1)
 #define STATUS_QEB_MXIC		(1 << 6)
 #define STATUS_PEC			(1 << 7)
+#define SR_BP0				BIT(2)  /* Block protect 0 */
+#define SR_BP1				BIT(3)  /* Block protect 1 */
+#define SR_BP2				BIT(4)  /* Block protect 2 */
 
 /* Flash timeout values */
 #define SPI_FLASH_PROG_TIMEOUT		(2 * CONFIG_SYS_HZ)
@@ -167,6 +176,15 @@ int spi_flash_cmd_read_status(struct spi_flash *flash, u8 *rs);
 
 /* Program the status register */
 int spi_flash_cmd_write_status(struct spi_flash *flash, u8 ws);
+
+/* Lock stmicro spi flash region */
+int stm_lock(struct spi_flash *flash, u32 ofs, size_t len);
+
+/* Unlock stmicro spi flash region */
+int stm_unlock(struct spi_flash *flash, u32 ofs, size_t len);
+
+/* Check if a stmicro spi flash region is completely locked */
+int stm_is_locked(struct spi_flash *flash, u32 ofs, size_t len);
 
 /* Read the config register */
 int spi_flash_cmd_read_config(struct spi_flash *flash, u8 *rc);

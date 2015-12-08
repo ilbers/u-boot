@@ -13,6 +13,7 @@
 #include <common.h>
 #include <linux/compiler.h>
 #include <version.h>
+#include <console.h>
 #include <environment.h>
 #include <dm.h>
 #include <fdtdec.h>
@@ -356,6 +357,20 @@ static int setup_dest_addr(void)
 	return 0;
 }
 
+#if defined(CONFIG_SPARC)
+static int reserve_prom(void)
+{
+	/* defined in arch/sparc/cpu/leon?/prom.c */
+	extern void *__prom_start_reloc;
+	int size = 8192; /* page table = 2k, prom = 6k */
+	gd->relocaddr -= size;
+	__prom_start_reloc = map_sysmem(gd->relocaddr + 2048, size - 2048);
+	debug("Reserving %dk for PROM and page table at %08lx\n", size,
+		gd->relocaddr);
+	return 0;
+}
+#endif
+
 #if defined(CONFIG_LOGBUFFER) && !defined(CONFIG_ALT_LB_ADDR)
 static int reserve_logbuffer(void)
 {
@@ -509,6 +524,7 @@ static int reserve_global_data(void)
 
 static int reserve_fdt(void)
 {
+#ifndef CONFIG_OF_EMBED
 	/*
 	 * If the device tree is sitting immediately above our image then we
 	 * must relocate it. If it is embedded in the data section, then it
@@ -522,6 +538,7 @@ static int reserve_fdt(void)
 		debug("Reserving %lu Bytes for FDT at: %08lx\n",
 		      gd->fdt_size, gd->start_addr_sp);
 	}
+#endif
 
 	return 0;
 }
@@ -551,7 +568,7 @@ static int display_new_sp(void)
 	return 0;
 }
 
-#if defined(CONFIG_PPC) || defined(CONFIG_M68K)
+#if defined(CONFIG_PPC) || defined(CONFIG_M68K) || defined(CONFIG_MIPS)
 static int setup_board_part1(void)
 {
 	bd_t *bd = gd->bd;
@@ -580,7 +597,9 @@ static int setup_board_part1(void)
 
 	return 0;
 }
+#endif
 
+#if defined(CONFIG_PPC) || defined(CONFIG_M68K)
 static int setup_board_part2(void)
 {
 	bd_t *bd = gd->bd;
@@ -657,12 +676,14 @@ static int setup_dram_config(void)
 
 static int reloc_fdt(void)
 {
+#ifndef CONFIG_OF_EMBED
 	if (gd->flags & GD_FLG_SKIP_RELOC)
 		return 0;
 	if (gd->new_fdt) {
 		memcpy(gd->new_fdt, gd->fdt_blob, gd->fdt_size);
 		gd->fdt_blob = gd->new_fdt;
 	}
+#endif
 
 	return 0;
 }
@@ -734,6 +755,15 @@ static int mark_bootstage(void)
 	return 0;
 }
 
+static int initf_console_record(void)
+{
+#if defined(CONFIG_CONSOLE_RECORD) && defined(CONFIG_SYS_MALLOC_F_LEN)
+	return console_record_init();
+#else
+	return 0;
+#endif
+}
+
 static int initf_dm(void)
 {
 #if defined(CONFIG_DM) && defined(CONFIG_SYS_MALLOC_F_LEN)
@@ -770,6 +800,7 @@ static init_fnc_t init_sequence_f[] = {
 	trace_early_init,
 #endif
 	initf_malloc,
+	initf_console_record,
 #if defined(CONFIG_MPC85xx) || defined(CONFIG_MPC86xx)
 	/* TODO: can this go into arch_cpu_init()? */
 	probecpu,
@@ -778,9 +809,9 @@ static init_fnc_t init_sequence_f[] = {
 	x86_fsp_init,
 #endif
 	arch_cpu_init,		/* basic arch cpu dependent setup */
-	mark_bootstage,
 	initf_dm,
 	arch_cpu_init_dm,
+	mark_bootstage,		/* need timer, go after init dm */
 #if defined(CONFIG_BOARD_EARLY_INIT_F)
 	board_early_init_f,
 #endif
@@ -794,8 +825,9 @@ static init_fnc_t init_sequence_f[] = {
 	/* TODO: can we rename this to timer_init()? */
 	init_timebase,
 #endif
-#if defined(CONFIG_ARM) || defined(CONFIG_MIPS) || \
-		defined(CONFIG_BLACKFIN) || defined(CONFIG_NDS32)
+#if defined(CONFIG_X86) || defined(CONFIG_ARM) || defined(CONFIG_MIPS) || \
+		defined(CONFIG_BLACKFIN) || defined(CONFIG_NDS32) || \
+		defined(CONFIG_SPARC)
 	timer_init,		/* initialize timer */
 #endif
 #ifdef CONFIG_SYS_ALLOC_DPRAM
@@ -806,10 +838,7 @@ static init_fnc_t init_sequence_f[] = {
 #if defined(CONFIG_BOARD_POSTCLK_INIT)
 	board_postclk_init,
 #endif
-#ifdef CONFIG_FSL_ESDHC
-	get_clocks,
-#endif
-#ifdef CONFIG_M68K
+#if defined(CONFIG_SYS_FSL_CLK) || defined(CONFIG_M68K)
 	get_clocks,
 #endif
 	env_init,		/* initialize environment */
@@ -894,9 +923,12 @@ static init_fnc_t init_sequence_f[] = {
 	 *  - board info struct
 	 */
 	setup_dest_addr,
-#if defined(CONFIG_BLACKFIN) || defined(CONFIG_NIOS2)
+#if defined(CONFIG_BLACKFIN)
 	/* Blackfin u-boot monitor should be on top of the ram */
 	reserve_uboot,
+#endif
+#if defined(CONFIG_SPARC)
+	reserve_prom,
 #endif
 #if defined(CONFIG_LOGBUFFER) && !defined(CONFIG_ALT_LB_ADDR)
 	reserve_logbuffer,
@@ -919,7 +951,7 @@ static init_fnc_t init_sequence_f[] = {
 		!defined(CONFIG_BLACKFIN) && !defined(CONFIG_M68K)
 	reserve_video,
 #endif
-#if !defined(CONFIG_BLACKFIN) && !defined(CONFIG_NIOS2)
+#if !defined(CONFIG_BLACKFIN)
 	reserve_uboot,
 #endif
 #ifndef CONFIG_SPL_BUILD
@@ -933,8 +965,10 @@ static init_fnc_t init_sequence_f[] = {
 	reserve_stacks,
 	setup_dram_config,
 	show_dram_config,
-#if defined(CONFIG_PPC) || defined(CONFIG_M68K)
+#if defined(CONFIG_PPC) || defined(CONFIG_M68K) || defined(CONFIG_MIPS)
 	setup_board_part1,
+#endif
+#if defined(CONFIG_PPC) || defined(CONFIG_M68K)
 	INIT_FUNC_WATCHDOG_RESET
 	setup_board_part2,
 #endif
@@ -1030,32 +1064,3 @@ void board_init_f_r(void)
 	hang();
 }
 #endif /* CONFIG_X86 */
-
-/* Unfortunately x86 can't compile this code as gd cannot be assigned */
-#ifndef CONFIG_X86
-__weak void arch_setup_gd(struct global_data *gd_ptr)
-{
-	gd = gd_ptr;
-}
-#endif /* !CONFIG_X86 */
-
-ulong board_init_f_mem(ulong top)
-{
-	struct global_data *gd_ptr;
-
-	/* Leave space for the stack we are running with now */
-	top -= 0x40;
-
-	top -= sizeof(struct global_data);
-	top = ALIGN(top, 16);
-	gd_ptr = (struct global_data *)top;
-	memset(gd_ptr, '\0', sizeof(*gd));
-	arch_setup_gd(gd_ptr);
-
-#ifdef CONFIG_SYS_MALLOC_F_LEN
-	top -= CONFIG_SYS_MALLOC_F_LEN;
-	gd->malloc_base = top;
-#endif
-
-	return top;
-}
