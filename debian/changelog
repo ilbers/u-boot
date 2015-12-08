@@ -1,3 +1,17 @@
+u-boot (2015.10+dfsg1-4) unstable; urgency=medium
+
+  * Fix reproducibility issue with targets listed in package descriptions
+    by always sorting using C locale.
+  * u-boot-imx: Updates to novena patches:
+    - Sync with submitted patch for distro_bootcmd support.
+    - Add upstream patch to fix USB support.
+    - Add upstream patch to enable loading u-boot.img from EXT
+    filesystems.
+  * Add upstream patches to fix mkimage support for multi and script
+    images (Closes: #805434).
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 08 Dec 2015 08:59:47 -0800
+
 u-boot (2015.10+dfsg1-3) unstable; urgency=medium
 
   * u-boot-install-targets: Add support to install documentation.
