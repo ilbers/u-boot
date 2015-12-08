@@ -35,7 +35,7 @@ Index: u-boot/include/configs/novena.h
  #define CONFIG_HOSTNAME			novena
  
  /* Physical Memory Map */
-@@ -189,6 +190,7 @@
+@@ -190,6 +191,7 @@
  #endif
  
  /* Extra U-Boot environment. */
@@ -43,12 +43,10 @@ Index: u-boot/include/configs/novena.h
  #define CONFIG_EXTRA_ENV_SETTINGS					\
  	"fdt_high=0xffffffff\0"						\
  	"initrd_high=0xffffffff\0"					\
-@@ -197,7 +199,12 @@
- 	"bootdev=/dev/mmcblk0p1\0"					\
+@@ -199,6 +201,11 @@
  	"rootdev=/dev/mmcblk0p2\0"					\
  	"netdev=eth0\0"							\
--	"kernel_addr_r=0x18000000\0"					\
-+	"kernel_addr_r="__stringify(CONFIG_LOADADDR)"\0"		\
+ 	"kernel_addr_r="__stringify(CONFIG_LOADADDR)"\0"		\
 +	"pxefile_addr_r="__stringify(CONFIG_LOADADDR)"\0"		\
 +	"scriptaddr="__stringify(CONFIG_LOADADDR)"\0"			\
 +	"ramdisk_addr_r=0x28000000\0"		   			\
@@ -57,7 +55,7 @@ Index: u-boot/include/configs/novena.h
  	"addcons="							\
  		"setenv bootargs ${bootargs} "				\
  		"console=${consdev},${baudrate}\0"			\
-@@ -241,5 +248,19 @@
+@@ -242,5 +249,19 @@
  		"fatwrite mmc 0:1 ${loadaddr} u-boot.img ${filesize} ; "\
  		"fi ; "							\
  		"fi\0"							\
