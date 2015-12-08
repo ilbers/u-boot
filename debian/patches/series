@@ -22,23 +22,6 @@ sh4-fix-linker-name-prefix.patch
 ensure-config-sandbox-for-make-env.patch
 mksunxiboot-spl.patch
 
-upstream/image.c-Fix-non-Android-booting-with-ramdisk-and-or-.patch
-
-upstream/distro-bootcmd-imx/0001-arm-imx-Switch-Wandboard-to-use-config_distro_bootcm.patch
-upstream/distro-bootcmd-imx/0002-arm-imx-Switch-mx6cuboxi-to-use-config_distro_bootcm.patch
-upstream/distro-bootcmd-imx/0003-imx6-fix-warnings-due-to-switch-to-distro-environmen.patch
-
 mx6cuboxi/serial_console_speed.patch
 
-upstream/am33x_distro_bootcmd/0001-config_distro_bootcmd.h-Use-a-private-variable-for-b.patch
-upstream/am33x_distro_bootcmd/0002-configs-ti_armv7_common.h-Add-default-addresses-for-.patch
-upstream/am33x_distro_bootcmd/0003-configs-am335x_evm-Support-distro-bootcmds.patch
-
 novena/0001-arm-novena-Switch-novena-to-config_distro_bootcmd.patch
-upstream/novena/0001-arm-imx6-novena-gw_ventana-Fix-use-of-pfuze100-bit-d.patch
-upstream/novena/0002-arm-imx6-novena-Enable-extfs-support-in-SPL.patch
-
-upstream/lamobo-r1/0001-sunxi-Add-support-for-the-Lamobo-R1-board.patch
-
-upstream/mkimage-fix-multi-script/0001-mkimage-Fix-generating-multi-and-script-images.patch
-upstream/mkimage-fix-multi-script/0002-mkimage-Fix-warning-from-fix-for-generating-multi-an.patch
