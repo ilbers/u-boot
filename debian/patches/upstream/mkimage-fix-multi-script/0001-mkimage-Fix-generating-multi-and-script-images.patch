@@ -1,0 +1,69 @@
+Bug-Debian: https://bugs.debian.org/805434
+From 6ae6e16005252dbca0b4a06beea1be895df48e16 Mon Sep 17 00:00:00 2001
+From: Philippe De Swert <philippedeswert@gmail.com>
+Date: Fri, 4 Dec 2015 00:11:23 +0200
+Subject: [PATCH 1/2] mkimage : Fix generating multi and script images
+
+Seems 92a655c3 broke creating multi and script type images.
+Since the file1:file2:file3 string does not get split up,
+it fails on trying to open an non-existing file.
+
+mkimage -A arm -O linux -T multi -C none -d zImage:splash.bmp:device.dtb uimage
+tools/mkimage: Can't open zImage:splash.bmp:device.dtb: No such file or directory
+
+Since the sizes of the different parts seem to get added in the actual
+routine that handles multi and script type images, we can probably skip the
+bit of the code that causes the failure for that type of images.
+
+Signed-off-by: Philippe De Swert <philippedeswert@gmail.com>
+---
+ tools/mkimage.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/tools/mkimage.c b/tools/mkimage.c
+index 8af9d50..ae01cb1 100644
+--- a/tools/mkimage.c
++++ b/tools/mkimage.c
+@@ -311,21 +311,26 @@ NXTARG:		;
+ 		exit (retval);
+ 	}
+ 
+-	dfd = open(params.datafile, O_RDONLY | O_BINARY);
+-	if (dfd < 0) {
+-		fprintf(stderr, "%s: Can't open %s: %s\n",
+-			params.cmdname, params.datafile, strerror(errno));
+-		exit(EXIT_FAILURE);
+-	}
++	if (!params.type == IH_TYPE_MULTI ||
++	    !params.type == IH_TYPE_SCRIPT) {
++		dfd = open(params.datafile, O_RDONLY | O_BINARY);
++		if (dfd < 0) {
++			fprintf(stderr, "%s: Can't open %s: %s\n",
++				params.cmdname, params.datafile,
++				strerror(errno));
++			exit(EXIT_FAILURE);
++		}
+ 
+-	if (fstat(dfd, &sbuf) < 0) {
+-		fprintf(stderr, "%s: Can't stat %s: %s\n",
+-			params.cmdname, params.datafile, strerror(errno));
+-		exit(EXIT_FAILURE);
+-	}
++		if (fstat(dfd, &sbuf) < 0) {
++			fprintf(stderr, "%s: Can't stat %s: %s\n",
++				params.cmdname, params.datafile,
++				strerror(errno));
++			exit(EXIT_FAILURE);
++		}
+ 
+-	params.file_size = sbuf.st_size + tparams->header_size;
+-	close(dfd);
++		params.file_size = sbuf.st_size + tparams->header_size;
++		close(dfd);
++	}
+ 
+ 	/*
+ 	 * In case there an header with a variable
+-- 
+2.1.4
+

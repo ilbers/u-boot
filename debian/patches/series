@@ -39,3 +39,6 @@ upstream/novena/0001-arm-imx6-novena-gw_ventana-Fix-use-of-pfuze100-bit-d.patch
 upstream/novena/0002-arm-imx6-novena-Enable-extfs-support-in-SPL.patch
 
 upstream/lamobo-r1/0001-sunxi-Add-support-for-the-Lamobo-R1-board.patch
+
+upstream/mkimage-fix-multi-script/0001-mkimage-Fix-generating-multi-and-script-images.patch
+upstream/mkimage-fix-multi-script/0002-mkimage-Fix-warning-from-fix-for-generating-multi-an.patch
