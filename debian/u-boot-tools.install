@@ -6,6 +6,7 @@ for tool in mkimage mkenvimage mksunxiboot kwboot env/fw_printenv ; do
 done
 
 echo doc/mkimage.1 /usr/share/man/man1/
+echo doc/kwboot.1 /usr/share/man/man1/
 
 # manpages
 echo debian/manpages/fw_printenv.8 /usr/share/man/man8/
