@@ -1,3 +1,19 @@
+u-boot (2016.01~rc2+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate:
+    - Remove patches applied upstream.
+    - Refresh patches:
+      + arndale/board-spl-rule.diff
+      + beagleboneblack/usb-mass-storage.patch
+      + 0001-arm-novena-Switch-novena-to-config_distro_bootcmd.patch
+
+  * u-boot-tools:
+    - Install man page for kwboot.
+    - Add dumpimage command (Closes: #807174).
+    - strip mkenvimage.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sat, 12 Dec 2015 19:00:32 -0800
+
 u-boot (2015.10+dfsg1-4) unstable; urgency=medium
 
   * Fix reproducibility issue with targets listed in package descriptions
