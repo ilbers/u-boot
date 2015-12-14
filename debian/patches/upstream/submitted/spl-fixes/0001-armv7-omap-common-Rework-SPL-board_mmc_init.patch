@@ -1,0 +1,36 @@
+https://patchwork.ozlabs.org/patch/556559/
+From 7fc14ee698f5f76d0411725c1438a2b92b0e76b0 Mon Sep 17 00:00:00 2001
+From: Tom Rini <trini@konsulko.com>
+Date: Mon, 14 Dec 2015 11:49:09 -0500
+Subject: [PATCH 1/2] armv7: omap-common: Rework SPL board_mmc_init()
+
+Since the changes in a1e56cf the way that we had board_mmc_init()
+structured for OMAP parts (so that we always report device 0) are no
+longer functional.  For now, make the case of booting from the second
+device initialize both devices (we have no devices that only have the
+second device as MMC).  A further rework and consolidation of the
+functions should be done at a later date.
+
+Tested on Beaglebone Black (SD and eMMC boot).
+
+Reported-by: Vagrant Cascadian <vagrant@debian.org>
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+ arch/arm/cpu/armv7/omap-common/boot-common.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/cpu/armv7/omap-common/boot-common.c b/arch/arm/cpu/armv7/omap-common/boot-common.c
+index 8e5d5c9..0456263 100644
+--- a/arch/arm/cpu/armv7/omap-common/boot-common.c
++++ b/arch/arm/cpu/armv7/omap-common/boot-common.c
+@@ -208,6 +208,7 @@ int board_mmc_init(bd_t *bis)
+ 		break;
+ 	case BOOT_DEVICE_MMC2:
+ 	case BOOT_DEVICE_MMC2_2:
++		omap_mmc_init(0, 0, 0, -1, -1);
+ 		omap_mmc_init(1, 0, 0, -1, -1);
+ 		break;
+ 	}
+-- 
+2.1.4
+

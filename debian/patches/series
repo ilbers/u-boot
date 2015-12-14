@@ -25,3 +25,6 @@ mksunxiboot-spl.patch
 mx6cuboxi/serial_console_speed.patch
 
 novena/0001-arm-novena-Switch-novena-to-config_distro_bootcmd.patch
+
+upstream/submitted/spl-fixes/0001-armv7-omap-common-Rework-SPL-board_mmc_init.patch
+upstream/submitted/spl-fixes/0002-spl-mmc-use-block-device-number-not-hard-coded-0.patch
