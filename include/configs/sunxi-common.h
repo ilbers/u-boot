@@ -239,7 +239,8 @@ extern int soft_i2c_gpio_scl;
 #endif
 
 /* PMU */
-#if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || defined CONFIG_AXP221_POWER
+#if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || \
+    defined CONFIG_AXP221_POWER || defined CONFIG_AXP818_POWER
 #define CONFIG_SPL_POWER_SUPPORT
 #endif
 
@@ -418,8 +419,14 @@ extern int soft_i2c_gpio_scl;
 
 #ifdef CONFIG_MMC
 #define BOOT_TARGET_DEVICES_MMC(func) func(MMC, mmc, 0)
+#if CONFIG_MMC_SUNXI_SLOT_EXTRA != -1
+#define BOOT_TARGET_DEVICES_MMC_EXTRA(func) func(MMC, mmc, 1)
+#else
+#define BOOT_TARGET_DEVICES_MMC_EXTRA(func)
+#endif
 #else
 #define BOOT_TARGET_DEVICES_MMC(func)
+#define BOOT_TARGET_DEVICES_MMC_EXTRA(func)
 #endif
 
 #ifdef CONFIG_AHCI
@@ -447,6 +454,7 @@ extern int soft_i2c_gpio_scl;
 #define BOOT_TARGET_DEVICES(func) \
 	func(FEL, fel, na) \
 	BOOT_TARGET_DEVICES_MMC(func) \
+	BOOT_TARGET_DEVICES_MMC_EXTRA(func) \
 	BOOT_TARGET_DEVICES_SCSI(func) \
 	BOOT_TARGET_DEVICES_USB(func) \
 	func(PXE, pxe, na) \
