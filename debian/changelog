@@ -1,3 +1,11 @@
+u-boot (2016.01~rc3+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+    - Fixes eMMC boot selection on BeagleBone Black.
+  * Add patch to fix missing bootdelay on am335x.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 22 Dec 2015 18:20:52 -0800
+
 u-boot (2016.01~rc2+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate:
