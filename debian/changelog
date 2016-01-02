@@ -1,3 +1,13 @@
+u-boot (2016.01~rc3+dfsg1-3) experimental; urgency=medium
+
+  * u-boot-rockchip: Generate rksd images.
+  * u-boot-rockchip: Build u-boot-dtb.img instead of u-boot.img.
+  * Add u-boot-rpi package for Raspberry pi systems:
+    - [armel] Include rpi target.
+    - [armhf] Add rpi_2 target.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sat, 02 Jan 2016 15:19:11 -0800
+
 u-boot (2016.01~rc3+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
