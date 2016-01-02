@@ -9,7 +9,7 @@ armel	-		dreamplug	u-boot.kwb
 armel	-		guruplug	u-boot.kwb
 
 # Vagrant Cascadian <vagrant@debian.org>, rpi B 256M
-armel	-		rpi		u-boot.bin
+armel	rpi		rpi		u-boot.bin
 
 # drEagle <drEagle@doukki.net>
 armel	-		sheevaplug	u-boot.kwb
@@ -65,6 +65,9 @@ armhf	omap		omap4_panda	u-boot.img spl/u-boot-spl.bin MLO
 # Emilio Pozuelo Monfort <pochu@debian.org>
 # Sjoerd Simons <sjoerd@debian.org>
 armhf	rockchip	firefly-rk3288		u-boot-dtb.img spl/u-boot-spl-dtb.bin
+
+# Vagrant Cascadian <vagrant@debian.org>, Raspberry PI 2B
+armhf	rpi		rpi_2		u-boot.bin
 
 # Joey Hess <joeyh@debian.org>
 # Christian Kastner <debian@kvr.at>
