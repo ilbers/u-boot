@@ -5,6 +5,7 @@
  */
 
 #include <common.h>
+#include <linux/err.h>
 #include <linux/io.h>
 #include <mach/ddrphy-regs.h>
 
@@ -32,8 +33,8 @@ void ddrphy_prepare_training(struct ddrphy __iomem *phy, int rank)
 	/* Use Multi-Purpose Register for DQS gate training */
 	tmp |= DTCR_DTMPR;
 	/* Specify the rank enabled for data-training */
-	tmp &= ~DTCR_RNKEN_MASK;
-	tmp |= (1 << (DTCR_RNKEN_SHIFT + rank)) & DTCR_RNKEN_MASK;
+	tmp &= ~DTCR_RANKEN_MASK;
+	tmp |= (1 << (DTCR_RANKEN_SHIFT + rank)) & DTCR_RANKEN_MASK;
 	writel(tmp, p);
 }
 
@@ -44,7 +45,7 @@ struct ddrphy_init_sequence {
 	u32 err_flag;
 };
 
-static struct ddrphy_init_sequence init_sequence[] = {
+static const struct ddrphy_init_sequence init_sequence[] = {
 	{
 		"DRAM Initialization",
 		PIR_DRAMRST | PIR_DRAMINIT,
@@ -117,7 +118,7 @@ int ddrphy_training(struct ddrphy __iomem *phy)
 		if (--timeout < 0) {
 			printf("%s: error: timeout during DDR training\n",
 								__func__);
-			return -1;
+			return -ETIMEDOUT;
 		}
 		udelay(1);
 		pgsr0 = readl(&phy->pgsr[0]);
@@ -127,7 +128,7 @@ int ddrphy_training(struct ddrphy __iomem *phy)
 		if (pgsr0 & init_sequence[i].err_flag) {
 			printf("%s: error: %s failed\n", __func__,
 						init_sequence[i].description);
-			return -1;
+			return -EIO;
 		}
 	}
 
