@@ -24,6 +24,4 @@ mksunxiboot-spl.patch
 
 mx6cuboxi/serial_console_speed.patch
 
-novena/0001-arm-novena-Switch-novena-to-config_distro_bootcmd.patch
-
 upstream/submitted/am335x-bootdelay/0001-am335x_evm-Don-t-undef-CONFIG_BOOTDELAY.patch
