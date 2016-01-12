@@ -1,3 +1,19 @@
+u-boot (2016.01+dfsg1-1) unstable; urgency=medium
+
+  * u-boot-sunxi: Enable orangepi_plus target.
+  * Remove patch Switching novena to config_distro_bootcmd, applied
+    upstream.
+  * armel: Enable openrd_base, openrd_client and openrd_ultimate
+    targets. Thanks to Albert ARIBAUD, Rick Thomas and Philip Hands for
+    testing. (Closes: #810790)
+  * Add Rick Thomas as a sheevaplug tester.
+  * sheevaplug: Update env documentation to default to current u-boot
+    offsets. (Closes: #781874)
+  * Bump versioned dependencies on debhelper and dpkg-dev to support use
+    of build profiles.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 12 Jan 2016 11:48:34 -0800
+
 u-boot (2016.01~rc3+dfsg1-3) experimental; urgency=medium
 
   * u-boot-rockchip: Generate rksd images.
