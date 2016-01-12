@@ -8,10 +8,22 @@ armel	-		dreamplug	u-boot.kwb
 # drEagle <drEagle@doukki.net>
 armel	-		guruplug	u-boot.kwb
 
+# Albert ARIBAUD <albert.u.boot@aribaud.net>
+armel  -               openrd_base u-boot.kwb
+
+# Rick Thomas <rbthomas@rcthomas.org>
+# Albert ARIBAUD <albert.u.boot@aribaud.net>
+armel  -               openrd_client u-boot.kwb
+
+# Rick Thomas <rbthomas@rcthomas.org>
+# Philip Hands <phil@hands.com>
+armel  -               openrd_ultimate u-boot.kwb
+
 # Vagrant Cascadian <vagrant@debian.org>, rpi B 256M
-armel	-		rpi		u-boot.bin
+armel	rpi		rpi		u-boot.bin
 
 # drEagle <drEagle@doukki.net>
+# Rick Thomas <rbthomas@rcthomas.org>
 armel	-		sheevaplug	u-boot.kwb
 
 # Ian Campbell <ijc@debian.org>
@@ -66,6 +78,9 @@ armhf	omap		omap4_panda	u-boot.img spl/u-boot-spl.bin MLO
 # Sjoerd Simons <sjoerd@debian.org>
 armhf	rockchip	firefly-rk3288		u-boot-dtb.img spl/u-boot-spl-dtb.bin
 
+# Vagrant Cascadian <vagrant@debian.org>, Raspberry PI 2B
+armhf	rpi		rpi_2		u-boot.bin
+
 # Joey Hess <joeyh@debian.org>
 # Christian Kastner <debian@kvr.at>
 armhf	sunxi		A10-OLinuXino-Lime	u-boot-sunxi-with-spl.bin
@@ -116,6 +131,9 @@ armhf	sunxi		Linksprite_pcDuino3	u-boot-sunxi-with-spl.bin
 
 # Jochen Sprickerhof <debian@jochen.sprickerhof.de>
 armhf	sunxi		Mini-X	u-boot-sunxi-with-spl.bin
+
+# Vagrant Cascadian <vagrant@debian.org>, Orange PI Plus2
+armhf	sunxi		orangepi_plus	u-boot-sunxi-with-spl.bin
 
 avr32	-		hammerhead	u-boot.img
 

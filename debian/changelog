@@ -1,3 +1,37 @@
+u-boot (2016.01~rc3+dfsg1-3) experimental; urgency=medium
+
+  * u-boot-rockchip: Generate rksd images.
+  * u-boot-rockchip: Build u-boot-dtb.img instead of u-boot.img.
+  * Add u-boot-rpi package for Raspberry pi systems:
+    - [armel] Include rpi target.
+    - [armhf] Add rpi_2 target.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sat, 02 Jan 2016 15:19:11 -0800
+
+u-boot (2016.01~rc3+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+    - Fixes eMMC boot selection on BeagleBone Black.
+  * Add patch to fix missing bootdelay on am335x.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 22 Dec 2015 18:20:52 -0800
+
+u-boot (2016.01~rc2+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate:
+    - Remove patches applied upstream.
+    - Refresh patches:
+      + arndale/board-spl-rule.diff
+      + beagleboneblack/usb-mass-storage.patch
+      + 0001-arm-novena-Switch-novena-to-config_distro_bootcmd.patch
+
+  * u-boot-tools:
+    - Install man page for kwboot.
+    - Add dumpimage command (Closes: #807174).
+    - strip mkenvimage.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sat, 12 Dec 2015 19:00:32 -0800
+
 u-boot (2015.10+dfsg1-4) unstable; urgency=medium
 
   * Fix reproducibility issue with targets listed in package descriptions
