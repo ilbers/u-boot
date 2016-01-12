@@ -23,6 +23,7 @@ armel  -               openrd_ultimate u-boot.kwb
 armel	rpi		rpi		u-boot.bin
 
 # drEagle <drEagle@doukki.net>
+# Rick Thomas <rbthomas@rcthomas.org>
 armel	-		sheevaplug	u-boot.kwb
 
 # Ian Campbell <ijc@debian.org>
