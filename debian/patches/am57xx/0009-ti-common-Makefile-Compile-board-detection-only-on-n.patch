@@ -1,0 +1,36 @@
+From 8ced9735c8442eb7534ff0839b120d9bdfc075c8 Mon Sep 17 00:00:00 2001
+From: Nishanth Menon <nm@ti.com>
+Date: Wed, 11 Nov 2015 15:42:55 -0600
+Subject: [PATCH 09/12] ti: common: Makefile: Compile board detection only on
+ need
+
+We need to build board detection only on platforms that explicitly
+state the need to build common headers. For other platforms, just
+introduce a dummy build rule
+
+Fixes: f2e1cb47242c ("ti: common: Add standard access for board description EEPROM")
+
+Reported-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Nishanth Menon <nm@ti.com>
+---
+ board/ti/common/Makefile | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/board/ti/common/Makefile b/board/ti/common/Makefile
+index 267d735..6953b52 100644
+--- a/board/ti/common/Makefile
++++ b/board/ti/common/Makefile
+@@ -3,4 +3,9 @@
+ # SPDX-License-Identifier:	GPL-2.0+
+ #
+ 
+-obj-${CONFIG_I2C} += board_detect.o
++# Necessary for a default builtin.o
++obj- = __dummy__.o
++
++ifdef CONFIG_CREATE_BOARD_SYMLINK
++	obj-${CONFIG_I2C} += board_detect.o
++endif
+-- 
+2.1.4
+

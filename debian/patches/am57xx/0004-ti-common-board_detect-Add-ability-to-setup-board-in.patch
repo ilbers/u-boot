@@ -1,0 +1,90 @@
+From ad48567c53949424a0c710648a7d365bd97a91ff Mon Sep 17 00:00:00 2001
+From: Nishanth Menon <nm@ti.com>
+Date: Mon, 9 Nov 2015 18:34:43 -0600
+Subject: [PATCH 04/12] ti: common: board_detect: Add ability to setup board
+ information
+
+Kernel stores information to the RTC_SCRATCH0 and RTC_SCRATCH1
+registers for wakeup from RTC-only mode. Parse these registers during
+SPL boot and jump to the kernel resume vector if the device is waking
+up from RTC-only mode
+
+During the normal boot patch the SCRATCH1 : bits16-31 are updated
+with the eeprom read board type data. In the rtc_only boot path the
+rtc scratchpad register is read and the board type is determined and
+correspondingly ddr dpll parameters are set. This is done so as to
+avoid costly i2c read to eeprom.
+
+So, we update the eeprom data store region with data corresponding to
+this.
+
+Signed-off-by: Nishanth Menon <nm@ti.com>
+---
+ board/ti/common/board_detect.c         | 24 ++++++++++++++++++++++++
+ board/ti/common/include/board_detect.h | 17 +++++++++++++++++
+ 2 files changed, 41 insertions(+)
+
+diff --git a/board/ti/common/board_detect.c b/board/ti/common/board_detect.c
+index 660f069..01a126f 100644
+--- a/board/ti/common/board_detect.c
++++ b/board/ti/common/board_detect.c
+@@ -146,6 +146,30 @@ int __maybe_unused ti_i2c_eeprom_am_get_print(int bus_addr, int dev_addr,
+ 	return 0;
+ }
+ 
++int __maybe_unused ti_i2c_eeprom_am_set(const char *name, const char *rev)
++{
++	struct ti_am_eeprom *ep;
++
++	if (!name || !rev)
++		return -1;
++
++	ep = TI_AM_EEPROM_DATA;
++	if (ep->header == TI_EEPROM_HEADER_MAGIC)
++		goto already_set;
++
++	/* Set to 0 all fields */
++	memset(ep, 0, sizeof(*ep));
++	strncpy(ep->name, name, TI_EEPROM_HDR_NAME_LEN);
++	strncpy(ep->version, rev, TI_EEPROM_HDR_REV_LEN);
++	/* Some dummy serial number to identify the platform */
++	strncpy(ep->serial, "0000", TI_EEPROM_HDR_SERIAL_LEN);
++	/* Mark it with a valid header */
++	ep->header = TI_EEPROM_HEADER_MAGIC;
++
++already_set:
++	return 0;
++}
++
+ bool __maybe_unused board_am_is(char *name_tag)
+ {
+ 	struct ti_am_eeprom *ep = TI_AM_EEPROM_DATA;
+diff --git a/board/ti/common/include/board_detect.h b/board/ti/common/include/board_detect.h
+index a537c2c..4b3365e 100644
+--- a/board/ti/common/include/board_detect.h
++++ b/board/ti/common/include/board_detect.h
+@@ -114,4 +114,21 @@ bool board_am_rev_is(char *rev_tag, int cmp_len);
+ void set_board_info_env(char *name, char *revision,
+ 			char *serial);
+ 
++/**
++ * ti_i2c_eeprom_am_set() - Setup the eeprom data with predefined values
++ * @name:	Name of the board
++ * @rev:	Revision of the board
++ *
++ * In some cases such as in RTC-only mode, we are able to skip reading eeprom
++ * and wasting i2c based initialization time by using predefined flags for
++ * detecting what platform we are booting on. For those platforms, provide
++ * a handy function to pre-program information.
++ *
++ * NOTE: many eeprom information such as serial number, mac address etc is not
++ * available.
++ *
++ * Return: 0 if all went fine, else return error.
++ */
++int ti_i2c_eeprom_am_set(const char *name, const char *rev);
++
+ #endif	/* __BOARD_DETECT_H */
+-- 
+2.1.4
+

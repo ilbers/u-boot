@@ -1,0 +1,66 @@
+From 527ed79ce84d48862ab6af631efbca5764232384 Mon Sep 17 00:00:00 2001
+From: Nishanth Menon <nm@ti.com>
+Date: Mon, 9 Nov 2015 18:34:37 -0600
+Subject: [PATCH 01/12] Makefile: Include vendor common library in include
+ search path
+
+When the vendor common libraries exists, then board should be able to
+reference headers located there, rather than having to do weird logic
+such as '#include "../common/xyz.h"'.
+
+Signed-off-by: Nishanth Menon <nm@ti.com>
+---
+ Kconfig                   |  2 ++
+ board/Kconfig             |  2 ++
+ scripts/Makefile.autoconf | 17 +++++++++++++++++
+ 3 files changed, 21 insertions(+)
+ create mode 100644 board/Kconfig
+
+Index: u-boot/Kconfig
+===================================================================
+--- u-boot.orig/Kconfig
++++ u-boot/Kconfig
+@@ -224,6 +224,8 @@ endmenu		# Boot images
+ 
+ source "common/Kconfig"
+ 
++source "board/Kconfig"
++
+ source "dts/Kconfig"
+ 
+ source "net/Kconfig"
+Index: u-boot/board/Kconfig
+===================================================================
+--- /dev/null
++++ u-boot/board/Kconfig
+@@ -0,0 +1,2 @@
++config CREATE_BOARD_SYMLINK
++	bool
+Index: u-boot/scripts/Makefile.autoconf
+===================================================================
+--- u-boot.orig/scripts/Makefile.autoconf
++++ u-boot/scripts/Makefile.autoconf
+@@ -125,6 +125,23 @@ else
+ 	ln -fsn $$dest arch/$(ARCH)/include/asm/arch
+ endif
+ endif
++ifdef CONFIG_CREATE_BOARD_SYMLINK
++ifneq ($(KBUILD_SRC),)
++	$(Q)if [ -d $(KBUILD_SRC)/board/$(VENDOR)/common/include ]; then \
++		dest=board/$(VENDOR)/common/include;			\
++	else								\
++		dest=board/$(VENDOR)/common;				\
++	fi;								\
++	ln -fsn $(KBUILD_SRC)/$$dest include/board-common
++else
++	$(Q)if [ -d board/$(VENDOR)/common/include ]; then		\
++		dest=board/$(VENDOR)/common/include;			\
++	else								\
++		dest=board/$(VENDOR)/common;				\
++	fi;								\
++	ln -fsn ../$$dest include/board-common
++endif
++endif
+ 
+ PHONY += FORCE
+ FORCE:
