@@ -37,3 +37,5 @@ am57xx/0009-ti-common-Makefile-Compile-board-detection-only-on-n.patch
 am57xx/0010-board-ti-am57xx-Fix-up-some-missing-pin-mux.patch
 am57xx/0011-board-ti-am57xx-Fix-HDMI-HPD-detect-muxing.patch
 am57xx/0012-board-ti-am57xx-update-RGMII1-io-delay-values-for-2..patch
+
+am57xx/omap5_distro_bootcmd

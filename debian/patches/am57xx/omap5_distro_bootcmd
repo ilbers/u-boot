@@ -1,0 +1,50 @@
+Index: u-boot/include/configs/ti_omap5_common.h
+===================================================================
+--- u-boot.orig/include/configs/ti_omap5_common.h
++++ u-boot/include/configs/ti_omap5_common.h
+@@ -67,6 +67,19 @@
+ #define DFUARGS
+ #endif
+ 
++#define BOOT_TARGET_DEVICES(func) \
++	func(MMC, mmc, 0) \
++	func(MMC, mmc, 1) \
++	func(MMC, usb, 0) \
++	func(PXE, pxe, na) \
++	func(DHCP, dhcp, na)
++
++#define CONFIG_BOOTCOMMAND \
++	"run findfdt; " \
++	"run distro_bootcmd"
++
++#include <config_distro_bootcmd.h>
++
+ #ifndef CONFIG_SPL_BUILD
+ #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+@@ -128,24 +141,10 @@
+ 	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
+ 	DFUARGS \
+ 	NETARGS \
++	BOOTENV
+ 
+-
+-#define CONFIG_BOOTCOMMAND \
+-	"if test ${dofastboot} -eq 1; then " \
+-		"echo Boot fastboot requested, resetting dofastboot ...;" \
+-		"setenv dofastboot 0; saveenv;" \
+-		"echo Booting into fastboot ...; fastboot 0;" \
+-	"fi;" \
+-	"run findfdt; " \
+-	"run mmcboot;" \
+-	"setenv mmcdev 1; " \
+-	"setenv bootpart 1:2; " \
+-	"setenv mmcroot /dev/mmcblk0p2 rw; " \
+-	"run mmcboot;" \
+-	""
+ #endif
+ 
+-
+ /*
+  * SPL related defines.  The Public RAM memory map the ROM defines the
+  * area between 0x40300000 and 0x4031E000 as a download area for OMAP5
