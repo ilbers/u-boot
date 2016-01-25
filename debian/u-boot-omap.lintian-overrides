@@ -3,6 +3,7 @@
 # target is only installed on a single architecture. In theory, some
 # targets could be built on multiple architectures, but could instead install
 # the package for the architecture needed.
+u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/am57xx_evm/uboot.elf
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/am335x_boneblack/uboot.elf
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/igep0020/uboot.elf
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/nokia_rx51/uboot.elf
@@ -10,6 +11,7 @@ u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/omap4_panda/uboot.elf
 
 # These bootloaders need to be statically linked.
+u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/am57xx_evm/uboot.elf
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/am335x_boneblack/uboot.elf
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/igep0020/uboot.elf
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/nokia_rx51/uboot.elf

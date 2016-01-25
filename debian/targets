@@ -63,6 +63,9 @@ armhf	tegra		jetson-tk1	u-boot-dtb-tegra.bin
 # Andrew M.A. Cater <amacater@galactic.demon.co.uk>
 armhf	omap		am335x_boneblack u-boot.img spl/u-boot-spl.bin MLO
 
+# Vagrant Cascadian <vagrant@debian.org>
+armhf	omap		am57xx_evm	u-boot-dtb.img spl/u-boot-spl.bin MLO
+
 # Robert Nelson <robertcnelson@gmail.com>
 armhf	omap		igep0020	u-boot.img spl/u-boot-spl.bin MLO
 
