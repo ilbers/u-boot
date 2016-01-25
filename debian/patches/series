@@ -39,3 +39,6 @@ am57xx/0011-board-ti-am57xx-Fix-HDMI-HPD-detect-muxing.patch
 am57xx/0012-board-ti-am57xx-update-RGMII1-io-delay-values-for-2..patch
 
 am57xx/omap5_distro_bootcmd
+
+upstream/openrd-fixes/0001-Fix-board-init-code-to-respect-the-C-runtime-environ.patch
+upstream/openrd-fixes/0002-arm-move-gd-handling-outside-of-C-code.patch
