@@ -42,3 +42,5 @@ am57xx/omap5_distro_bootcmd
 
 upstream/openrd-fixes/0001-Fix-board-init-code-to-respect-the-C-runtime-environ.patch
 upstream/openrd-fixes/0002-arm-move-gd-handling-outside-of-C-code.patch
+
+upstream/wandboard/0001-wandboard-fix-variable-name-so-PXE-boot-works.patch
