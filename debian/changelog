@@ -1,3 +1,16 @@
+u-boot (2016.01+dfsg1-2) unstable; urgency=medium
+
+  * u-boot-omap:
+    - Include patches from ti-u-boot to support AM57xx boards.
+    - Add patch for AM57xx boards to boot using distro bootcmd.
+    - Add am57xx_evm target, used by the BeagleBoard-X15.
+  * Apply patches from upstream to fix OpenRD builds with
+    GCC-5. Thanks to Albert ARIBAUD. (Closes: #811129)
+  * u-boot-imx: Apply patch "wandboard: fix variable name so PXE boot
+    works" from upstream.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Mon, 08 Feb 2016 20:14:04 -0800
+
 u-boot (2016.01+dfsg1-1) unstable; urgency=medium
 
   * u-boot-sunxi: Enable orangepi_plus target.
