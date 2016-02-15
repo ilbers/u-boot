@@ -130,6 +130,24 @@ static void init_csu(void)
 		writel(CSU_INIT_SEC_LEVEL0, CSU_IPS_BASE_ADDR + i * 4);
 }
 
+static void imx_enet_mdio_fixup(void)
+{
+	struct iomuxc_gpr_base_regs *gpr_regs =
+		(struct iomuxc_gpr_base_regs *)IOMUXC_GPR_BASE_ADDR;
+
+	/*
+	 * The management data input/output (MDIO) requires open-drain,
+	 * i.MX7D TO1.0 ENET MDIO pin has no open drain, but TO1.1 supports
+	 * this feature. So to TO1.1, need to enable open drain by setting
+	 * bits GPR0[8:7].
+	 */
+
+	if (soc_rev() >= CHIP_REV_1_1) {
+		setbits_le32(&gpr_regs->gpr[0],
+			     IOMUXC_GPR_GPR0_ENET_MDIO_OPEN_DRAIN_MASK);
+	}
+}
+
 int arch_cpu_init(void)
 {
 	init_aips();
@@ -137,6 +155,8 @@ int arch_cpu_init(void)
 	init_csu();
 	/* Disable PDE bit of WMCR register */
 	imx_set_wdog_powerdown(false);
+
+	imx_enet_mdio_fixup();
 
 #ifdef CONFIG_APBH_DMA
 	/* Start APBH DMA */
@@ -267,6 +287,27 @@ enum boot_device get_boot_device(void)
 
 	return boot_dev;
 }
+
+#ifdef CONFIG_ENV_IS_IN_MMC
+__weak int board_mmc_get_env_dev(int devno)
+{
+	return CONFIG_SYS_MMC_ENV_DEV;
+}
+
+int mmc_get_env_dev(void)
+{
+	struct bootrom_sw_info **p =
+		(struct bootrom_sw_info **)ROM_SW_INFO_ADDR;
+	int devno = (*p)->boot_dev_instance;
+	u8 boot_type = (*p)->boot_dev_type;
+
+	/* If not boot from sd/mmc, use default value */
+	if ((boot_type != BOOT_TYPE_SD) && (boot_type != BOOT_TYPE_MMC))
+		return CONFIG_SYS_MMC_ENV_DEV;
+
+	return board_mmc_get_env_dev(devno);
+}
+#endif
 
 void s_init(void)
 {

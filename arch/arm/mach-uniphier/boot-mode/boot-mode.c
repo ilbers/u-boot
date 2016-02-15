@@ -6,12 +6,12 @@
 
 #include <common.h>
 #include <spl.h>
-#include <linux/io.h>
-#include <mach/boot-device.h>
-#include <mach/sbc-regs.h>
-#include <mach/soc_info.h>
 
-u32 spl_boot_device(void)
+#include "../sbc/sbc-regs.h"
+#include "../soc-info.h"
+#include "boot-device.h"
+
+u32 spl_boot_device_raw(void)
 {
 	if (boot_is_swapped())
 		return BOOT_DEVICE_NOR;
@@ -42,4 +42,13 @@ u32 spl_boot_device(void)
 	default:
 		return BOOT_DEVICE_NONE;
 	}
+}
+
+u32 spl_boot_device(void)
+{
+	u32 ret;
+
+	ret = spl_boot_device_raw();
+
+	return ret == BOOT_DEVICE_USB ? BOOT_DEVICE_NOR : ret;
 }
