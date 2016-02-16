@@ -20,9 +20,9 @@ Index: u-boot/Kconfig
 ===================================================================
 --- u-boot.orig/Kconfig
 +++ u-boot/Kconfig
-@@ -224,6 +224,8 @@ endmenu		# Boot images
+@@ -227,6 +227,8 @@ source "common/Kconfig"
  
- source "common/Kconfig"
+ source "cmd/Kconfig"
  
 +source "board/Kconfig"
 +
@@ -40,7 +40,7 @@ Index: u-boot/scripts/Makefile.autoconf
 ===================================================================
 --- u-boot.orig/scripts/Makefile.autoconf
 +++ u-boot/scripts/Makefile.autoconf
-@@ -125,6 +125,23 @@ else
+@@ -128,6 +128,23 @@ else
  	ln -fsn $$dest arch/$(ARCH)/include/asm/arch
  endif
  endif

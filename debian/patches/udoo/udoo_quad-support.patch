@@ -15,7 +15,7 @@ Index: u-boot/include/configs/udoo.h
 ===================================================================
 --- u-boot.orig/include/configs/udoo.h
 +++ u-boot/include/configs/udoo.h
-@@ -95,12 +95,16 @@
+@@ -95,11 +95,15 @@
  		"fi\0" \
  	"mmcargs=setenv bootargs console=${console},${baudrate} " \
  		"root=${mmcroot}\0" \
@@ -23,18 +23,14 @@ Index: u-boot/include/configs/udoo.h
 +	"importbootenv=echo Importing environment from mmc (uEnv.txt)...; " \
 +		"env import -t $loadaddr $filesize\0" \
  	"loadbootscript=" \
--		"fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
-+		"load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+ 		"load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
  	"bootscript=echo Running bootscript from mmc ...; " \
  		"source\0" \
--	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
--	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
-+	"loadimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+ 	"loadimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
 +	"loadzimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} zImage\0" \
-+	"loadfdt=load mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
+ 	"loadfdt=load mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
  	"mmcboot=echo Booting from mmc ...; " \
  		"run mmcargs; " \
- 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
 @@ -149,17 +153,33 @@
  				"echo WARNING: Could not determine dtb to use; fi; \0"
  
