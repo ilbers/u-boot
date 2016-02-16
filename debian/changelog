@@ -1,3 +1,14 @@
+u-boot (2016.03~rc2+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Remove patches applied upstream.
+  * Refresh patches:
+    - Makefile-add-kwb-target-to-all.patch
+    - 0001-Makefile-Include-vendor-common-library-in-include-se.patch
+    - udoo_quad-support.patch
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 16 Feb 2016 15:01:48 -0800
+
 u-boot (2016.01+dfsg1-2) unstable; urgency=medium
 
   * u-boot-omap:
