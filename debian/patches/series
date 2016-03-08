@@ -37,3 +37,5 @@ am57xx/0011-board-ti-am57xx-Fix-HDMI-HPD-detect-muxing.patch
 am57xx/0012-board-ti-am57xx-update-RGMII1-io-delay-values-for-2..patch
 
 am57xx/omap5_distro_bootcmd
+
+upstream/submitted/U-Boot-rockchip-make-configure_emmc-empty-for-Firefly-RK3288.patch
