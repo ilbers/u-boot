@@ -1,3 +1,13 @@
+u-boot (2016.03~rc3+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Add patch submitted upstream to fix Firefly-RK3288 SPL by disabling
+    eMMC feature in SPL.
+  * u-boot-sunxi: Drop FEL targets, as moderm versions of sunxi-tools
+    support loading u-boot-sunxi-with-spl.bin directly.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 08 Mar 2016 13:28:50 -0800
+
 u-boot (2016.03~rc2+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
