@@ -1,0 +1,241 @@
+Index: u-boot/arch/powerpc/cpu/mpc8xx/spi.c
+===================================================================
+--- u-boot.orig/arch/powerpc/cpu/mpc8xx/spi.c
++++ u-boot/arch/powerpc/cpu/mpc8xx/spi.c
+@@ -455,7 +455,7 @@ ssize_t spi_xfer (size_t count)
+  *
+  * The Serial Peripheral Interface (SPI) is tested in the local loopback mode.
+  * The interface is configured accordingly and several packets
+- * are transfered. The configurable test parameters are:
++ * are transferred. The configurable test parameters are:
+  *   TEST_MIN_LENGTH - minimum size of packet to transfer
+  *   TEST_MAX_LENGTH - maximum size of packet to transfer
+  *   TEST_NUM - number of tests
+Index: u-boot/arch/sparc/cpu/leon3/usb_uhci.c
+===================================================================
+--- u-boot.orig/arch/sparc/cpu/leon3/usb_uhci.c
++++ u-boot/arch/sparc/cpu/leon3/usb_uhci.c
+@@ -55,7 +55,7 @@
+  * For Interrupt transfers USB_MAX_TEMP_INT_TD Transfer descriptor are available. They
+  * will be inserted after the appropriate (depending the interval setting) skeleton TD.
+  * If an interrupt has been detected the dev->irqhandler is called. The status and number
+- * of transfered bytes is stored in dev->irq_status resp. dev->irq_act_len. If the
++ * of transferred bytes is stored in dev->irq_status resp. dev->irq_act_len. If the
+  * dev->irqhandler returns 0, the interrupt TD is removed and disabled. If an 1 is returned,
+  * the interrupt TD will be reactivated.
+  *
+@@ -229,7 +229,7 @@ unsigned long usb_uhci_td_stat(unsigned
+ 	return result;
+ }
+ 
+-/* get the status and the transfered len of a td chain.
++/* get the status and the transferred len of a td chain.
+  * called from the completion handler
+  */
+ int usb_get_td_status(uhci_td_t * td, struct usb_device *dev)
+@@ -247,7 +247,7 @@ int usb_get_td_status(uhci_td_t * td, st
+ 		stat = usb_uhci_td_stat(temp);
+ 		info = swap_32((unsigned long)READ32(&mytd->info));
+ 		if (((info & 0xff) != USB_PID_SETUP) && (((info >> 21) & 0x7ff) != 0x7ff) && (temp & 0x7FF) != 0x7ff) {	/* if not setup and not null data pack */
+-			dev->act_len += (temp & 0x7FF) + 1;	/* the transfered len is act_len + 1 */
++			dev->act_len += (temp & 0x7FF) + 1;	/* the transferred len is act_len + 1 */
+ 		}
+ 		if (stat) {	/* status no ok */
+ 			dev->status = stat;
+@@ -621,7 +621,7 @@ void usb_check_int_chain(void)
+ 			if ((td->dev_ptr != 0L) && !(status & TD_CTRL_ACTIVE)) {
+ 				/* td is not active and a device is assigned -> call irqhandler */
+ 				dev = (struct usb_device *)td->dev_ptr;
+-				dev->irq_act_len = ((status & 0x7FF) == 0x7FF) ? 0 : (status & 0x7FF) + 1;	/* transfered length */
++				dev->irq_act_len = ((status & 0x7FF) == 0x7FF) ? 0 : (status & 0x7FF) + 1;	/* transferred length */
+ 				dev->irq_status = usb_uhci_td_stat(status);	/* get status */
+ 				res = dev->irq_handle(dev);	/* call irqhandler */
+ 				if (res == 1) {
+Index: u-boot/board/mpl/common/usb_uhci.c
+===================================================================
+--- u-boot.orig/board/mpl/common/usb_uhci.c
++++ u-boot/board/mpl/common/usb_uhci.c
+@@ -52,7 +52,7 @@
+  * For Interrupt transfers USB_MAX_TEMP_INT_TD Transfer descriptor are available. They
+  * will be inserted after the appropriate (depending the interval setting) skeleton TD.
+  * If an interrupt has been detected the dev->irqhandler is called. The status and number
+- * of transfered bytes is stored in dev->irq_status resp. dev->irq_act_len. If the
++ * of transferred bytes is stored in dev->irq_status resp. dev->irq_act_len. If the
+  * dev->irqhandler returns 0, the interrupt TD is removed and disabled. If an 1 is returned,
+  * the interrupt TD will be reactivated.
+  *
+@@ -156,7 +156,7 @@ unsigned long usb_uhci_td_stat(unsigned
+ 	return result;
+ }
+ 
+-/* get the status and the transfered len of a td chain.
++/* get the status and the transferred len of a td chain.
+  * called from the completion handler
+  */
+ int usb_get_td_status(uhci_td_t *td,struct usb_device *dev)
+@@ -177,7 +177,7 @@ int usb_get_td_status(uhci_td_t *td,stru
+ 				(((info >> 21) & 0x7ff)!= 0x7ff) &&
+ 				(temp & 0x7FF)!=0x7ff)
+ 		{  /* if not setup and not null data pack */
+-			dev->act_len+=(temp & 0x7FF) + 1; /* the transfered len is act_len + 1 */
++			dev->act_len+=(temp & 0x7FF) + 1; /* the transferred len is act_len + 1 */
+ 		}
+ 		if(stat) {           /* status no ok */
+ 			dev->status=stat;
+@@ -533,7 +533,7 @@ void usb_check_int_chain(void)
+ 			if((td->dev_ptr!=0L) && !(status & TD_CTRL_ACTIVE)) {
+ 				/* td is not active and a device is assigned -> call irqhandler */
+ 				dev=(struct usb_device *)td->dev_ptr;
+-				dev->irq_act_len=((status & 0x7FF)==0x7FF) ? 0 : (status & 0x7FF) + 1; /* transfered length */
++				dev->irq_act_len=((status & 0x7FF)==0x7FF) ? 0 : (status & 0x7FF) + 1; /* transferred length */
+ 				dev->irq_status=usb_uhci_td_stat(status); /* get status */
+ 				res=dev->irq_handle(dev); /* call irqhandler */
+ 				if(res==1) {
+Index: u-boot/cmd/fdc.c
+===================================================================
+--- u-boot.orig/cmd/fdc.c
++++ u-boot/cmd/fdc.c
+@@ -459,7 +459,7 @@ retryrw:
+ 					break;
+ 				}
+ 				if((c&0xC0)==0x80) { /* output */
+-					PRINTF("Transfer error transfered: at %ld, MSR=%02X\n",i,c);
++					PRINTF("Transfer error transferred: at %ld, MSR=%02X\n",i,c);
+ 					if(i>6) {
+ 						for(ii=0;ii<7;ii++) {
+ 							pCMD->result[ii]=bufferw[(i-7+ii)];
+Index: u-boot/common/usb.c
+===================================================================
+--- u-boot.orig/common/usb.c
++++ u-boot/common/usb.c
+@@ -210,7 +210,7 @@ int usb_submit_int_msg(struct usb_device
+  * clear keyboards LEDs). For data transfers, (storage transfers) we don't
+  * allow control messages with 0 timeout, by previousely resetting the flag
+  * asynch_allowed (usb_disable_asynch(1)).
+- * returns the transfered length if OK or -1 if error. The transfered length
++ * returns the transferred length if OK or -1 if error. The transferred length
+  * and the current status are stored in the dev->act_len and dev->status.
+  */
+ int usb_control_msg(struct usb_device *dev, unsigned int pipe,
+Index: u-boot/common/usb_storage.c
+===================================================================
+--- u-boot.orig/common/usb_storage.c
++++ u-boot/common/usb_storage.c
+@@ -599,7 +599,7 @@ static int usb_stor_CBI_get_status(ccb *
+ 		us->ip_wanted = 0;
+ 		return USB_STOR_TRANSPORT_ERROR;
+ 	}
+-	debug("Got interrupt data 0x%x, transfered %d status 0x%lX\n",
++	debug("Got interrupt data 0x%x, transferred %d status 0x%lX\n",
+ 	      us->ip_data, us->pusb_dev->irq_act_len,
+ 	      us->pusb_dev->irq_status);
+ 	/* UFI gives us ASC and ASCQ, like a request sense */
+Index: u-boot/doc/README.POST
+===================================================================
+--- u-boot.orig/doc/README.POST
++++ u-boot/doc/README.POST
+@@ -494,7 +494,7 @@ This test will verify the following ALU
+      This group will contain: b, bl, bc.
+ 
+      The first 2 instructions (b, bl) will be verified by jumping to
+-     a fixed address and checking whether control was transfered to
++     a fixed address and checking whether control was transferred to
+      that very point. For the bl instruction the value of the link
+      register will be checked as well (using mfspr). To verify the bc
+      instruction various combinations of the BI/BO fields, the CTR
+Index: u-boot/doc/device-tree-bindings/spi/spi-bus.txt
+===================================================================
+--- u-boot.orig/doc/device-tree-bindings/spi/spi-bus.txt
++++ u-boot/doc/device-tree-bindings/spi/spi-bus.txt
+@@ -63,7 +63,7 @@ contain the following properties.
+ 		      a header byte before reading data from the slave.
+ 
+ Some SPI controllers and devices support Dual and Quad SPI transfer mode.
+-It allows data in SPI system transfered in 2 wires(DUAL) or 4 wires(QUAD).
++It allows data in SPI system transferred in 2 wires(DUAL) or 4 wires(QUAD).
+ Now the value that spi-tx-bus-width and spi-rx-bus-width can receive is
+ only 1(SINGLE), 2(DUAL) and 4(QUAD).
+ Dual/Quad mode is not allowed when 3-wire mode is used.
+Index: u-boot/doc/kwboot.1
+===================================================================
+--- u-boot.orig/doc/kwboot.1
++++ u-boot/doc/kwboot.1
+@@ -20,7 +20,7 @@ must conform to Marvell's BootROM firmwa
+ Following power-up or a system reset, system BootROM code polls the
+ UART for a brief period of time, sensing a handshake message which
+ initiates an image upload. This program sends this boot message until
+-it receives a positive acknowledgement. The image is transfered using
++it receives a positive acknowledgement. The image is transferred using
+ Xmodem.
+ 
+ Additionally, this program implements a minimal terminal mode, which
+Index: u-boot/drivers/block/sym53c8xx.c
+===================================================================
+--- u-boot.orig/drivers/block/sym53c8xx.c
++++ u-boot/drivers/block/sym53c8xx.c
+@@ -657,7 +657,7 @@ void scsi_issue(ccb *pccb)
+ 	/* struct pccb must be set-up correctly */
+ 	retrycnt=0;
+ 	PRINTF("ID %d issue cmd %02X\n",pccb->target,pccb->cmd[0]);
+-	pccb->trans_bytes=0; /* no bytes transfered yet */
++	pccb->trans_bytes=0; /* no bytes transferred yet */
+ 	scsi_set_script(pccb); /* fill in SCRIPT		*/
+ 	scsi_int_mask=STO | UDC | MA; /* | CMP; / * Interrupts which are enabled */
+ 	script_int_mask=0xff; /* enable all Ints */
+@@ -712,7 +712,7 @@ retry:
+ 				for(i=0;i<3;i++)
+ 					int_stat[i]=0; /* delete all int status */
+ 				retrycnt++;
+-				PRINTF("ID: %X Phase Missmatch Retry %d Phase %02X transfered %lx\n",
++				PRINTF("ID: %X Phase Missmatch Retry %d Phase %02X transferred %lx\n",
+ 						pccb->target,retrycnt,scsi_read_byte(SBCL),pccb->trans_bytes);
+ 				scsi_write_dsp(phys_to_bus(&script_cmd[4])); /* start retry script */
+ 				goto retry;
+Index: u-boot/drivers/fpga/stratixII.c
+===================================================================
+--- u-boot.orig/drivers/fpga/stratixII.c
++++ u-boot/drivers/fpga/stratixII.c
+@@ -130,7 +130,7 @@ int StratixII_ps_fpp_load (Altera_desc *
+ 		/* 3.1 check stratix has not signaled us an error */
+ 		if (fns->status (cookie) != 1) {
+ 			printf
+-			    ("\n%s(%d) Stratix failed (byte transfered till failure 0x%x)\n",
++			    ("\n%s(%d) Stratix failed (byte transferred till failure 0x%x)\n",
+ 			     __FUNCTION__, __LINE__, bytecount);
+ 			fns->abort (cookie);
+ 			return FPGA_FAIL;
+Index: u-boot/include/usb.h
+===================================================================
+--- u-boot.orig/include/usb.h
++++ u-boot/include/usb.h
+@@ -130,7 +130,7 @@ struct usb_device {
+ 	int string_langid;		/* language ID for strings */
+ 	int (*irq_handle)(struct usb_device *dev);
+ 	unsigned long irq_status;
+-	int irq_act_len;		/* transfered bytes */
++	int irq_act_len;		/* transferred bytes */
+ 	void *privptr;
+ 	/*
+ 	 * Child devices -  if this is a hub device
+@@ -138,7 +138,7 @@ struct usb_device {
+ 	 */
+ 	unsigned long status;
+ 	unsigned long int_pending;	/* 1 bit per ep, used by int_queue */
+-	int act_len;			/* transfered bytes */
++	int act_len;			/* transferred bytes */
+ 	int maxchild;			/* Number of ports if hub */
+ 	int portnr;			/* Port number, 1=first */
+ #ifndef CONFIG_DM_USB
+Index: u-boot/post/lib_powerpc/b.c
+===================================================================
+--- u-boot.orig/post/lib_powerpc/b.c
++++ u-boot/post/lib_powerpc/b.c
+@@ -12,7 +12,7 @@
+  * Branch instructions:		b, bl, bc
+  *
+  * The first 2 instructions (b, bl) are verified by jumping
+- * to a fixed address and checking whether control was transfered
++ * to a fixed address and checking whether control was transferred
+  * to that very point. For the bl instruction the value of the
+  * link register is checked as well (using mfspr).
+  * To verify the bc instruction various combinations of the BI/BO

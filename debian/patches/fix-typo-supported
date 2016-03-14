@@ -1,0 +1,26 @@
+Index: u-boot/board/hisilicon/hikey/hikey.c
+===================================================================
+--- u-boot.orig/board/hisilicon/hikey/hikey.c
++++ u-boot/board/hisilicon/hikey/hikey.c
+@@ -76,7 +76,7 @@ static const struct pl01x_serial_platdat
+ #elif CONFIG_CONS_INDEX == 4
+ 	.base = HI6220_UART3_BASE,
+ #else
+-#error "Unsuported console index value."
++#error "Unsupported console index value."
+ #endif
+ 	.type = TYPE_PL011,
+ 	.clock = 19200000
+Index: u-boot/fs/fat/fat_write.c
+===================================================================
+--- u-boot.orig/fs/fat/fat_write.c
++++ u-boot/fs/fat/fat_write.c
+@@ -1136,7 +1136,7 @@ int file_fat_write(const char *filename,
+ 		   loff_t maxsize, loff_t *actwrite)
+ {
+ 	if (offset != 0) {
+-		printf("Error: non zero offset is currently not suported.\n");
++		printf("Error: non zero offset is currently not supported.\n");
+ 		return -1;
+ 	}
+ 
