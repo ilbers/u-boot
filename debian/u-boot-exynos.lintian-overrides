@@ -11,3 +11,6 @@ u-boot-exynos [armhf]: statically-linked-binary usr/lib/u-boot/arndale/uboot.elf
 u-boot-exynos [armhf]: statically-linked-binary usr/lib/u-boot/odroid/uboot.elf
 
 u-boot-exynos: description-synopsis-starts-with-article
+
+# Synopsys is the name of a company, not a misspelling.
+u-boot-exynos: spelling-error-in-copyright Synopsys Synopsis

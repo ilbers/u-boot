@@ -29,3 +29,6 @@ u-boot [sh4]: statically-linked-binary usr/lib/u-boot/r2dplus/uboot.elf
 u-boot [sh4]: statically-linked-binary usr/lib/u-boot/sh7785lcr_32bit/uboot.elf
 
 u-boot: description-synopsis-starts-with-article
+
+# Synopsys is the name of a company, not a misspelling.
+u-boot: spelling-error-in-copyright Synopsys Synopsis

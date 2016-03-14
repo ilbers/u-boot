@@ -21,3 +21,6 @@ u-boot-imx [armhf]: statically-linked-binary usr/lib/u-boot/usbarmory/uboot.elf
 u-boot-imx [armhf]: statically-linked-binary usr/lib/u-boot/wandboard/uboot.elf
 
 u-boot-imx: description-synopsis-starts-with-article
+
+# Synopsys is the name of a company, not a misspelling.
+u-boot-imx: spelling-error-in-copyright Synopsys Synopsis

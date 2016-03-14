@@ -11,3 +11,6 @@ u-boot-rpi [armel]: statically-linked-binary usr/lib/u-boot/rpi/uboot.elf
 u-boot-rpi [armhf]: statically-linked-binary usr/lib/u-boot/rpi_2/uboot.elf
 
 u-boot-rpi: description-synopsis-starts-with-article
+
+# Synopsys is the name of a company, not a misspelling.
+u-boot-rpi: spelling-error-in-copyright Synopsys Synopsis

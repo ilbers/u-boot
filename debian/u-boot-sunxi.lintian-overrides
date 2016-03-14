@@ -39,3 +39,6 @@ u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Mini-X/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/orangepi_plus/uboot.elf
 
 u-boot-sunxi: description-synopsis-starts-with-article
+
+# Synopsys is the name of a company, not a misspelling.
+u-boot-sunxi: spelling-error-in-copyright Synopsys Synopsis
