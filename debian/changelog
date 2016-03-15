@@ -1,3 +1,17 @@
+u-boot (2016.03+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Remove Firefly-RK3288 patch applied upstream.
+  * debian/control:
+    - Update to use https for Vcs-Git and Vcs-Browser.
+    - Update to Standards-Version 3.9.7, no changes needed.
+  * Update lintian overrides to ignore a company named Synopsys listed in
+    debian/copyright, which is flagged as a misspelling.
+  * Add patches to fix mispellings for "comment", "supported" and
+    "transferred".
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 15 Mar 2016 14:53:55 -0700
+
 u-boot (2016.03~rc3+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
