@@ -40,3 +40,5 @@ am57xx/omap5_distro_bootcmd
 fix-typo-supported
 fix-typo-comment
 fix-typo-transferred
+
+upstream/sunxi/0001-sunxi-Fix-gmac-not-working-due-to-cpu_eth_init-no-lo.patch
