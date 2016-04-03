@@ -24,18 +24,6 @@ mksunxiboot-spl.patch
 
 mx6cuboxi/serial_console_speed.patch
 
-am57xx/0001-Makefile-Include-vendor-common-library-in-include-se.patch
-am57xx/0003-ti-common-Add-standard-access-for-board-description-.patch
-am57xx/0004-ti-common-board_detect-Add-ability-to-setup-board-in.patch
-am57xx/0005-board-ti-AM57xx-Add-detection-logic-for-AM57xx-evm.patch
-am57xx/0006-board-ti-am57xx-Add-support-for-am572x-idk.patch
-am57xx/0007-board-ti-am57xx-Add-support-for-the-am571x-idk.patch
-am57xx/0008-HACK-ARM-DRA7-Configure-DSP-IVA-voltage-domains-for-.patch
-am57xx/0009-ti-common-Makefile-Compile-board-detection-only-on-n.patch
-am57xx/0010-board-ti-am57xx-Fix-up-some-missing-pin-mux.patch
-am57xx/0011-board-ti-am57xx-Fix-HDMI-HPD-detect-muxing.patch
-am57xx/0012-board-ti-am57xx-update-RGMII1-io-delay-values-for-2..patch
-
 am57xx/omap5_distro_bootcmd
 fix-typo-supported
 fix-typo-comment
