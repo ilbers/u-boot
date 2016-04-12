@@ -243,7 +243,6 @@
 #define CONFIG_USBNET_HOST_ADDR	"de:ad:be:af:00:00"
 #endif /* CONFIG_USB_MUSB_GADGET */
 
-#define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_DOWNLOAD
 
 /* USB DRACO ID as default */
@@ -625,7 +624,6 @@
 #define CONFIG_BOOTCOUNT_ENV
 
 /* Enable Device-Tree (FDT) support */
-#define CONFIG_OF_LIBFDT
 #define CONFIG_CMD_FDT
 
 #endif	/* ! __CONFIG_SIEMENS_AM33X_COMMON_H */

@@ -14,6 +14,22 @@
 
 #define CONFIG_DISPLAY_BOARDINFO
 
+#define I2C_MUX_CH_VOL_MONITOR		0xa
+#define I2C_VOL_MONITOR_ADDR		0x38
+#define CONFIG_VOL_MONITOR_IR36021_READ
+#define CONFIG_VOL_MONITOR_IR36021_SET
+
+#define CONFIG_VID_FLS_ENV		"ls2080ardb_vdd_mv"
+#ifndef CONFIG_SPL_BUILD
+#define CONFIG_VID
+#endif
+/* step the IR regulator in 5mV increments */
+#define IR_VDD_STEP_DOWN		5
+#define IR_VDD_STEP_UP			5
+/* The lowest and highest voltage allowed for LS2080ARDB */
+#define VDD_MV_MIN			819
+#define VDD_MV_MAX			1212
+
 #ifndef __ASSEMBLY__
 unsigned long get_board_sys_clk(void);
 #endif
@@ -333,7 +349,7 @@ unsigned long get_board_sys_clk(void);
 
 #undef CONFIG_BOOTARGS
 #define CONFIG_BOOTARGS		"console=ttyS1,115200 root=/dev/ram0 " \
-				"earlycon=uart8250,mmio,0x21c0600" \
+				"earlycon=uart8250,mmio,0x21c0600 " \
 				"ramdisk_size=0x2000000 default_hugepagesz=2m" \
 				" hugepagesz=2m hugepages=256"
 
@@ -355,11 +371,14 @@ unsigned long get_board_sys_clk(void);
 #define AQ_PHY_ADDR2		0x01
 #define AQ_PHY_ADDR3		0x02
 #define AQ_PHY_ADDR4		0x03
+#define AQR405_IRQ_MASK		0x36
 
 #define CONFIG_MII
 #define CONFIG_ETHPRIME		"DPNI1"
 #define CONFIG_PHY_GIGE
 #define CONFIG_PHY_AQUANTIA
 #endif
+
+#include <asm/fsl_secure_boot.h>
 
 #endif /* __LS2_RDB_H */

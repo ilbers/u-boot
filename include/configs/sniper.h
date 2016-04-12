@@ -201,7 +201,6 @@
 #define CONFIG_USB_MUSB_OMAP2PLUS
 #define CONFIG_TWL4030_USB
 
-#define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_DUALSPEED
 #define CONFIG_USB_GADGET_VBUS_DRAW	0
 
@@ -252,7 +251,7 @@
 	"recovery_mmc_part=4\0" \
 	"fdtfile=omap3-sniper.dtb\0" \
 	"bootfile=/boot/extlinux/extlinux.conf\0" \
-	"bootargs=console=ttyO2 vram=5M,0x9FA00000 omapfb.vram=0:5M\0"
+	"bootargs=console=ttyO2,115200 vram=5M,0x9FA00000 omapfb.vram=0:5M\0"
 
 /*
  * ATAGs

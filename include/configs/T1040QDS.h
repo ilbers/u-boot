@@ -435,15 +435,6 @@ unsigned long get_board_ddr_clk(void);
 #undef CONFIG_SYS_FLASH_EMPTY_INFO
 #endif
 
-/* pass open firmware flat tree */
-#define CONFIG_OF_LIBFDT
-#define CONFIG_OF_BOARD_SETUP
-#define CONFIG_OF_STDOUT_VIA_ALIAS
-
-/* new uImage format support */
-#define CONFIG_FIT
-#define CONFIG_FIT_VERBOSE	/* enable fit_format_{error,warning}() */
-
 /* I2C */
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_FSL		/* Use FSL common I2C driver */
@@ -686,7 +677,7 @@ unsigned long get_board_ddr_clk(void);
 
 /* Enable VSC9953 L2 Switch driver */
 #define CONFIG_VSC9953
-#define CONFIG_VSC9953_CMD
+#define CONFIG_CMD_ETHSW
 #define CONFIG_SYS_FM1_QSGMII11_PHY_ADDR	0x14
 #define CONFIG_SYS_FM1_QSGMII21_PHY_ADDR	0x18
 

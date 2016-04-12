@@ -114,6 +114,16 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_DOS_PARTITION
 #define CONFIG_BOARD_LATE_INIT
 
+
+/* EEPROM */
+#define CONFIG_ID_EEPROM
+#define CONFIG_SYS_I2C_EEPROM_NXID
+#define CONFIG_SYS_EEPROM_BUS_NUM		0
+#define CONFIG_SYS_I2C_EEPROM_ADDR		0x57
+#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		1
+#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	3
+#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	5
+
 #define CONFIG_SYS_SATA				AHCI_BASE_ADDR
 
 #define CONFIG_SYS_SCSI_MAX_SCSI_ID		1
@@ -152,7 +162,7 @@ unsigned long get_board_ddr_clk(void);
 					FTIM2_NOR_TWP(0x1c))
 #define CONFIG_SYS_NOR_FTIM3		0
 
-#define CONFIG_SYS_MAX_FLASH_BANKS	2	/* number of banks */
+#define CONFIG_SYS_MAX_FLASH_BANKS	1	/* number of banks */
 #define CONFIG_SYS_MAX_FLASH_SECT	1024	/* sectors per device */
 #define CONFIG_SYS_FLASH_ERASE_TOUT	60000	/* Flash Erase Timeout (ms) */
 #define CONFIG_SYS_FLASH_WRITE_TOUT	500	/* Flash Write Timeout (ms) */
@@ -454,8 +464,6 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_ENV_SIZE			0x20000
 #endif
 
-#define CONFIG_OF_LIBFDT
-#define CONFIG_OF_BOARD_SETUP
 #define CONFIG_CMD_BOOTZ
 #define CONFIG_CMD_MII
 #define CONFIG_CMDLINE_TAG

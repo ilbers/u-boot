@@ -380,17 +380,6 @@
 /* Use the HUSH parser */
 #define CONFIG_SYS_HUSH_PARSER
 
-/*
- * Pass open firmware flat tree
- */
-#define CONFIG_OF_LIBFDT		1
-#define CONFIG_OF_BOARD_SETUP		1
-#define CONFIG_OF_STDOUT_VIA_ALIAS	1
-
-/* new uImage format support */
-#define CONFIG_FIT		1
-#define CONFIG_FIT_VERBOSE	1 /* enable fit_format_{error,warning}() */
-
 /* I2C */
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_FSL
@@ -501,7 +490,6 @@
 
 #undef CONFIG_EEPRO100
 #undef CONFIG_TULIP
-#undef CONFIG_RTL8139
 
 #ifndef CONFIG_PCI_PNP
 	#define PCI_ENET0_IOADDR	CONFIG_SYS_PCIE3_IO_BUS

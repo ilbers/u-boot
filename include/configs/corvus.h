@@ -40,7 +40,6 @@
 #define CONFIG_DISPLAY_CPUINFO
 
 #define CONFIG_CMD_BOOTZ
-#define CONFIG_OF_LIBFDT
 
 /* general purpose I/O */
 #define CONFIG_ATMEL_LEGACY		/* required until (g)pio is fixed */
@@ -118,7 +117,6 @@
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 
-#define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_DUALSPEED
 #define CONFIG_USB_GADGET_ATMEL_USBA
 

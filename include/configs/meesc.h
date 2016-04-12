@@ -57,7 +57,6 @@
 #define CONFIG_PREBOOT				/* enable preboot variable */
 
 #define CONFIG_CMD_BOOTZ
-#define CONFIG_OF_LIBFDT
 
 /*
  * Hardware drivers
@@ -153,7 +152,6 @@
 /* Ethernet */
 #define CONFIG_MACB
 #define CONFIG_RMII
-#define CONFIG_FIT
 #define CONFIG_NET_RETRY_COUNT			20
 #undef CONFIG_RESET_PHY_R
 

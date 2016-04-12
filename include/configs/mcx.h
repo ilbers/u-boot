@@ -33,9 +33,6 @@
 #include <asm/arch/cpu.h>		/* get chip and board defs */
 #include <asm/arch/omap.h>
 
-#define CONFIG_OF_LIBFDT
-#define CONFIG_FIT
-
 /*
  * Leave it at 0x80008000 to allow booting new u-boot.bin with X-loader
  * and older u-boot.bin with the new U-Boot SPL.
@@ -105,8 +102,6 @@
 #define CONFIG_OMAP3_GPIO_5
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_OMAP
-#define CONFIG_USB_ULPI
-#define CONFIG_USB_ULPI_VIEWPORT_OMAP
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	57
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
 #define	CONFIG_USB_HOST_ETHER

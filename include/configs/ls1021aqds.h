@@ -478,6 +478,7 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_VGA_AS_SINGLE_DEVICE
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_VIDEO_BMP_LOGO
+#define CONFIG_SYS_CONSOLE_IS_IN_ENV
 
 #define CONFIG_FSL_DIU_CH7301
 #define CONFIG_SYS_I2C_DVI_BUS_NUM	0
@@ -666,9 +667,6 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_ENV_SECT_SIZE		0x20000 /* 128K (one sector) */
 #endif
 
-#define CONFIG_OF_LIBFDT
-#define CONFIG_OF_BOARD_SETUP
-#define CONFIG_OF_STDOUT_VIA_ALIAS
 #define CONFIG_CMD_BOOTZ
 
 #define CONFIG_MISC_INIT_R

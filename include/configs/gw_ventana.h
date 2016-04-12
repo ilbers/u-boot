@@ -97,10 +97,6 @@
 
 #endif /* CONFIG_SPI_FLASH */
 
-/* Flattened Image Tree Suport */
-#define CONFIG_FIT
-#define CONFIG_FIT_VERBOSE
-
 /* I2C Configs */
 #define CONFIG_CMD_I2C
 #define CONFIG_SYS_I2C
@@ -197,7 +193,6 @@
 #define CONFIG_SYS_USB_EVENT_POLL_VIA_CONTROL_EP
 
 /* USB Mass Storage Gadget */
-#define CONFIG_USB_GADGET
 #define CONFIG_CMD_USB_MASS_STORAGE
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
 #define CONFIG_USB_GADGET_DOWNLOAD
@@ -442,7 +437,6 @@
 	"done"
 
 /* Device Tree Support */
-#define CONFIG_OF_BOARD_SETUP
 #define CONFIG_FDT_FIXUP_PARTITIONS
 
 #endif			       /* __CONFIG_H */

@@ -219,7 +219,6 @@
 #define CONFIG_ENV_OFFSET		(12 * 64 * 2048)
 #endif
 
-#define CONFIG_OF_LIBFDT
 #define CONFIG_CMD_BOOTZ
 
 #define CONFIG_SYS_NO_FLASH
@@ -234,7 +233,6 @@
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 
 /* USB Client Support */
-#define CONFIG_USB_GADGET
 #define CONFIG_CI_UDC
 #define CONFIG_USB_GADGET_DUALSPEED
 #define CONFIG_USB_GADGET_VBUS_DRAW      2

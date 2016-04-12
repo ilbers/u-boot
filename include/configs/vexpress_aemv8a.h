@@ -19,9 +19,8 @@
 
 #define CONFIG_SUPPORT_RAW_INITRD
 
-/* Cache Definitions */
-#define CONFIG_SYS_DCACHE_OFF
-#define CONFIG_SYS_ICACHE_OFF
+/* MMU Definitions */
+#define CONFIG_SYS_CACHELINE_SIZE	64
 
 #define CONFIG_IDENT_STRING		" vexpress_aemv8a"
 #define CONFIG_BOOTP_VCI_STRING		"U-Boot.armv8.vexpress_aemv8a"
@@ -38,9 +37,6 @@
 #endif
 
 #define CONFIG_SYS_BOOTM_LEN (64 << 20)      /* Increase max gunzip size */
-
-/* Flat Device Tree Definitions */
-#define CONFIG_OF_LIBFDT
 
 /* CS register bases for the original memory map. */
 #define V2M_PA_CS0			0x00000000
@@ -192,7 +188,7 @@
 				"kernel_addr=0x80080000\0" \
 				"initrd_name=ramdisk.img\0"	\
 				"initrd_addr=0x84000000\0"	\
-				"fdt_name=board.dtb\0" \
+				"fdtfile=board.dtb\0" \
 				"fdt_alt_name=juno\0" \
 				"fdt_addr=0x83000000\0" \
 				"fdt_high=0xffffffffffffffff\0" \
@@ -214,10 +210,10 @@
 				"${kernel_name}; "\
 				"  afs load ${kernel_alt_name} ${kernel_addr};"\
 				"fi ; "\
-				"afs load  ${fdt_name} ${fdt_addr} ; " \
+				"afs load  ${fdtfile} ${fdt_addr} ; " \
 				"if test $? -eq 1; then "\
 				"  echo Loading ${fdt_alt_name} instead of "\
-				"${fdt_name}; "\
+				"${fdtfile}; "\
 				"  afs load ${fdt_alt_name} ${fdt_addr}; "\
 				"fi ; "\
 				"fdt addr ${fdt_addr}; fdt resize; " \
@@ -236,7 +232,7 @@
 				"kernel_addr=0x80080000\0"	\
 				"initrd_name=ramdisk.img\0"	\
 				"initrd_addr=0x88000000\0"	\
-				"fdt_name=devtree.dtb\0"	\
+				"fdtfile=devtree.dtb\0"		\
 				"fdt_addr=0x83000000\0"		\
 				"fdt_high=0xffffffffffffffff\0"	\
 				"initrd_high=0xffffffffffffffff\0"
@@ -246,7 +242,7 @@
 				"loglevel=9"
 
 #define CONFIG_BOOTCOMMAND	"smhload ${kernel_name} ${kernel_addr}; " \
-				"smhload ${fdt_name} ${fdt_addr}; " \
+				"smhload ${fdtfile} ${fdt_addr}; " \
 				"smhload ${initrd_name} ${initrd_addr} "\
 				"initrd_end; " \
 				"fdt addr ${fdt_addr}; fdt resize; " \

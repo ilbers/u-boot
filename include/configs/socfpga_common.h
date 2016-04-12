@@ -24,8 +24,6 @@
 
 #define CONFIG_CRC32_VERIFY
 
-#define CONFIG_FIT
-#define CONFIG_OF_LIBFDT
 #define CONFIG_SYS_BOOTMAPSZ		(64 * 1024 * 1024)
 
 #define CONFIG_TIMESTAMP		/* Print image info with timestamp */
@@ -95,7 +93,6 @@
 #define CONFIG_CMD_SPI
 #define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED		30000000
-#define CONFIG_SPI_FLASH_BAR
 /*
  * The base address is configurable in QSys, each board must specify the
  * base address based on it's particular FPGA configuration. Please note
@@ -221,7 +218,6 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 #endif
 #define CONFIG_CQSPI_DECODER		0
 #define CONFIG_CMD_SF
-#define CONFIG_SPI_FLASH_BAR
 
 /*
  * Designware SPI support
@@ -254,7 +250,6 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
  * USB Gadget (DFU, UMS)
  */
 #if defined(CONFIG_CMD_DFU) || defined(CONFIG_CMD_USB_MASS_STORAGE)
-#define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_DWC2_OTG
 #define CONFIG_USB_GADGET_DUALSPEED
 #define CONFIG_USB_GADGET_VBUS_DRAW	2
@@ -286,12 +281,20 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 #define CONFIG_SYS_CONSOLE_IS_IN_ENV
 #define CONFIG_SYS_CONSOLE_OVERWRITE_ROUTINE
 #define CONFIG_SYS_CONSOLE_ENV_OVERWRITE
+#if !defined(CONFIG_ENV_SIZE)
 #define CONFIG_ENV_SIZE			4096
+#endif
 
 /* Environment for SDMMC boot */
 #if defined(CONFIG_ENV_IS_IN_MMC) && !defined(CONFIG_ENV_OFFSET)
 #define CONFIG_SYS_MMC_ENV_DEV		0	/* device 0 */
 #define CONFIG_ENV_OFFSET		512	/* just after the MBR */
+#endif
+
+/* Environment for QSPI boot */
+#if defined(CONFIG_ENV_IS_IN_SPI_FLASH) && !defined(CONFIG_ENV_OFFSET)
+#define CONFIG_ENV_OFFSET		0x00100000
+#define CONFIG_ENV_SECT_SIZE		(64 * 1024)
 #endif
 
 /*

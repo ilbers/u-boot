@@ -10,8 +10,6 @@
 
 #define CONFIG_SYS_NO_FLASH
 
-#define CONFIG_FIT
-
 #define CONFIG_TIMESTAMP		/* Print image info with timestamp */
 
 #include "at91-sama5_common.h"
@@ -133,7 +131,6 @@
 #define CONFIG_USB_STORAGE
 
 /* USB device */
-#define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_DUALSPEED
 #define CONFIG_USB_GADGET_ATMEL_USBA
 #define CONFIG_USB_ETHER

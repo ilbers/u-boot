@@ -77,7 +77,6 @@
 #define CONFIG_SYS_CONSOLE_INFO_QUIET	/* don't print console @ startup */
 #define CONFIG_SYS_ALT_MEMTEST
 #define CONFIG_PREBOOT
-#define CONFIG_FIT
 
 #define CONFIG_SYS_HUSH_PARSER			/* Use the HUSH parser	*/
 #define	CONFIG_SYS_PROMPT_HUSH_PS2	"> "
@@ -114,6 +113,11 @@
 #define CONFIG_CFB_CONSOLE
 #define CONFIG_VGA_AS_SINGLE_DEVICE
 #define CONFIG_CMD_BMP
+
+/* FPGA programming support */
+#define CONFIG_FPGA
+#define CONFIG_FPGA_ALTERA
+#define CONFIG_FPGA_STRATIX_V
 
 /*
  * mv-common.h should be defined after CMD configs since it used them

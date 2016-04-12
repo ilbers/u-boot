@@ -19,8 +19,6 @@
 #define CONFIG_SYS_NO_FLASH
 #define CONFIG_SYS_FSL_CLK
 
-#define CONFIG_FIT
-
 #define CONFIG_TIMESTAMP		/* Print image info with timestamp */
 
 /*
@@ -247,7 +245,6 @@
 #define CONFIG_LOADADDR		0x70800000
 #define CONFIG_BOOTCOMMAND	"run mmc_mmc"
 #define CONFIG_SYS_LOAD_ADDR	CONFIG_LOADADDR
-#define CONFIG_OF_LIBFDT
 
 /*
  * NAND SPL

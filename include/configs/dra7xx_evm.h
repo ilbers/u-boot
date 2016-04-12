@@ -19,6 +19,11 @@
 #define CONFIG_IODELAY_RECALIBRATION
 #endif
 
+#define CONFIG_VERY_BIG_RAM
+#define CONFIG_PHYS_64BIT
+#define CONFIG_NR_DRAM_BANKS		2
+#define CONFIG_MAX_MEM_MAPPED		0x80000000
+
 #ifndef CONFIG_QSPI_BOOT
 /* MMC ENV related defines */
 #define CONFIG_ENV_IS_IN_MMC
@@ -150,6 +155,7 @@
 #define CONFIG_MII			/* Required in net/eth.c */
 #define CONFIG_PHY_GIGE			/* per-board part of CPSW */
 #define CONFIG_PHYLIB
+#define CONFIG_PHY_TI
 
 /* SPI */
 #undef	CONFIG_OMAP3_SPI
@@ -226,7 +232,6 @@
 #define CONFIG_USB_DWC3
 #define CONFIG_USB_DWC3_GADGET
 
-#define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_DOWNLOAD
 #define CONFIG_USB_GADGET_VBUS_DRAW 2
 #define CONFIG_G_DNL_MANUFACTURER "Texas Instruments"
@@ -340,5 +345,9 @@
 #define CONFIG_ENV_OFFSET_REDUND	0x001e0000
 #endif
 #endif  /* NOR support */
+
+/* EEPROM */
+#define CONFIG_EEPROM_CHIP_ADDRESS 0x50
+#define CONFIG_EEPROM_BUS_ADDRESS 0
 
 #endif /* __CONFIG_DRA7XX_EVM_H */

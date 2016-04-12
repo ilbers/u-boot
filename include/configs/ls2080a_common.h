@@ -44,15 +44,6 @@
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #define CONFIG_BOARD_EARLY_INIT_F	1
 
-/* Flat Device Tree Definitions */
-#define CONFIG_OF_LIBFDT
-#define CONFIG_OF_BOARD_SETUP
-#define CONFIG_OF_STDOUT_VIA_ALIAS
-
-/* new uImage format support */
-#define CONFIG_FIT
-#define CONFIG_FIT_VERBOSE	/* enable fit_format_{error,warning}() */
-
 #ifndef CONFIG_SPL
 #define CONFIG_FSL_DDR_INTERACTIVE	/* Interactive debugging */
 #endif
@@ -180,10 +171,9 @@ unsigned long long get_qixis_addr(void);
 #define CONFIG_SYS_LS_MC_DRAM_DPC_OFFSET    0x00F00000
 #define CONFIG_SYS_LS_MC_DPL_MAX_LENGTH	    0x20000
 #define CONFIG_SYS_LS_MC_DRAM_DPL_OFFSET    0x00F20000
-#ifdef CONFIG_LS2085A
+/* For LS2085A */
 #define CONFIG_SYS_LS_MC_AIOP_IMG_MAX_LENGTH	0x200000
 #define CONFIG_SYS_LS_MC_DRAM_AIOP_IMG_OFFSET	0x07000000
-#endif
 
 /*
  * Carve out a DDR region which will not be used by u-boot/Linux
@@ -205,10 +195,6 @@ unsigned long long get_qixis_addr(void);
 #define CONFIG_PCIE_LAYERSCAPE	/* Use common FSL Layerscape PCIe code */
 #ifdef CONFIG_LS2080A
 #define FSL_PCIE_COMPAT "fsl,ls2080a-pcie"
-#endif
-
-#ifdef CONFIG_LS2085A
-#define FSL_PCIE_COMPAT "fsl,ls2085a-pcie"
 #endif
 
 #define CONFIG_SYS_PCI_64BIT
@@ -269,7 +255,7 @@ unsigned long long get_qixis_addr(void);
 	" 0x580800000 \0"
 
 #define CONFIG_BOOTARGS		"console=ttyS0,115200 root=/dev/ram0 " \
-				"earlycon=uart8250,mmio,0x21c0500" \
+				"earlycon=uart8250,mmio,0x21c0500 " \
 				"ramdisk_size=0x2000000 default_hugepagesz=2m" \
 				" hugepagesz=2m hugepages=256"
 #define CONFIG_BOOTCOMMAND	"fsl_mc apply dpl 0x580700000 &&" \

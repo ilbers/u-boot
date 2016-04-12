@@ -152,14 +152,12 @@ enum fdt_compat_id {
 	COMPAT_SAMSUNG_EXYNOS5_I2C,	/* Exynos5 High Speed I2C Controller */
 	COMPAT_SAMSUNG_EXYNOS_SYSMMU,	/* Exynos sysmmu */
 	COMPAT_INTEL_MICROCODE,		/* Intel microcode update */
-	COMPAT_MEMORY_SPD,		/* Memory SPD information */
 	COMPAT_INTEL_PANTHERPOINT_AHCI,	/* Intel Pantherpoint AHCI */
 	COMPAT_INTEL_MODEL_206AX,	/* Intel Model 206AX CPU */
 	COMPAT_INTEL_GMA,		/* Intel Graphics Media Accelerator */
 	COMPAT_AMS_AS3722,		/* AMS AS3722 PMIC */
 	COMPAT_INTEL_ICH_SPI,		/* Intel ICH7/9 SPI controller */
 	COMPAT_INTEL_QRK_MRC,		/* Intel Quark MRC */
-	COMPAT_INTEL_X86_PINCTRL,	/* Intel ICH7/9 pin control */
 	COMPAT_SOCIONEXT_XHCI,		/* Socionext UniPhier xHCI */
 	COMPAT_INTEL_PCH,		/* Intel PCH */
 	COMPAT_ALTERA_SOCFPGA_DWMAC,	/* SoCFPGA Ethernet controller */

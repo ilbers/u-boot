@@ -28,7 +28,6 @@
 /* Number of bits in a C 'long' on this architecture */
 #define CONFIG_SANDBOX_BITS_PER_LONG	64
 
-#define CONFIG_OF_LIBFDT
 #define CONFIG_LMB
 #define CONFIG_CMD_FDT
 #define CONFIG_ANDROID_BOOT_IMAGE
@@ -44,6 +43,8 @@
 #define CONFIG_CMD_FAT
 #define CONFIG_CMD_EXT4
 #define CONFIG_CMD_EXT4_WRITE
+#define CONFIG_CMD_CBFS
+#define CONFIG_CMD_CRAMFS
 #define CONFIG_CMD_PART
 #define CONFIG_DOS_PARTITION
 #define CONFIG_HOST_MAX_DEVICES 4
@@ -53,8 +54,11 @@
 
 #define CONFIG_CMD_GPT
 #define CONFIG_PARTITION_UUIDS
-#define CONFIG_EFI_PARTITION
+#define CONFIG_AMIGA_PARTITION
 #define CONFIG_DOS_PARTITION
+#define CONFIG_EFI_PARTITION
+#define CONFIG_ISO_PARTITION
+#define CONFIG_MAC_PARTITION
 
 /*
  * Size of malloc() pool, before and after relocation

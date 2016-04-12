@@ -28,14 +28,6 @@
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #define CONFIG_BOARD_EARLY_INIT_F	1
 
-/* Flat Device Tree Definitions */
-#define CONFIG_OF_LIBFDT
-#define CONFIG_OF_BOARD_SETUP
-
-/* new uImage format support */
-#define CONFIG_FIT
-#define CONFIG_FIT_VERBOSE	/* enable fit_format_{error,warning}() */
-
 #ifndef CONFIG_SYS_FSL_DDR4
 #define CONFIG_SYS_FSL_DDR3		/* Use DDR3 memory */
 #endif
@@ -220,7 +212,19 @@
 #ifdef CONFIG_SYS_DPAA_FMAN
 #define CONFIG_SYS_FM_MURAM_SIZE	0x60000
 
-#if defined(CONFIG_QSPI_BOOT) || defined(CONFIG_SD_BOOT_QSPI)
+#ifdef CONFIG_NAND_BOOT
+/* Store Fman ucode at offeset 0x160000(11 blocks). */
+#define CONFIG_SYS_QE_FMAN_FW_IN_NAND
+#define CONFIG_SYS_FMAN_FW_ADDR		(11 * CONFIG_SYS_NAND_BLOCK_SIZE)
+#elif defined(CONFIG_SD_BOOT)
+/*
+ * PBL SD boot image should stored at 0x1000(8 blocks), the size of the image is
+ * about 1MB (2040 blocks), Env is stored after the image, and the env size is
+ * 0x2000 (16 blocks), 8 + 2040 + 16 = 2064, enlarge it to 2080(0x820).
+ */
+#define CONFIG_SYS_QE_FMAN_FW_IN_MMC
+#define CONFIG_SYS_FMAN_FW_ADDR		(512 * 0x820)
+#elif defined(CONFIG_QSPI_BOOT)
 #define CONFIG_SYS_QE_FW_IN_SPIFLASH
 #define CONFIG_SYS_FMAN_FW_ADDR		0x400d0000
 #define CONFIG_ENV_SPI_BUS		0
@@ -253,13 +257,13 @@
 	"ramdisk_size=0x2000000\0"		\
 	"fdt_high=0xffffffffffffffff\0"		\
 	"initrd_high=0xffffffffffffffff\0"	\
-	"kernel_start=0x61200000\0"		\
-	"kernel_load=0x807f0000\0"		\
-	"kernel_size=0x1000000\0"		\
+	"kernel_start=0x61100000\0"		\
+	"kernel_load=0xa0000000\0"		\
+	"kernel_size=0x2800000\0"		\
 	"console=ttyAMA0,38400n8\0"
 
 #define CONFIG_BOOTARGS			"console=ttyS0,115200 root=/dev/ram0 " \
-					"earlycon=uart8250,0x21c0500,115200"
+					"earlycon=uart8250,mmio,0x21c0500"
 #define CONFIG_BOOTCOMMAND		"cp.b $kernel_start $kernel_load "     \
 					"$kernel_size && bootm $kernel_load"
 #define CONFIG_BOOTDELAY		10

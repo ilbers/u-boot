@@ -46,6 +46,7 @@ obj-$(CONFIG_ENV_IS_IN_NVRAM) += env_embedded.o
 obj-$(CONFIG_ENV_IS_IN_FLASH) += env_flash.o
 obj-$(CONFIG_ENV_IS_IN_MMC) += env_mmc.o
 obj-$(CONFIG_ENV_IS_IN_FAT) += env_fat.o
+obj-$(CONFIG_ENV_IS_IN_EXT4) += env_ext4.o
 obj-$(CONFIG_ENV_IS_IN_NAND) += env_nand.o
 obj-$(CONFIG_ENV_IS_IN_NVRAM) += env_nvram.o
 obj-$(CONFIG_ENV_IS_IN_ONENAND) += env_onenand.o
@@ -55,7 +56,7 @@ obj-$(CONFIG_ENV_IS_IN_UBI) += env_ubi.o
 obj-$(CONFIG_ENV_IS_NOWHERE) += env_nowhere.o
 
 obj-$(CONFIG_CMD_BEDBUG) += bedbug.o
-obj-$(CONFIG_OF_LIBFDT) += fdt_support.o
+obj-$(CONFIG_$(SPL_)OF_LIBFDT) += fdt_support.o
 
 obj-$(CONFIG_MII) += miiphyutil.o
 obj-$(CONFIG_CMD_MII) += miiphyutil.o
@@ -105,6 +106,7 @@ obj-$(CONFIG_SPL_ENV_SUPPORT) += env_callback.o
 obj-$(CONFIG_ENV_IS_NOWHERE) += env_nowhere.o
 obj-$(CONFIG_ENV_IS_IN_MMC) += env_mmc.o
 obj-$(CONFIG_ENV_IS_IN_FAT) += env_fat.o
+obj-$(CONFIG_ENV_IS_IN_EXT4) += env_ext4.o
 obj-$(CONFIG_ENV_IS_IN_NAND) += env_nand.o
 obj-$(CONFIG_ENV_IS_IN_SPI_FLASH) += env_sf.o
 obj-$(CONFIG_ENV_IS_IN_FLASH) += env_flash.o
@@ -129,9 +131,9 @@ obj-y += malloc_simple.o
 endif
 obj-y += image.o
 obj-$(CONFIG_ANDROID_BOOT_IMAGE) += image-android.o
-obj-$(CONFIG_OF_LIBFDT) += image-fdt.o
-obj-$(CONFIG_FIT) += image-fit.o
-obj-$(CONFIG_FIT_SIGNATURE) += image-sig.o
+obj-$(CONFIG_$(SPL_)OF_LIBFDT) += image-fdt.o
+obj-$(CONFIG_$(SPL_)FIT) += image-fit.o
+obj-$(CONFIG_$(SPL_)FIT_SIGNATURE) += image-sig.o
 obj-$(CONFIG_IO_TRACE) += iotrace.o
 obj-y += memsize.o
 obj-y += stdio.o
@@ -148,10 +150,10 @@ endif
 endif
 
 # We always have this since drivers/ddr/fs/interactive.c needs it
-obj-y += cli_simple.o
+obj-$(CONFIG_CMDLINE) += cli_simple.o
 
 obj-y += cli.o
-obj-y += cli_readline.o
+obj-$(CONFIG_CMDLINE) += cli_readline.o
 obj-y += command.o
 obj-y += s_record.o
 obj-y += xyzModem.o

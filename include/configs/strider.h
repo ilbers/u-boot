@@ -30,10 +30,6 @@
 #define CONFIG_BOARD_EARLY_INIT_R
 #define CONFIG_LAST_STAGE_INIT
 
-/* new uImage format support */
-#define CONFIG_FIT			1
-#define CONFIG_FIT_VERBOSE		1
-
 #define CONFIG_MMC
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC83xx_ESDHC_ADDR
@@ -283,14 +279,13 @@
 				| BR_PS_16	/* 16 bit port */ \
 				| BR_MS_GPCM	/* MSEL = GPCM */ \
 				| BR_V)		/* valid */
-#define CONFIG_SYS_OR1_PRELIM	(MEG_TO_AM(CONFIG_SYS_FPGA0_SIZE) \
+
+#define CONFIG_SYS_OR1_PRELIM   (MEG_TO_AM(CONFIG_SYS_FPGA0_SIZE) \
 				| OR_UPM_XAM \
 				| OR_GPCM_CSNT \
-				| OR_GPCM_ACS_DIV2 \
-				| OR_GPCM_XACS \
-				| OR_GPCM_SCY_15 \
-				| OR_GPCM_TRLX_SET \
-				| OR_GPCM_EHTR_SET)
+				| OR_GPCM_SCY_5 \
+				| OR_GPCM_TRLX_CLEAR \
+				| OR_GPCM_EHTR_CLEAR)
 
 #define CONFIG_SYS_FPGA_BASE(k)		CONFIG_SYS_FPGA0_BASE
 #define CONFIG_SYS_FPGA_DONE(k)		0x0010
@@ -322,9 +317,6 @@
 #define CONFIG_SYS_HUSH_PARSER
 
 /* Pass open firmware flat tree */
-#define CONFIG_OF_LIBFDT		1
-#define CONFIG_OF_BOARD_SETUP		1
-#define CONFIG_OF_STDOUT_VIA_ALIAS	1
 
 /* I2C */
 #define CONFIG_SYS_I2C
@@ -334,6 +326,11 @@
 #define CONFIG_SYS_FSL_I2C_OFFSET	0x3000
 
 #define CONFIG_PCA953X			/* NXP PCA9554 */
+#define CONFIG_CMD_PCA953X
+#define CONFIG_CMD_PCA953X_INFO
+#define CONFIG_SYS_I2C_PCA953X_WIDTH    { {0x24, 16}, {0x25, 16}, {0x26, 16}, \
+					  {0x3c, 8}, {0x3d, 8}, {0x3e, 8} }
+
 #define CONFIG_PCA9698			/* NXP PCA9698 */
 
 #define CONFIG_SYS_I2C_IHS
