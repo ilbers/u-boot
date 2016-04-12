@@ -2,7 +2,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
 ===================================================================
 --- u-boot.orig/include/configs/ti_omap5_common.h
 +++ u-boot/include/configs/ti_omap5_common.h
-@@ -67,13 +67,23 @@
+@@ -66,13 +66,23 @@
  #define DFUARGS
  #endif
  
@@ -27,7 +27,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
  	"bootpart=0:2\0" \
  	"bootdir=/boot\0" \
  	"bootfile=zImage\0" \
-@@ -122,24 +132,10 @@
+@@ -111,22 +121,8 @@
  	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
  	DFUARGS \
  	NETARGS \
@@ -41,6 +41,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
 -		"echo Booting into fastboot ...; fastboot 0;" \
 -	"fi;" \
 -	"run findfdt; " \
+-	"run envboot; " \
 -	"run mmcboot;" \
 -	"setenv mmcdev 1; " \
 -	"setenv bootpart 1:2; " \
@@ -49,7 +50,4 @@ Index: u-boot/include/configs/ti_omap5_common.h
 -	""
  #endif
  
--
- /*
-  * SPL related defines.  The Public RAM memory map the ROM defines the
-  * area between 0x40300000 and 0x4031E000 as a download area for OMAP5
+ 
