@@ -2,7 +2,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
 ===================================================================
 --- u-boot.orig/include/configs/ti_omap5_common.h
 +++ u-boot/include/configs/ti_omap5_common.h
-@@ -67,13 +67,23 @@
+@@ -67,6 +67,18 @@
  #define DFUARGS
  #endif
  
@@ -13,6 +13,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
 +	func(DHCP, dhcp, na)
 +
 +#define CONFIG_BOOTCOMMAND \
++	"run findfdt; " \
 +	"run distro_bootcmd"
 +
 +#include <config_distro_bootcmd.h>
@@ -20,14 +21,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
  #ifndef CONFIG_SPL_BUILD
  #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
  #define CONFIG_EXTRA_ENV_SETTINGS \
- 	DEFAULT_LINUX_BOOT_ENV \
- 	DEFAULT_MMC_TI_ARGS \
- 	"console=" CONSOLEDEV ",115200n8\0" \
--	"fdtfile=undefined\0" \
- 	"bootpart=0:2\0" \
- 	"bootdir=/boot\0" \
- 	"bootfile=zImage\0" \
-@@ -122,24 +132,10 @@
+@@ -122,24 +134,10 @@
  	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
  	DFUARGS \
  	NETARGS \

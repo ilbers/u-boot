@@ -32,3 +32,5 @@ fix-typo-transferred
 upstream/sunxi/0001-sunxi-Fix-gmac-not-working-due-to-cpu_eth_init-no-lo.patch
 
 firefly/0001-Revert-rockchip-rk3288-correct-sdram-setting.patch
+
+upstream/am57xx/0001-board-ti-AM57xx-Add-detection-logic-for-AM57xx-evm.patch

@@ -1,0 +1,196 @@
+From 212f96f6bd968f4359fff188d44157125cf24447 Mon Sep 17 00:00:00 2001
+From: "Kipisz, Steven" <s-kipisz2@ti.com>
+Date: Wed, 24 Feb 2016 12:30:58 -0600
+Subject: [PATCH] board: ti: AM57xx: Add detection logic for AM57xx-evm
+
+Current AM57xx evm supports both BeagleBoard-X15
+(http://beagleboard.org/x15) and AM57xx EVM
+(http://www.ti.com/tool/tmdxevm5728).
+
+The AM572x EValuation Module(EVM) provides an affordable platform to
+quickly start evaluation of Sitara. ARM Cortex-A15 AM57x Processors
+(AM5728, AM5726, AM5718, AM5716) and accelerate development for HMI,
+machine vision, networking, medical imaging and many other industrial
+applications. This EVM is based on the same BeagleBoard-X15 Chassis
+and adds mPCIe, mSATA, LCD, touchscreen, Camera, push button and TI's
+wlink8 offering.
+
+Since the EEPROM contents are compatible between the BeagleBoard-X15 and
+the AM57xx-evm, we add support for the detection logic to enable
+support for various user programmable scripting capability.
+
+NOTE: U-boot configuration is currently a superset of AM57xx evm and
+BeagleBoard-X15 and no additional configuration tweaking is needed.
+
+This change also sets up the stage for future support of TI AM57xx EVMs
+to the same base bootloader build.
+
+Signed-off-by: Steve Kipisz <s-kipisz2@ti.com>
+Signed-off-by: Lokesh Vutla <lokeshvutla@ti.com>
+Signed-off-by: Nishanth Menon <nm@ti.com>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+---
+ arch/arm/cpu/armv7/omap5/Kconfig  |  1 +
+ board/ti/am57xx/Kconfig           |  2 ++
+ board/ti/am57xx/board.c           | 70 ++++++++++++++++++++++++++++++++++++++-
+ include/configs/am57xx_evm.h      |  4 +++
+ include/configs/ti_omap5_common.h |  2 ++
+ 5 files changed, 78 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/cpu/armv7/omap5/Kconfig b/arch/arm/cpu/armv7/omap5/Kconfig
+index bfa264e..f265b34 100644
+--- a/arch/arm/cpu/armv7/omap5/Kconfig
++++ b/arch/arm/cpu/armv7/omap5/Kconfig
+@@ -15,6 +15,7 @@ config TARGET_DRA7XX_EVM
+ 
+ config TARGET_BEAGLE_X15
+ 	bool "BeagleBoard X15"
++	select TI_I2C_BOARD_DETECT
+ 
+ endchoice
+ 
+diff --git a/board/ti/am57xx/Kconfig b/board/ti/am57xx/Kconfig
+index bdb7795..17745ff 100644
+--- a/board/ti/am57xx/Kconfig
++++ b/board/ti/am57xx/Kconfig
+@@ -9,4 +9,6 @@ config SYS_VENDOR
+ config SYS_CONFIG_NAME
+ 	default "am57xx_evm"
+ 
++source "board/ti/common/Kconfig"
++
+ endif
+diff --git a/board/ti/am57xx/board.c b/board/ti/am57xx/board.c
+index 042f9ab..d712ab0 100644
+--- a/board/ti/am57xx/board.c
++++ b/board/ti/am57xx/board.c
+@@ -30,8 +30,12 @@
+ #include <dwc3-omap-uboot.h>
+ #include <ti-usb-phy-uboot.h>
+ 
++#include "../common/board_detect.h"
+ #include "mux_data.h"
+ 
++#define board_is_x15()		board_ti_is("BBRDX15_")
++#define board_is_am572x_evm()	board_ti_is("AM572PM_")
++
+ #ifdef CONFIG_DRIVER_TI_CPSW
+ #include <cpsw.h>
+ #endif
+@@ -41,8 +45,10 @@ DECLARE_GLOBAL_DATA_PTR;
+ /* GPIO 7_11 */
+ #define GPIO_DDR_VTT_EN 203
+ 
++#define SYSINFO_BOARD_NAME_MAX_LEN	45
++
+ const struct omap_sysinfo sysinfo = {
+-	"Board: BeagleBoard x15\n"
++	"Board: UNKNOWN(BeagleBoard X15?) REV UNKNOWN\n"
+ };
+ 
+ static const struct dmm_lisa_map_regs beagle_x15_lisa_regs = {
+@@ -246,6 +252,66 @@ struct vcores_data beagle_x15_volts = {
+ 	.iva.pmic		= &tps659038,
+ };
+ 
++#ifdef CONFIG_SPL_BUILD
++/* No env to setup for SPL */
++static inline void setup_board_eeprom_env(void) { }
++
++/* Override function to read eeprom information */
++void do_board_detect(void)
++{
++	int rc;
++
++	rc = ti_i2c_eeprom_am_get(CONFIG_EEPROM_BUS_ADDRESS,
++				  CONFIG_EEPROM_CHIP_ADDRESS);
++	if (rc)
++		printf("ti_i2c_eeprom_init failed %d\n", rc);
++}
++
++#else	/* CONFIG_SPL_BUILD */
++
++/* Override function to read eeprom information: actual i2c read done by SPL*/
++void do_board_detect(void)
++{
++	char *bname = NULL;
++	int rc;
++
++	rc = ti_i2c_eeprom_am_get(CONFIG_EEPROM_BUS_ADDRESS,
++				  CONFIG_EEPROM_CHIP_ADDRESS);
++	if (rc)
++		printf("ti_i2c_eeprom_init failed %d\n", rc);
++
++	if (board_is_x15())
++		bname = "BeagleBoard X15";
++	else if (board_is_am572x_evm())
++		bname = "AM572x EVM";
++
++	if (bname)
++		snprintf(sysinfo.board_string, SYSINFO_BOARD_NAME_MAX_LEN,
++			 "Board: %s REV %s\n", bname, board_ti_get_rev());
++}
++
++static void setup_board_eeprom_env(void)
++{
++	char *name = "beagle_x15";
++	int rc;
++
++	rc = ti_i2c_eeprom_am_get(CONFIG_EEPROM_BUS_ADDRESS,
++				  CONFIG_EEPROM_CHIP_ADDRESS);
++	if (rc)
++		goto invalid_eeprom;
++
++	if (board_is_am572x_evm())
++		name = "am57xx_evm";
++	else
++		printf("Unidentified board claims %s in eeprom header\n",
++		       board_ti_get_name());
++
++invalid_eeprom:
++	set_board_info_env(name);
++}
++
++#endif	/* CONFIG_SPL_BUILD */
++
+ void hw_data_init(void)
+ {
+ 	*prcm = &dra7xx_prcm;
+@@ -265,6 +331,8 @@ int board_init(void)
+ int board_late_init(void)
+ {
+ 	init_sata(0);
++	setup_board_eeprom_env();
++
+ 	/*
+ 	 * DEV_CTRL.DEV_ON = 1 please - else palmas switches off in 8 seconds
+ 	 * This is the POWERHOLD-in-Low behavior.
+diff --git a/include/configs/am57xx_evm.h b/include/configs/am57xx_evm.h
+index 6308cab..1fffdb1 100644
+--- a/include/configs/am57xx_evm.h
++++ b/include/configs/am57xx_evm.h
+@@ -88,4 +88,8 @@
+ #define CONFIG_SYS_SCSI_MAX_DEVICE	(CONFIG_SYS_SCSI_MAX_SCSI_ID * \
+ 						CONFIG_SYS_SCSI_MAX_LUN)
+ 
++/* EEPROM */
++#define CONFIG_EEPROM_CHIP_ADDRESS 0x50
++#define CONFIG_EEPROM_BUS_ADDRESS 0
++
+ #endif /* __CONFIG_AM57XX_EVM_H */
+diff --git a/include/configs/ti_omap5_common.h b/include/configs/ti_omap5_common.h
+index d164e6a..d373cbc 100644
+--- a/include/configs/ti_omap5_common.h
++++ b/include/configs/ti_omap5_common.h
+@@ -117,6 +117,8 @@
+ 			"setenv fdtfile dra72-evm.dtb; fi;" \
+ 		"if test $board_name = beagle_x15; then " \
+ 			"setenv fdtfile am57xx-beagle-x15.dtb; fi;" \
++		"if test $board_name = am57xx_evm; then " \
++			"setenv fdtfile am57xx-beagle-x15.dtb; fi;" \
+ 		"if test $fdtfile = undefined; then " \
+ 			"echo WARNING: Could not determine device tree to use; fi; \0" \
+ 	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
+-- 
+2.1.4
+
