@@ -2,7 +2,7 @@ Index: u-boot/include/configs/am335x_evm.h
 ===================================================================
 --- u-boot.orig/include/configs/am335x_evm.h
 +++ u-boot/include/configs/am335x_evm.h
-@@ -338,12 +338,8 @@
+@@ -312,12 +312,8 @@
  #endif
  
  #ifdef CONFIG_USB_MUSB_GADGET
@@ -14,6 +14,6 @@ Index: u-boot/include/configs/am335x_evm.h
 -#endif /* CONFIG_DM_ETH */
 +#define CONFIG_CMD_USB_MASS_STORAGE
 +#define CONFIG_USB_FUNCTION_MASS_STORAGE
+ #endif /* CONFIG_USB_MUSB_GADGET */
  
- /* USB TI's IDs */
- #define CONFIG_G_DNL_VENDOR_NUM 0x0451
+ /*
