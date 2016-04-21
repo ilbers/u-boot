@@ -145,8 +145,6 @@
 /* SerDes */
 #define CONFIG_TI_KEYSTONE_SERDES
 
-/* AEMIF */
-#define CONFIG_TI_AEMIF
 #define CONFIG_AEMIF_CNTRL_BASE		KS2_AEMIF_CNTRL_BASE
 
 /* I2C Configuration */
@@ -210,7 +208,6 @@
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_SAVES
-#define CONFIG_CMD_NAND
 #define CONFIG_CMD_UBI
 #define CONFIG_CMD_UBIFS
 #define CONFIG_CMD_SF

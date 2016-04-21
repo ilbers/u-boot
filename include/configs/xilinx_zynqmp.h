@@ -17,7 +17,6 @@
 
 #define CONFIG_SYS_NO_FLASH
 
-
 /* Generic Interrupt Controller Definitions */
 #define CONFIG_GICV2
 #define GICD_BASE	0xF9010000
@@ -43,8 +42,6 @@
 #endif
 
 #define CONFIG_SYS_INIT_SP_ADDR		CONFIG_SYS_TEXT_BASE
-
-/* Flat Device Tree Definitions */
 
 /* Generic Timer Definitions - setup in EL3. Setup by ATF for other cases */
 #if !defined(COUNTER_FREQUENCY)
@@ -125,20 +122,10 @@
 #define CONFIG_USB_STORAGE
 #define CONFIG_USB_XHCI_ZYNQMP
 
-#define CONFIG_USB_DWC3
-#define CONFIG_USB_DWC3_GADGET
-
-#define CONFIG_USB_GADGET_DOWNLOAD
-#define CONFIG_USB_GADGET_DUALSPEED
-#define CONFIG_USB_GADGET_VBUS_DRAW	2
-#define CONFIG_USBDOWNLOAD_GADGET
 #define CONFIG_SYS_DFU_DATA_BUF_SIZE	0x1800000
 #define DFU_DEFAULT_POLL_TIMEOUT	300
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_RAM
-#define CONFIG_G_DNL_VENDOR_NUM		0x03FD
-#define CONFIG_G_DNL_PRODUCT_NUM	0x0300
-#define CONFIG_G_DNL_MANUFACTURER	"Xilinx"
 #define CONFIG_USB_CABLE_CHECK
 #define CONFIG_CMD_DFU
 #define CONFIG_CMD_THOR_DOWNLOAD
@@ -165,8 +152,7 @@
 	"kernel_addr=0x80000\0" \
 	"fdt_addr=0x7000000\0" \
 	"fdt_high=0x10000000\0" \
-	"kernel_size=0x2000000\0" \
-	"fdt_size=0x80000\0" \
+	CONFIG_KERNEL_FDT_OFST_SIZE \
 	"sdbootdev=0\0"\
 	"sdboot=mmc dev $sdbootdev && mmcinfo && load mmc $sdbootdev:$partid $fdt_addr system.dtb && " \
 		"load mmc $sdbootdev:$partid $kernel_addr Image && " \
