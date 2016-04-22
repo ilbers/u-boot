@@ -27,3 +27,5 @@ mx6cuboxi/serial_console_speed.patch
 am57xx/omap5_distro_bootcmd
 
 firefly/0001-Revert-rockchip-rk3288-correct-sdram-setting.patch
+
+imx_private_libgcc
