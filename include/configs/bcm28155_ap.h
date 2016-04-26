@@ -114,7 +114,6 @@
 /* version string, parser, etc */
 #define CONFIG_VERSION_VARIABLE
 #define CONFIG_AUTO_COMPLETE
-#define CONFIG_SYS_HUSH_PARSER
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_SYS_LONGHELP
 
@@ -125,12 +124,6 @@
 #define CONFIG_BOOTCOMMAND		""
 
 /* Commands */
-#define CONFIG_CMD_ASKENV
-#define CONFIG_CMD_CACHE
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_I2C
-#define CONFIG_CMD_MMC
-#define CONFIG_CMD_BOOTZ
 #define CONFIG_FAT_WRITE
 
 /* Fastboot and USB OTG */

@@ -26,8 +26,6 @@
 #define CONFIG_ENV_SIZE			(0x2000)
 #define CONFIG_SYS_MALLOC_LEN		(16 * 1024 * 1024)
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser */
-#define CONFIG_SYS_PROMPT_HUSH_PS2	"> "
 #define CONFIG_BOARD_LATE_INIT
 #define CONFIG_SYS_NO_FLASH
 #ifdef CONFIG_SIEMENS_MACH_TYPE
@@ -41,10 +39,6 @@
 #define CONFIG_SYS_CACHELINE_SIZE       64
 
 /* commands to include */
-#define CONFIG_CMD_ASKENV
-#define CONFIG_CMD_CACHE
-#define CONFIG_CMD_TIME
-
 
 #define CONFIG_ENV_VARS_UBOOT_CONFIG
 #ifndef CONFIG_SPL_BUILD
@@ -89,15 +83,11 @@
 #define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_OMAP_HSMMC
-#define CONFIG_CMD_MMC
 #define CONFIG_DOS_PARTITION
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_EXT2
 
 #define CONFIG_SPI
 #define CONFIG_OMAP3_SPI
 #define CONFIG_MTD_DEVICE
-#define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED		(75000000)
 
  /* Physical Memory Map */
@@ -126,7 +116,6 @@
 
 /* I2C Configuration */
 #define CONFIG_I2C
-#define CONFIG_CMD_I2C
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_OMAP24_I2C_SPEED	100000
 #define CONFIG_SYS_OMAP24_I2C_SLAVE	1
@@ -224,14 +213,12 @@
 #define CONFIG_USB_MUSB_PIO_ONLY
 #define CONFIG_USB_MUSB_DISABLE_BULK_COMBINE_SPLIT
 #undef CONFIG_USB_GADGET_DUALSPEED
-#define CONFIG_USB_MUSB_HOST
 
 #define CONFIG_AM335X_USB0
 #define CONFIG_AM335X_USB0_MODE	MUSB_PERIPHERAL
 #define CONFIG_AM335X_USB1
 #define CONFIG_AM335X_USB1_MODE MUSB_HOST
 #ifdef CONFIG_USB_MUSB_HOST
-#define CONFIG_CMD_USB
 #define CONFIG_USB_STORAGE
 #endif
 
@@ -247,7 +234,6 @@
 /* USB Device Firmware Update support */
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_NAND
-#define CONFIG_CMD_DFU
 #define CONFIG_SYS_DFU_DATA_BUF_SIZE	(1 << 20)
 #define DFU_MANIFEST_POLL_TIMEOUT	25000
 
@@ -276,13 +262,10 @@
 /* Unsupported features */
 #undef CONFIG_USE_IRQ
 
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_PING
 #define CONFIG_DRIVER_TI_CPSW
 #define CONFIG_MII
 #define CONFIG_PHY_GIGE
 #define CONFIG_PHYLIB
-#define CONFIG_CMD_MII
 #define CONFIG_BOOTP_DEFAULT
 #define CONFIG_BOOTP_DNS
 #define CONFIG_BOOTP_DNS2
@@ -494,7 +477,6 @@
 					"512k(mtdoops)," \
 					"-(rootfs)"
 
-
 #define DFU_ALT_INFO_NAND_V2 \
 	"spl part 0 1;" \
 	"spl.backup1 part 0 2;" \
@@ -585,7 +567,6 @@
 					"300m(rootfs),"		\
 					"512k(mtdoops),"	\
 					"-(configuration)"
-
 
 #define CONFIG_NAND_OMAP_GPMC
 #define CONFIG_NAND_OMAP_ELM

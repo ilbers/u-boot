@@ -69,12 +69,9 @@
 #define CONFIG_USBD_MANUFACTURER	"Texas Instruments"
 #define CONFIG_USBD_PRODUCT_NAME	"IGEP"
 
-#define CONFIG_CMD_CACHE
 #ifdef CONFIG_BOOT_ONENAND
 #define CONFIG_CMD_ONENAND	/* ONENAND support		*/
 #endif
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_PING
 
 #ifndef CONFIG_SPL_BUILD
 
@@ -93,7 +90,6 @@
 	func(MMC, mmc, 0)
 
 #include <config_distro_bootcmd.h>
-
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	ENV_DEVICE_SETTINGS \

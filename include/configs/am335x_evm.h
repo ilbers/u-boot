@@ -287,7 +287,6 @@
 #define CONFIG_ARCH_MISC_INIT
 #define CONFIG_USB_MUSB_PIO_ONLY
 #define CONFIG_USB_MUSB_DISABLE_BULK_COMBINE_SPLIT
-#define CONFIG_USB_MUSB_HOST
 #define CONFIG_AM335X_USB0
 #define CONFIG_AM335X_USB0_MODE	MUSB_PERIPHERAL
 #define CONFIG_AM335X_USB1
@@ -307,7 +306,6 @@
 #endif
 
 #ifdef CONFIG_USB_MUSB_HOST
-#define CONFIG_CMD_USB
 #define CONFIG_USB_STORAGE
 #endif
 
@@ -337,7 +335,6 @@
 #define CONFIG_ENV_IS_NOWHERE
 #undef CONFIG_ENV_IS_IN_NAND
 /* disable host part of MUSB in SPL */
-#undef CONFIG_USB_MUSB_HOST
 /* disable EFI partitions and partition UUID support */
 #undef CONFIG_PARTITION_UUIDS
 #undef CONFIG_EFI_PARTITION
@@ -351,7 +348,6 @@
 #ifndef CONFIG_SPL_BUILD
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_MMC
-#define CONFIG_CMD_DFU
 #define DFU_ALT_INFO_MMC \
 	"dfu_alt_info_mmc=" \
 	"boot part 0 1;" \
@@ -433,7 +429,6 @@
 #endif
 
 /* SPI flash. */
-#define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED		24000000
 
 /* Network. */

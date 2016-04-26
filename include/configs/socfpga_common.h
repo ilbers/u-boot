@@ -6,7 +6,6 @@
 #ifndef __CONFIG_SOCFPGA_COMMON_H__
 #define __CONFIG_SOCFPGA_COMMON_H__
 
-
 /* Virtual target or real hardware */
 #undef CONFIG_SOCFPGA_VIRTUAL_TARGET
 
@@ -68,7 +67,6 @@
 #define CONFIG_VERSION_VARIABLE			/* U-BOOT version */
 #define CONFIG_AUTO_COMPLETE			/* Command auto complete */
 #define CONFIG_CMDLINE_EDITING			/* Command history etc */
-#define CONFIG_SYS_HUSH_PARSER
 
 #ifndef CONFIG_SYS_HOSTNAME
 #define CONFIG_SYS_HOSTNAME	CONFIG_SYS_BOARD
@@ -90,8 +88,6 @@
  * EPCS/EPCQx1 Serial Flash Controller
  */
 #ifdef CONFIG_ALTERA_SPI
-#define CONFIG_CMD_SPI
-#define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED		30000000
 /*
  * The base address is configurable in QSys, each board must specify the
@@ -198,7 +194,6 @@
 unsigned int cm_get_l4_sp_clk_hz(void);
 #define IC_CLK				(cm_get_l4_sp_clk_hz() / 1000000)
 #endif
-#define CONFIG_CMD_I2C
 
 /*
  * QSPI support
@@ -217,12 +212,10 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 #define CONFIG_CQSPI_REF_CLK		cm_get_qspi_controller_clk_hz()
 #endif
 #define CONFIG_CQSPI_DECODER		0
-#define CONFIG_CMD_SF
 
 /*
  * Designware SPI support
  */
-#define CONFIG_CMD_SPI
 
 /*
  * Serial Driver

@@ -88,8 +88,6 @@
 #define CONFIG_SYS_I2C_OMAP34XX
 #define CONFIG_I2C_MULTI_BUS
 
-#define CONFIG_CMD_I2C
-
 /*
  * Flash
  */
@@ -103,8 +101,6 @@
 #define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_OMAP_HSMMC
-
-#define CONFIG_CMD_MMC
 
 /*
  * Power
@@ -169,7 +165,6 @@
 #define CONFIG_AUTO_COMPLETE
 
 #define CONFIG_SYS_LONGHELP
-#define CONFIG_SYS_HUSH_PARSER
 
 #define CONFIG_SYS_MAXARGS	16
 #define CONFIG_SYS_CBSIZE	512

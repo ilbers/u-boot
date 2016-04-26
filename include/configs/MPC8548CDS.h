@@ -132,7 +132,6 @@ extern unsigned long get_clock_freq(void);
  *
  */
 
-
 /*
  * Local Bus Definitions
  */
@@ -331,9 +330,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_SYS_NS16550_COM1	(CONFIG_SYS_CCSRBAR+0x4500)
 #define CONFIG_SYS_NS16550_COM2	(CONFIG_SYS_CCSRBAR+0x4600)
 
-/* Use the HUSH parser */
-#define CONFIG_SYS_HUSH_PARSER
-
 /*
  * I2C
  */
@@ -424,7 +420,6 @@ extern unsigned long get_clock_freq(void);
 
 #endif	/* CONFIG_PCI */
 
-
 #if defined(CONFIG_TSEC_ENET)
 
 #define CONFIG_MII		1	/* MII PHY management */
@@ -482,20 +477,15 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_I2C
-#define CONFIG_CMD_MII
 #define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_PCI)
     #define CONFIG_CMD_PCI
 #endif
-
 
 #undef CONFIG_WATCHDOG			/* watchdog disabled */
 
@@ -584,7 +574,6 @@ extern unsigned long get_clock_freq(void);
    "tftp $loadaddr $bootfile;"						\
    "tftp $fdtaddr $fdtfile;"						\
    "bootm $loadaddr - $fdtaddr"
-
 
 #define CONFIG_RAMBOOTCOMMAND \
    "setenv bootargs root=/dev/ram rw "					\

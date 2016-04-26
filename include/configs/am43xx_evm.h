@@ -11,8 +11,6 @@
 
 #define CONFIG_AM43XX
 
-#define CONFIG_CMD_FAT
-
 #define CONFIG_BOARD_LATE_INIT
 #define CONFIG_ARCH_CPU_INIT
 #define CONFIG_SYS_CACHELINE_SIZE       32
@@ -109,7 +107,6 @@
 
 #if defined(CONFIG_SPL_USB_HOST_SUPPORT) || !defined(CONFIG_SPL_BUILD)
 #define CONFIG_SYS_USB_FAT_BOOT_PARTITION		1
-#define CONFIG_CMD_USB
 #define CONFIG_USB_HOST
 #define CONFIG_USB_XHCI
 #define CONFIG_USB_XHCI_DWC3
@@ -150,7 +147,6 @@
 /* USB Device Firmware Update support */
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_RAM
-#define CONFIG_CMD_DFU
 
 #define CONFIG_DFU_MMC
 #define DFU_ALT_INFO_MMC \
@@ -221,8 +217,6 @@
 
 /* SPI */
 #undef CONFIG_OMAP3_SPI
-#define CONFIG_CMD_SF
-#define CONFIG_CMD_SPI
 #define CONFIG_TI_SPI_MMAP
 #define CONFIG_QSPI_SEL_GPIO                   48
 #define CONFIG_SF_DEFAULT_SPEED                48000000
@@ -323,9 +317,6 @@
 
 #ifndef CONFIG_SPL_BUILD
 /* CPSW Ethernet */
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_MII
 #define CONFIG_MII
 #define CONFIG_BOOTP_DEFAULT
 #define CONFIG_BOOTP_DNS

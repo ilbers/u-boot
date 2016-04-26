@@ -73,16 +73,11 @@
 #define CONFIG_FSL_USDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR      0
 #define CONFIG_MMC
-#define CONFIG_CMD_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_BOUNCE_BUFFER
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_FAT
 #define CONFIG_DOS_PARTITION
 
 /* USB Configs */
-#define CONFIG_CMD_USB
-#define CONFIG_CMD_FAT
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_MX6
 #define CONFIG_USB_STORAGE
@@ -98,7 +93,6 @@
 #define CONFIG_USB_GADGET_DUALSPEED
 #define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_DOWNLOAD
-#define CONFIG_CMD_USB_MASS_STORAGE
 #define CONFIG_USB_GADGET_MASS_STORAGE
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
 #define CONFIG_USB_GADGET_VBUS_DRAW 2
@@ -107,9 +101,6 @@
 #define CONFIG_G_DNL_MANUFACTURER "Advantech"
 
 /* Networking Configs */
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
 #define IMX_FEC_BASE			ENET_BASE_ADDR
@@ -120,7 +111,6 @@
 #define CONFIG_PHY_ATHEROS
 
 /* Serial Flash */
-#define CONFIG_CMD_SF
 #ifdef CONFIG_CMD_SF
 #define CONFIG_MXC_SPI
 #define CONFIG_SF_DEFAULT_BUS		0
@@ -136,8 +126,6 @@
 
 /* Command definition */
 #define CONFIG_CMD_BMODE
-#define CONFIG_CMD_BOOTZ
-#undef CONFIG_CMD_IMLS
 
 #define CONFIG_LOADADDR	0x12000000
 #define CONFIG_SYS_TEXT_BASE	0x17800000
@@ -260,8 +248,6 @@
 
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LONGHELP
-#define CONFIG_SYS_HUSH_PARSER
-#define CONFIG_SYS_PROMPT_HUSH_PS2     "> "
 #define CONFIG_AUTO_COMPLETE
 
 /* Print Buffer Size */
@@ -303,7 +289,6 @@
 #define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
 
 #ifndef CONFIG_SYS_DCACHE_OFF
-#define CONFIG_CMD_CACHE
 #endif
 
 #define CONFIG_SYS_FSL_USDHC_NUM	3
@@ -325,6 +310,9 @@
 #define CONFIG_IMX_HDMI
 #define CONFIG_IMX_VIDEO_SKIP
 
+#define CONFIG_PWM_IMX
+#define CONFIG_IMX6_PWM_PER_CLK	66000000
+
 #undef CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
 #define CONFIG_PCI
@@ -336,7 +324,6 @@
 #endif
 
 /* I2C Configs */
-#define CONFIG_CMD_I2C
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_MXC
 #define CONFIG_SYS_I2C_SPEED		  100000

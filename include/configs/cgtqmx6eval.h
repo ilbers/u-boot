@@ -41,7 +41,6 @@
 #define CONFIG_SYS_FSL_ESDHC_ADDR      0
 
 /* SPI NOR */
-#define CONFIG_CMD_SF
 #define CONFIG_SPI_FLASH
 #define CONFIG_SPI_FLASH_STMICRO
 #define CONFIG_SPI_FLASH_SST
@@ -57,7 +56,6 @@
 #define CONFIG_IMX_THERMAL
 
 /* I2C Configs */
-#define CONFIG_CMD_I2C
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_MXC
 #define CONFIG_SYS_I2C_MXC_I2C1		/* enable I2C bus 1 */
@@ -72,8 +70,6 @@
 #define CONFIG_POWER_PFUZE100_I2C_ADDR	0x08
 
 /* USB Configs */
-#define CONFIG_CMD_USB
-#define CONFIG_CMD_FAT
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_MX6
 #define CONFIG_USB_STORAGE
@@ -88,11 +84,9 @@
 
 #define CONFIG_USBD_HS
 
-#define CONFIG_CMD_USB_MASS_STORAGE
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
 
 /* USB Device Firmware Update support */
-#define CONFIG_CMD_DFU
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_MMC
 #define CONFIG_DFU_SF
@@ -133,9 +127,6 @@
 #define CONFIG_LIBATA
 
 /* Ethernet */
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
 #define IMX_FEC_BASE			ENET_BASE_ADDR

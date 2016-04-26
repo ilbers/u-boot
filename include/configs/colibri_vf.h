@@ -43,7 +43,6 @@
 #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 #define CONFIG_VERSION_VARIABLE
 #define CONFIG_BAUDRATE			115200
-#define CONFIG_CMD_ASKENV
 
 /* NAND support */
 #define CONFIG_CMD_NAND
@@ -69,23 +68,15 @@
 
 #define CONFIG_SYS_FSL_ERRATUM_ESDHC111
 
-#define CONFIG_CMD_MMC
 #define CONFIG_GENERIC_MMC
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_EXT4
 #define CONFIG_DOS_PARTITION
 
 #define CONFIG_RBTREE
 #define CONFIG_LZO
-#define CONFIG_CMD_FS_GENERIC
-#define CONFIG_CMD_BOOTZ
 #define CONFIG_CMD_UBI
 #define CONFIG_MTD_UBI_FASTMAP
 #define CONFIG_CMD_UBIFS	/* increases size by almost 60 KB */
 
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
 #define IMX_FEC_BASE			ENET1_BASE_ADDR
@@ -166,8 +157,6 @@
 
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser */
-#define CONFIG_SYS_PROMPT_HUSH_PS2	"> "
 #undef CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		1024	/* Console I/O Buffer Size */
 #define CONFIG_SYS_PBSIZE		\
@@ -175,7 +164,6 @@
 #define CONFIG_SYS_MAXARGS		16	/* max number of command args */
 #define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
-#define CONFIG_CMD_MEMTEST
 #define CONFIG_SYS_MEMTEST_START	0x80010000
 #define CONFIG_SYS_MEMTEST_END		0x87C00000
 
@@ -218,14 +206,11 @@
 #define CONFIG_ENV_OFFSET		(12 * 64 * 2048)
 #endif
 
-#define CONFIG_CMD_BOOTZ
-
 #define CONFIG_SYS_NO_FLASH
 
 #define CONFIG_SYS_CACHELINE_SIZE 32
 
 /* USB Host Support */
-#define CONFIG_CMD_USB
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_VF
 #define CONFIG_USB_MAX_CONTROLLER_COUNT 2
@@ -239,7 +224,6 @@
 #define CONFIG_TRDX_PID_COLIBRI_VF50IT   0x0019
 
 /* USB DFU */
-#define CONFIG_CMD_DFU
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_NAND
 #define CONFIG_DFU_MMC
@@ -248,6 +232,5 @@
 /* USB Storage */
 #define CONFIG_USB_STORAGE
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
-#define CONFIG_CMD_USB_MASS_STORAGE
 
 #endif /* __CONFIG_H */

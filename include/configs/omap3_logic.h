@@ -64,13 +64,8 @@
 
 /* commands to include */
 #define CONFIG_CMD_NAND
-#define CONFIG_CMD_CACHE
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_FAT
 #define CONFIG_CMD_MTDPARTS
 #define CONFIG_CMD_NAND_LOCK_UNLOCK	/* nand (un)lock commands	*/
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
 
 /* I2C */
 #define CONFIG_SYS_I2C_OMAP34XX
@@ -283,7 +278,6 @@
 #define CONFIG_SYS_ENV_SECT_SIZE	(128 << 10)	/* 128 KiB */
 #define CONFIG_ENV_OFFSET		SMNAND_ENV_OFFSET
 #define CONFIG_ENV_ADDR			SMNAND_ENV_OFFSET
-
 
 /* SMSC922x Ethernet */
 #if defined(CONFIG_CMD_NET)

@@ -7,14 +7,12 @@
 #ifndef __LS2_COMMON_H
 #define __LS2_COMMON_H
 
-
 #define CONFIG_REMAKE_ELF
 #define CONFIG_FSL_LAYERSCAPE
 #define CONFIG_FSL_LSCH3
 #define CONFIG_MP
 #define CONFIG_GICV3
 #define CONFIG_FSL_TZPC_BP147
-
 
 #include <asm/arch/ls2080a_stream_id.h>
 #include <asm/arch/config.h>
@@ -89,7 +87,6 @@
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + 2048 * 1024)
 
 /* I2C */
-#define CONFIG_CMD_I2C
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_MXC
 #define CONFIG_SYS_I2C_MXC_I2C1		/* enable I2C bus 1 */
@@ -213,12 +210,7 @@ unsigned long long get_qixis_addr(void);
 #define CONFIG_SYS_PCIE_MEM_SIZE	0x40000000	/* 1G */
 
 /* Command line configuration */
-#define CONFIG_CMD_CACHE
-#define CONFIG_CMD_DHCP
 #define CONFIG_CMD_ENV
-#define CONFIG_CMD_GREPENV
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_PING
 
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LOAD_ADDR	(CONFIG_SYS_DDR_SDRAM_BASE + 0x10000000)
@@ -267,8 +259,6 @@ unsigned long long get_qixis_addr(void);
 #define CONFIG_SYS_CBSIZE		512	/* Console I/O Buffer Size */
 #define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
 					sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_HUSH_PARSER
-#define CONFIG_SYS_PROMPT_HUSH_PS2	"> "
 #define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE /* Boot args buffer */
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_CMDLINE_EDITING		1
@@ -301,6 +291,5 @@ unsigned long long get_qixis_addr(void);
 #define CONFIG_SYS_MONITOR_LEN		(512 * 1024)
 
 #define CONFIG_SYS_BOOTM_LEN   (64 << 20)      /* Increase max gunzip size */
-
 
 #endif /* __LS2_COMMON_H */

@@ -20,7 +20,6 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-
 /* High Level Configuration Options */
 #define CONFIG_MPC8641		1	/* MPC8641 specific */
 #define CONFIG_SBC8641D		1	/* SBC8641D board specific */
@@ -66,7 +65,6 @@
 #define PAGE_INTERLEAVING		0x21000000
 #define BANK_INTERLEAVING		0x22000000
 #define SUPER_BANK_INTERLEAVING		0x23000000
-
 
 #define CONFIG_ALTIVEC          1
 
@@ -173,7 +171,6 @@
     #define CONFIG_SYS_DDR2_CLK_CTRL	0x03800000
     #define CONFIG_SYS_DDR2_CFG_1B	0xC3008008
 
-
 #endif
 
 /* #define CONFIG_ID_EEPROM	1
@@ -256,11 +253,6 @@
 
 #define CONFIG_SYS_NS16550_COM1        (CONFIG_SYS_CCSRBAR+0x4500)
 #define CONFIG_SYS_NS16550_COM2        (CONFIG_SYS_CCSRBAR+0x4600)
-
-/* Use the HUSH parser */
-#define CONFIG_SYS_HUSH_PARSER
-#ifdef  CONFIG_SYS_HUSH_PARSER
-#endif
 
 /*
  * I2C
@@ -472,8 +464,6 @@
 #define CONFIG_LOADS_ECHO	1	/* echo on for serial download */
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	1	/* allow baudrate change */
 
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_I2C
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_PCI)

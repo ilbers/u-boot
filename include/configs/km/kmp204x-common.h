@@ -255,9 +255,6 @@ unsigned long get_board_sys_clk(unsigned long dummy);
 
 #define CONFIG_KM_CONSOLE_TTY	"ttyS0"
 
-/* Use the HUSH parser */
-#define CONFIG_SYS_HUSH_PARSER
-
 /* I2C */
 
 #define CONFIG_SYS_I2C
@@ -288,7 +285,6 @@ int get_scl(void);
  * eSPI - Enhanced SPI
  */
 #define CONFIG_SPI_FLASH_BAR	/* 4 byte-addressing */
-#define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED         20000000
 #define CONFIG_SF_DEFAULT_MODE          0
 

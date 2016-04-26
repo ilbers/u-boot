@@ -62,11 +62,8 @@
 
 #define CONFIG_SYS_NO_FLASH		1
 
-#define CONFIG_CMD_CACHE
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_ONENAND
-#define CONFIG_CMD_MMC
-#define CONFIG_CMD_DFU
 #define CONFIG_CMD_GPT
 
 /* USB Composite download gadget - g_dnl */
@@ -195,7 +192,6 @@
 	"dfu_alt_info=" CONFIG_DFU_ALT "\0"
 
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser	*/
 #define CONFIG_SYS_CBSIZE	256	/* Console I/O Buffer Size */
 #define CONFIG_SYS_PBSIZE	384	/* Print Buffer Size */
 #define CONFIG_SYS_MAXARGS	16	/* max number of command args */
@@ -232,10 +228,6 @@
 
 #define CONFIG_DOS_PARTITION		1
 
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_EXT4
-#define CONFIG_CMD_EXT4_WRITE
-
 /* write support for filesystems */
 #define CONFIG_FAT_WRITE
 #define CONFIG_EXT4_WRITE
@@ -268,7 +260,6 @@
 
 #define CONFIG_SYS_MAX_I2C_BUS	7
 #define CONFIG_USB_GADGET_DWC2_OTG_PHY
-#define CONFIG_CMD_USB_MASS_STORAGE
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
 
 #endif	/* __CONFIG_H */

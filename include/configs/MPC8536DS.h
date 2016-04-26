@@ -156,7 +156,6 @@
 
 #undef CONFIG_CLOCKS_IN_MHZ
 
-
 /*
  * Memory map -- xxx -this is wrong, needs updating
  *
@@ -381,9 +380,6 @@
 #define CONFIG_SYS_NS16550_COM1	(CONFIG_SYS_CCSRBAR + 0x4500)
 #define CONFIG_SYS_NS16550_COM2	(CONFIG_SYS_CCSRBAR + 0x4600)
 
-/* Use the HUSH parser */
-#define CONFIG_SYS_HUSH_PARSER
-
 /*
  * I2C
  */
@@ -414,7 +410,6 @@
 #define CONFIG_HARD_SPI
 
 #if defined(CONFIG_SPI_FLASH)
-#define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED	10000000
 #define CONFIG_SF_DEFAULT_MODE	0
 #endif
@@ -554,7 +549,6 @@
 #define CONFIG_LBA48
 #define CONFIG_CMD_SATA
 #define CONFIG_DOS_PARTITION
-#define CONFIG_CMD_EXT2
 #endif
 
 #if defined(CONFIG_TSEC_ENET)
@@ -622,9 +616,6 @@
  * Command line configuration.
  */
 #define CONFIG_CMD_IRQ
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_I2C
-#define CONFIG_CMD_MII
 #define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
@@ -639,7 +630,6 @@
 #ifdef CONFIG_MMC
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
-#define CONFIG_CMD_MMC
 #define CONFIG_GENERIC_MMC
 #endif
 
@@ -651,7 +641,6 @@
 #define CONFIG_USB_EHCI
 
 #ifdef CONFIG_USB_EHCI
-#define CONFIG_CMD_USB
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_EHCI_FSL
 #define CONFIG_USB_STORAGE
@@ -659,8 +648,6 @@
 #endif
 
 #if defined(CONFIG_MMC) || defined(CONFIG_USB_EHCI)
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_FAT
 #define CONFIG_DOS_PARTITION
 #endif
 

@@ -71,7 +71,6 @@
 #define CONFIG_FASTBOOT_BUF_SIZE	0x07000000
 
 /* USB EHCI */
-#define CONFIG_CMD_USB
 #define CONFIG_USB_EHCI
 
 #define CONFIG_USB_EHCI_OMAP
@@ -88,9 +87,6 @@
 #define CONFIG_OMAP3_GPIO_6		/* GPIO160..191 is in GPIO bank 6 */
 
 /* commands to include */
-#define CONFIG_CMD_ASKENV
-
-#define CONFIG_CMD_CACHE
 
 #define MTDIDS_DEFAULT			"nand0=nand"
 #define MTDPARTS_DEFAULT		"mtdparts=nand:512k(x-loader),"\
@@ -100,7 +96,6 @@
 #define CONFIG_USB_STORAGE	/* USB storage support		*/
 #define CONFIG_CMD_NAND		/* NAND support			*/
 #define CONFIG_CMD_LED		/* LED support			*/
-#define CONFIG_CMD_DHCP
 
 #define CONFIG_VIDEO_OMAP3	/* DSS Support			*/
 

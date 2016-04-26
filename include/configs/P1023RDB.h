@@ -172,9 +172,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_SYS_NS16550_COM1	(CONFIG_SYS_CCSRBAR + 0x4500)
 #define CONFIG_SYS_NS16550_COM2	(CONFIG_SYS_CCSRBAR + 0x4600)
 
-/* Use the HUSH parser */
-#define CONFIG_SYS_HUSH_PARSER
-
 /* I2C */
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_FSL
@@ -195,8 +192,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_SYS_I2C_EEPROM_ADDR		0x50
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		1
 #define CONFIG_SYS_EEPROM_BUS_NUM		0
-
-#define CONFIG_CMD_I2C
 
 /*
  * General PCI
@@ -258,8 +253,6 @@ extern unsigned long get_clock_freq(void);
  * Command line configuration.
  */
 #define CONFIG_CMD_IRQ
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_MII
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_PCI)
@@ -274,13 +267,9 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_USB_EHCI
 
 #ifdef CONFIG_USB_EHCI
-#define CONFIG_CMD_USB
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_EHCI_FSL
 #define CONFIG_USB_STORAGE
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_FAT
 #define CONFIG_DOS_PARTITION
 #endif
 #endif

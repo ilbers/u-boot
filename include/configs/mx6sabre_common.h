@@ -24,9 +24,6 @@
 /* MMC Configs */
 #define CONFIG_SYS_FSL_ESDHC_ADDR      0
 
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
 #define IMX_FEC_BASE			ENET_BASE_ADDR
@@ -37,7 +34,6 @@
 #define CONFIG_PHYLIB
 #define CONFIG_PHY_ATHEROS
 
-#define CONFIG_CMD_SF
 #ifdef CONFIG_CMD_SF
 #define CONFIG_MXC_SPI
 #define CONFIG_SF_DEFAULT_BUS		0
@@ -167,7 +163,6 @@
 					"echo WARNING: Could not determine dtb to use; fi; " \
 			"fi;\0" \
 
-
 #define CONFIG_BOOTCOMMAND \
 	"run findfdt;" \
 	"mmc dev ${mmcdev};" \
@@ -236,7 +231,6 @@
 #ifndef CONFIG_SPL
 #define CONFIG_USBD_HS
 
-#define CONFIG_CMD_USB_MASS_STORAGE
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
 
 #define CONFIG_USB_FUNCTION_FASTBOOT
@@ -246,7 +240,6 @@
 #define CONFIG_FASTBOOT_BUF_SIZE   0x07000000
 
 /* USB Device Firmware Update support */
-#define CONFIG_CMD_DFU
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_MMC
 #define CONFIG_DFU_SF

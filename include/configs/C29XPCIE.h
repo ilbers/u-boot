@@ -100,7 +100,6 @@
 
 #define CONFIG_CMD_PCI
 
-
 /*
  * PCI Windows
  * Memory space is mapped 1-1, but I/O space must start from 0.
@@ -393,9 +392,6 @@
 #define CONFIG_SYS_NS16550_COM1	(CONFIG_SYS_CCSRBAR+0x4500)
 #define CONFIG_SYS_NS16550_COM2	(CONFIG_SYS_CCSRBAR+0x4600)
 
-/* Use the HUSH parser */
-#define CONFIG_SYS_HUSH_PARSER
-
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_FSL
 #define CONFIG_SYS_FSL_I2C_SPEED	400000
@@ -412,10 +408,7 @@
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 3
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 5
 
-#define CONFIG_CMD_I2C
-
 /* eSPI - Enhanced SPI */
-#define CONFIG_CMD_SF
 #define CONFIG_SF_DEFAULT_SPEED		10000000
 #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_0
 
@@ -478,8 +471,6 @@
  */
 #define CONFIG_CMD_ERRATA
 #define CONFIG_CMD_IRQ
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
 
 /* Hash command with SHA acceleration supported in hardware */

@@ -16,7 +16,6 @@
 #endif
 
 /* Cache options */
-#define CONFIG_CMD_CACHE
 #define CONFIG_SYS_CACHELINE_SIZE	32
 
 #define CONFIG_SYS_L2CACHE_OFF
@@ -55,14 +54,12 @@
 
 /* SPI */
 #ifdef CONFIG_ZYNQ_SPI
-# define CONFIG_CMD_SF
 #endif
 
 /* QSPI */
 #ifdef CONFIG_ZYNQ_QSPI
 # define CONFIG_SF_DEFAULT_SPEED	30000000
 # define CONFIG_SPI_FLASH_ISSI
-# define CONFIG_CMD_SF
 #endif
 
 /* NOR */
@@ -86,13 +83,11 @@
 # define CONFIG_MMC
 # define CONFIG_GENERIC_MMC
 # define CONFIG_SDHCI
-# define CONFIG_CMD_MMC
 # define CONFIG_ZYNQ_SDHCI_MAX_FREQ	52000000
 #endif
 
 #ifdef CONFIG_ZYNQ_USB
 # define CONFIG_USB_EHCI
-# define CONFIG_CMD_USB
 # define CONFIG_USB_STORAGE
 # define CONFIG_USB_EHCI_ZYNQ
 # define CONFIG_EHCI_IS_TDI
@@ -103,7 +98,6 @@
 # define CONFIG_USB_FUNCTION_DFU
 # define CONFIG_DFU_RAM
 # define CONFIG_USB_CABLE_CHECK
-# define CONFIG_CMD_DFU
 # define CONFIG_CMD_THOR_DOWNLOAD
 # define CONFIG_THOR_RESET_OFF
 # define CONFIG_USB_FUNCTION_THOR
@@ -142,13 +136,8 @@
 
 #if defined(CONFIG_ZYNQ_SDHCI) || defined(CONFIG_ZYNQ_USB)
 # define CONFIG_SUPPORT_VFAT
-# define CONFIG_CMD_FAT
-# define CONFIG_CMD_EXT2
 # define CONFIG_FAT_WRITE
 # define CONFIG_DOS_PARTITION
-# define CONFIG_CMD_EXT4
-# define CONFIG_CMD_EXT4_WRITE
-# define CONFIG_CMD_FS_GENERIC
 #endif
 
 #if defined(CONFIG_ZYNQ_I2C0) || defined(CONFIG_ZYNQ_I2C1)
@@ -157,7 +146,6 @@
 
 /* I2C */
 #if defined(CONFIG_SYS_I2C_ZYNQ)
-# define CONFIG_CMD_I2C
 # define CONFIG_SYS_I2C
 # define CONFIG_SYS_I2C_ZYNQ_SPEED		100000
 # define CONFIG_SYS_I2C_ZYNQ_SLAVE		0
@@ -252,7 +240,6 @@
 #define CONFIG_SYS_LOAD_ADDR		0 /* default? */
 
 /* Miscellaneous configurable options */
-#define CONFIG_SYS_HUSH_PARSER
 
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_AUTO_COMPLETE
@@ -308,10 +295,6 @@
 #define CONFIG_SYS_LDSCRIPT  "arch/arm/mach-zynq/u-boot.lds"
 
 /* Commands */
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_TFTPPUT
 
 /* SPL part */
 #define CONFIG_CMD_SPL
@@ -396,6 +379,5 @@
 #define CONFIG_SPL_BSS_MAX_SIZE		0x100000
 
 #define CONFIG_SYS_UBOOT_START	CONFIG_SYS_TEXT_BASE
-
 
 #endif /* __CONFIG_ZYNQ_COMMON_H */
