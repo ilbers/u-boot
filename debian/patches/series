@@ -29,3 +29,5 @@ am57xx/omap5_distro_bootcmd
 firefly/0001-Revert-rockchip-rk3288-correct-sdram-setting.patch
 
 imx_private_libgcc
+
+0001-Revert-ti_armv7_common.h-Fix-U-Boot-location-on-eMMC.patch
