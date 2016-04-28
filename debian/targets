@@ -32,6 +32,9 @@ armhf	exynos		arndale		u-boot-dtb.bin spl/arndale-spl.bin
 # Joost van Zwieten <joostvanzwieten@gmail.com>, Odroid-U3
 armhf	exynos		odroid		u-boot-dtb.bin
 
+# Vagrant Cascadian <vagrant@debian.org>, Odroid-XU4
+armhf	exynos		odroid-xu3	u-boot-dtb.bin
+
 # Robert Nelson <robertcnelson@gmail.com>
 armhf	imx		mx53loco	u-boot.imx
 
