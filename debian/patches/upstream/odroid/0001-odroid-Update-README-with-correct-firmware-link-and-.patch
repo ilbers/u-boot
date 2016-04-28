@@ -1,0 +1,75 @@
+From 3af65c3f55442f5a48e1657ec9e3fafffd7be0bc Mon Sep 17 00:00:00 2001
+From: Shawn Guo <shawnguo@kernel.org>
+Date: Fri, 8 Apr 2016 11:06:42 +0800
+Subject: [PATCH 001/156] odroid: Update README with correct firmware link and
+ XU4 support
+
+The firmware from link [1] only works with U-Boot image that is no
+bigger than 328KiB.  Using it with the default mainline U-Boot today
+which is already around 500KiB is just not working.  Correct the link
+to be hardkernel_1mb_uboot one [2], so that users can get mainline
+U-Boot work out of box.
+
+While at it, the README is updated to include XU4 support, like DTB file
+name.
+
+[1] https://github.com/hardkernel/u-boot/tree/odroidxu3-v2012.07/sd_fuse/hardkernel
+[2] https://github.com/hardkernel/u-boot/tree/odroidxu3-v2012.07/sd_fuse/hardkernel_1mb_uboot
+
+Signed-off-by: Shawn Guo <shawnguo@kernel.org>
+Acked-by: Przemyslaw Marczak <p.marczak@samsung.com>
+Reviewed-by: Anand Moon <linux.amoon@gmail.com>
+Signed-off-by: Minkyu Kang <mk7.kang@samsung.com>
+---
+ doc/README.odroid | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/doc/README.odroid b/doc/README.odroid
+index ef243d1..c088ec4 100644
+--- a/doc/README.odroid
++++ b/doc/README.odroid
+@@ -1,11 +1,11 @@
+- U-Boot for Odroid X2/U3/XU3
++ U-Boot for Odroid X2/U3/XU3/XU4
+ ========================
+ 
+ 1. Summary
+ ==========
+ This is a quick instruction for setup Odroid boards.
+ Board config: odroid_config for X2/U3
+-Board config: odroid-xu3_config for XU3
++Board config: odroid-xu3_config for XU3/XU4
+ 
+ 2. Supported devices
+ ====================
+@@ -14,6 +14,7 @@ This U-BOOT config can be used on three boards:
+ - Odroid X2
+ with CPU Exynos 4412 rev 2.0 and 2GB of RAM
+ - Odroid XU3
++- Odroid XU4
+ with CPU Exynos5422 and 2GB of RAM
+ 
+ 3. Boot sequence
+@@ -29,9 +30,9 @@ http://dev.odroid.com/projects/4412boot/wiki/FrontPage?action=download&value=boo
+ or here:
+ http://odroid.in/guides/ubuntu-lfs/boot.tar.gz
+ 
+-<< XU3 >>
++<< XU3/XU4 >>
+ It can be downloaded from:
+-https://github.com/hardkernel/u-boot/tree/odroidxu3-v2012.07/sd_fuse/hardkernel
++https://github.com/hardkernel/u-boot/tree/odroidxu3-v2012.07/sd_fuse/hardkernel_1mb_uboot
+ 
+ 
+ 4. Boot media layout
+@@ -120,6 +121,7 @@ Supported fdt files are:
+ - exynos4412-odroidx2.dtb
+ - exynos4412-odroidu3.dtb
+ - exynos5422-odroidxu3.dtb
++- exynos5422-odroidxu4.dtb
+ 
+ Supported kernel files are:
+ - Image.itb
+-- 
+2.1.4
+
