@@ -1,3 +1,24 @@
+u-boot (2016.05~rc3+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Update debian/patches for 2016.05-rc3.
+  * u-boot-rockchip:
+    - Revert upstream patch to fix detected ram size on Firefly boards.
+  * u-boot-imx:
+    - Add patch to fix FTBFS by using u-boot's private libgcc.
+  * u-boot-tools:
+    - Add fw_env.config for openrd (Closes: #821056).
+      Thanks to Rick Thomas.
+  * u-boot-omap:
+    - Revert upstream patch changing the default offsets for loading
+      u-boot from eMMC.
+  * u-boot-exynos:
+    - Add odroid-xu3 target, tested on Odroid-XU4.
+    - Add patch from upstream with updated documentation about Odroid-XU4
+      target.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sat, 30 Apr 2016 18:53:04 -0700
+
 u-boot (2016.03+dfsg1-4) unstable; urgency=medium
 
   * Add patch to fix detected ram size on Firefly boards by reverting
