@@ -6,11 +6,13 @@
 u-boot-rpi [armel]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/rpi/uboot.elf
 u-boot-rpi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/rpi_2/uboot.elf
 u-boot-rpi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/rpi_3_32b/uboot.elf
+u-boot-rpi [arm64]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/rpi_3/uboot.elf
 
 # These bootloaders need to be statically linked.
 u-boot-rpi [armel]: statically-linked-binary usr/lib/u-boot/rpi/uboot.elf
 u-boot-rpi [armhf]: statically-linked-binary usr/lib/u-boot/rpi_2/uboot.elf
 u-boot-rpi [armhf]: statically-linked-binary usr/lib/u-boot/rpi_3_32b/uboot.elf
+u-boot-rpi [arm64]: statically-linked-binary usr/lib/u-boot/rpi_3/uboot.elf
 
 u-boot-rpi: description-synopsis-starts-with-article
 
