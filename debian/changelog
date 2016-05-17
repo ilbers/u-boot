@@ -1,3 +1,19 @@
+u-boot (2016.05+dfsg1-1) experimental; urgency=medium
+
+  * New upstream version.
+
+  [ Ryan Finnie ]
+  * u-boot-rpi: Add rpi_3, rpi_3_32b target (Closes: #823524).
+  * u-boot-rpi: Add arm64 arch.
+ 
+  [ Vagrant Cascadian ]
+  * Remove patches applied upstream:
+   - Revert-ti_armv7_common.h-Fix-U-Boot-location-on-eMMC.patch
+   - Revert-rockchip-rk3288-correct-sdram-setting.patch
+   - odroid-Update-README-with-correct-firmware-link-and-.patch
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 17 May 2016 13:03:11 -0700
+
 u-boot (2016.05~rc3+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
