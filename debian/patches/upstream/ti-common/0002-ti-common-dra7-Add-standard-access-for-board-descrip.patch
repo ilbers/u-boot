@@ -1,0 +1,198 @@
+From d3b98a9eb9415578c563ed3a989fefeaa1ec9d6d Mon Sep 17 00:00:00 2001
+From: Lokesh Vutla <lokeshvutla@ti.com>
+Date: Tue, 8 Mar 2016 09:18:04 +0530
+Subject: [PATCH 2/2] ti: common: dra7: Add standard access for board
+ description EEPROM
+
+DRA7 EVM revH and later EVMs have EEPROM populated that can contain board
+description information such as name, revision, DDR definition, etc. Adding
+support for this EEPROM format.
+
+Acked-by: Nishanth Menon <nm@ti.com>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Lokesh Vutla <lokeshvutla@ti.com>
+---
+ board/ti/common/board_detect.c | 64 ++++++++++++++++++++++++++++++++++++++++++
+ board/ti/common/board_detect.h | 56 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 120 insertions(+)
+
+diff --git a/board/ti/common/board_detect.c b/board/ti/common/board_detect.c
+index 6cf4859..e0ae1a5 100644
+--- a/board/ti/common/board_detect.c
++++ b/board/ti/common/board_detect.c
+@@ -160,6 +160,50 @@ already_read:
+ 	return 0;
+ }
+ 
++int __maybe_unused ti_i2c_eeprom_dra7_get(int bus_addr, int dev_addr)
++{
++	int rc, offset = 0;
++	struct dra7_eeprom dra7_ep;
++	struct ti_common_eeprom *ep;
++
++	ep = TI_EEPROM_DATA;
++	if (ep->header == DRA7_EEPROM_HEADER_MAGIC)
++		goto already_read;
++
++	/* Initialize with a known bad marker for i2c fails.. */
++	ep->header = 0xADEAD12C;
++	ep->name[0] = 0x0;
++	ep->version[0] = 0x0;
++	ep->serial[0] = 0x0;
++	ep->emif1_size = 0;
++	ep->emif2_size = 0;
++
++	rc = ti_i2c_eeprom_get(bus_addr, dev_addr, DRA7_EEPROM_HEADER_MAGIC,
++			       sizeof(dra7_ep), (uint8_t *)&dra7_ep);
++	if (rc)
++		return rc;
++
++	ep->header = dra7_ep.header;
++	strlcpy(ep->name, dra7_ep.name, TI_EEPROM_HDR_NAME_LEN + 1);
++	ti_eeprom_string_cleanup(ep->name);
++
++	offset = dra7_ep.version_major - 1;
++
++	/* Rev F is skipped */
++	if (offset >= 5)
++		offset = offset + 1;
++	snprintf(ep->version, TI_EEPROM_HDR_REV_LEN + 1, "%c.%d",
++		 'A' + offset, dra7_ep.version_minor);
++	ti_eeprom_string_cleanup(ep->version);
++	ep->emif1_size = (u64)dra7_ep.emif1_size;
++	ep->emif2_size = (u64)dra7_ep.emif2_size;
++	strlcpy(ep->config, dra7_ep.config, TI_EEPROM_HDR_CONFIG_LEN + 1);
++	ti_eeprom_string_cleanup(ep->config);
++
++already_read:
++	return 0;
++}
++
+ bool __maybe_unused board_ti_is(char *name_tag)
+ {
+ 	struct ti_common_eeprom *ep = TI_EEPROM_DATA;
+@@ -230,6 +274,26 @@ fail:
+ 	memset(mac_addr, 0, TI_EEPROM_HDR_ETH_ALEN);
+ }
+ 
++u64 __maybe_unused board_ti_get_emif1_size(void)
++{
++	struct ti_common_eeprom *ep = TI_EEPROM_DATA;
++
++	if (ep->header != DRA7_EEPROM_HEADER_MAGIC)
++		return 0;
++
++	return ep->emif1_size;
++}
++
++u64 __maybe_unused board_ti_get_emif2_size(void)
++{
++	struct ti_common_eeprom *ep = TI_EEPROM_DATA;
++
++	if (ep->header != DRA7_EEPROM_HEADER_MAGIC)
++		return 0;
++
++	return ep->emif2_size;
++}
++
+ void __maybe_unused set_board_info_env(char *name)
+ {
+ 	char *unknown = "unknown";
+diff --git a/board/ti/common/board_detect.h b/board/ti/common/board_detect.h
+index c17ab34..eb17f6f 100644
+--- a/board/ti/common/board_detect.h
++++ b/board/ti/common/board_detect.h
+@@ -44,6 +44,37 @@ struct ti_am_eeprom {
+ 	char mac_addr[TI_EEPROM_HDR_NO_OF_MAC_ADDR][TI_EEPROM_HDR_ETH_ALEN];
+ } __attribute__ ((__packed__));
+ 
++/* DRA7 EEPROM MAGIC Header identifier */
++#define DRA7_EEPROM_HEADER_MAGIC	0xAA5533EE
++#define DRA7_EEPROM_HDR_NAME_LEN	16
++#define DRA7_EEPROM_HDR_CONFIG_LEN	4
++
++/**
++ * struct dra7_eeprom - This structure holds data read in from the DRA7 EVM
++ *			EEPROMs.
++ * @header: This holds the magic number
++ * @name: The name of the board
++ * @version_major: Board major version
++ * @version_minor: Board minor version
++ * @config: Board specific config options
++ * @emif1_size: Size of DDR attached to EMIF1
++ * @emif2_size: Size of DDR attached to EMIF2
++ *
++ * The data is this structure is read from the EEPROM on the board.
++ * It is used for board detection which is based on name. It is used
++ * to configure specific DRA7 boards. This allows booting of multiple
++ * DRA7 boards with a single MLO and u-boot.
++ */
++struct dra7_eeprom {
++	u32 header;
++	char name[DRA7_EEPROM_HDR_NAME_LEN];
++	u16 version_major;
++	u16 version_minor;
++	char config[DRA7_EEPROM_HDR_CONFIG_LEN];
++	u32 emif1_size;
++	u32 emif2_size;
++} __attribute__ ((__packed__));
++
+ /**
+  * struct ti_common_eeprom - Null terminated, usable EEPROM contents.
+  * header:	Magic number
+@@ -52,6 +83,8 @@ struct ti_am_eeprom {
+  * @serial:	NULL terminated serial number
+  * @config:	NULL terminated Board specific config options
+  * @mac_addr:	MAC addresses
++ * @emif1_size:	Size of the ddr available on emif1
++ * @emif2_size:	Size of the ddr available on emif2
+  */
+ struct ti_common_eeprom {
+ 	u32 header;
+@@ -60,6 +93,8 @@ struct ti_common_eeprom {
+ 	char serial[TI_EEPROM_HDR_SERIAL_LEN + 1];
+ 	char config[TI_EEPROM_HDR_CONFIG_LEN + 1];
+ 	char mac_addr[TI_EEPROM_HDR_NO_OF_MAC_ADDR][TI_EEPROM_HDR_ETH_ALEN];
++	u64 emif1_size;
++	u64 emif2_size;
+ };
+ 
+ #define TI_EEPROM_DATA ((struct ti_common_eeprom *)\
+@@ -76,6 +111,13 @@ struct ti_common_eeprom {
+ int ti_i2c_eeprom_am_get(int bus_addr, int dev_addr);
+ 
+ /**
++ * ti_i2c_eeprom_dra7_get() - Consolidated eeprom data for DRA7 TI EVMs
++ * @bus_addr:	I2C bus address
++ * @dev_addr:	I2C slave address
++ */
++int ti_i2c_eeprom_dra7_get(int bus_addr, int dev_addr);
++
++/**
+  * board_ti_is() - Board detection logic for TI EVMs
+  * @name_tag:	Tag used in eeprom for the board
+  *
+@@ -130,6 +172,20 @@ char *board_ti_get_name(void);
+ void board_ti_get_eth_mac_addr(int index, u8 mac_addr[TI_EEPROM_HDR_ETH_ALEN]);
+ 
+ /**
++ * board_ti_get_emif1_size() - Get size of the DDR on emif1 for TI EVMs
++ *
++ * Return: NULL if eeprom was'nt read or emif1_size is not available.
++ */
++u64 board_ti_get_emif1_size(void);
++
++/**
++ * board_ti_get_emif2_size() - Get size of the DDR on emif2 for TI EVMs
++ *
++ * Return: NULL if eeprom was'nt read or emif2_size is not available.
++ */
++u64 board_ti_get_emif2_size(void);
++
++/**
+  * set_board_info_env() - Setup commonly used board information environment vars
+  * @name:	Name of the board
+  *
+-- 
+2.1.4
+
