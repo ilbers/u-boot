@@ -69,6 +69,9 @@ armhf	omap		am335x_boneblack u-boot.img spl/u-boot-spl.bin MLO
 # Vagrant Cascadian <vagrant@debian.org>
 armhf	omap		am57xx_evm	u-boot-dtb.img spl/u-boot-spl.bin MLO
 
+# Ben Hutchings <ben.hutchings@codethink.co.uk>
+armhf 	omap		dra74_evm	u-boot.img spl/u-boot-spl.bin MLO
+
 # Robert Nelson <robertcnelson@gmail.com>
 armhf	omap		igep0020	u-boot.img spl/u-boot-spl.bin MLO
 

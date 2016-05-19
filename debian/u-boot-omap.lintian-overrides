@@ -5,6 +5,7 @@
 # the package for the architecture needed.
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/am335x_boneblack/uboot.elf
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/am57xx_evm/uboot.elf
+u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/dra74_evm/uboot.elf
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/igep0020/uboot.elf
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/nokia_rx51/uboot.elf
 u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/omap3_beagle/uboot.elf
@@ -13,6 +14,7 @@ u-boot-omap [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/
 # These bootloaders need to be statically linked.
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/am335x_boneblack/uboot.elf
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/am57xx_evm/uboot.elf
+u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/dra74_evm/uboot.elf
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/igep0020/uboot.elf
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/nokia_rx51/uboot.elf
 u-boot-omap [armhf]: statically-linked-binary usr/lib/u-boot/omap3_beagle/uboot.elf
