@@ -39,7 +39,7 @@ Description: A boot loader for imx systems
  ${uboot:platforms}
 
 Package: u-boot-tegra
-Architecture: armhf
+Architecture: armhf arm64
 Multi-Arch: same
 Depends: ${misc:Depends}
 Breaks: u-boot (<< 2014.10~rc2+dfsg1-2~)
