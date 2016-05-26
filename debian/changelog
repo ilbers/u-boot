@@ -1,3 +1,12 @@
+u-boot (2016.05+dfsg1-2) UNRELEASED; urgency=medium
+
+  [ Martin Michlmayr ]
+  * u-boot-tegra: Add Jetson TX1 (P2371-2180) target.
+  * u-boot-tegra: Add arm64 arch.
+  * u-boot-tegra: Update README.Debian for Jetson TX1.
+
+ -- Martin Michlmayr <tbm@cyrius.com>  Thu, 26 May 2016 15:05:36 -0700
+
 u-boot (2016.05+dfsg1-1) experimental; urgency=medium
 
   * New upstream version.

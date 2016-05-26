@@ -153,6 +153,9 @@ armhf	sunxi		orangepi_plus	u-boot-sunxi-with-spl.bin
 # Ryan Finnie <ryan@finnie.org>
 arm64	rpi		rpi_3		u-boot.bin
 
+# Martin Michlmayr <tbm@cyrius.com>
+arm64	tegra		p2371-2180	u-boot-dtb.bin
+
 avr32	-		hammerhead	u-boot.img
 
 mips	-		qemu_mips	u-boot.bin
