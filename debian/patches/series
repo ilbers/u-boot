@@ -36,3 +36,4 @@ firefly/0001-Revert-rockchip-rk3288-correct-sdram-setting.patch
 upstream/ti-common/0001-ARM-omap-common-Add-standard-access-for-board-descri.patch
 upstream/ti-common/0002-ti-common-dra7-Add-standard-access-for-board-descrip.patch
 upstream/am57xx/0001-board-ti-AM57xx-Add-detection-logic-for-AM57xx-evm.patch
+odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
