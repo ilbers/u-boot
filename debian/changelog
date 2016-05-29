@@ -1,3 +1,28 @@
+u-boot (2016.03+dfsg1-5) unstable; urgency=medium
+
+  [ Vagrant Cascadian ]
+  * Add patches from upstream to detect fdtfile on am57xx, and update
+    distro_bootcmd patch accordingly.
+  * u-boot-tools: Add fw_env.config for openrd (Closes: #821056). Thanks
+    to Rick Thomas.
+  * u-boot-omap: Add support for dra74_evm (Closes: #824730). Thanks to
+    Ben Hutchings.
+  * Added odroid-xu3 target, tested on Odroid-XU4.
+
+  [ Gerald Kerma ]
+  * Correct the guruplug.config to match the new upstream env address.
+    (Closes: #781873).
+
+  [ Vagrant Cascadian ]
+  * u-boot-exynos: Add patch to support distro_bootcmd on odroid target.
+
+  [ Martin Michlmayr ]
+  * u-boot-tegra: Add Jetson TX1 (P2371-2180) target (Closes: #825458).
+  * u-boot-tegra: Add arm64 arch.
+  * u-boot-tegra: Update README.Debian for Jetson TX1.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sun, 29 May 2016 14:29:59 -0700
+
 u-boot (2016.03+dfsg1-4) unstable; urgency=medium
 
   * Add patch to fix detected ram size on Firefly boards by reverting
