@@ -64,6 +64,11 @@ __weak void spl_board_prepare_for_linux(void)
 	/* Nothing to do! */
 }
 
+__weak void spl_board_prepare_for_boot(void)
+{
+	/* Nothing to do! */
+}
+
 void spl_set_header_raw_uboot(void)
 {
 	spl_image.size = CONFIG_SYS_MONITOR_LEN;
@@ -73,7 +78,7 @@ void spl_set_header_raw_uboot(void)
 	spl_image.name = "U-Boot";
 }
 
-void spl_parse_image_header(const struct image_header *header)
+int spl_parse_image_header(const struct image_header *header)
 {
 	u32 header_size = sizeof(struct image_header);
 
@@ -111,6 +116,9 @@ void spl_parse_image_header(const struct image_header *header)
 		 * is bad, and thus should be skipped silently.
 		 */
 		panic("** no mkimage signature but raw image not supported");
+#elif defined(CONFIG_SPL_ABORT_ON_RAW_IMAGE)
+		/* Signature not found, proceed to other boot methods. */
+		return -EINVAL;
 #else
 		/* Signature not found - assume u-boot.bin */
 		debug("mkimage signature not found - ih_magic = %x\n",
@@ -118,6 +126,7 @@ void spl_parse_image_header(const struct image_header *header)
 		spl_set_header_raw_uboot();
 #endif
 	}
+	return 0;
 }
 
 __weak void __noreturn jump_to_image_no_args(struct spl_image_info *spl_image)
@@ -131,20 +140,47 @@ __weak void __noreturn jump_to_image_no_args(struct spl_image_info *spl_image)
 	image_entry();
 }
 
+#ifndef CONFIG_SPL_LOAD_FIT_ADDRESS
+# define CONFIG_SPL_LOAD_FIT_ADDRESS	0
+#endif
+
 #ifdef CONFIG_SPL_RAM_DEVICE
+static ulong spl_ram_load_read(struct spl_load_info *load, ulong sector,
+			       ulong count, void *buf)
+{
+	debug("%s: sector %lx, count %lx, buf %lx\n",
+	      __func__, sector, count, (ulong)buf);
+	memcpy(buf, (void *)(CONFIG_SPL_LOAD_FIT_ADDRESS + sector), count);
+	return count;
+}
+
 static int spl_ram_load_image(void)
 {
-	const struct image_header *header;
+	struct image_header *header;
 
-	/*
-	 * Get the header.  It will point to an address defined by handoff
-	 * which will tell where the image located inside the flash. For
-	 * now, it will temporary fixed to address pointed by U-Boot.
-	 */
-	header = (struct image_header *)
-		(CONFIG_SYS_TEXT_BASE -	sizeof(struct image_header));
+	header = (struct image_header *)CONFIG_SPL_LOAD_FIT_ADDRESS;
 
-	spl_parse_image_header(header);
+	if (IS_ENABLED(CONFIG_SPL_LOAD_FIT) &&
+	    image_get_magic(header) == FDT_MAGIC) {
+		struct spl_load_info load;
+
+		debug("Found FIT\n");
+		load.bl_len = 1;
+		load.read = spl_ram_load_read;
+		spl_load_simple_fit(&load, 0, header);
+	} else {
+		debug("Legacy image\n");
+		/*
+		 * Get the header.  It will point to an address defined by
+		 * handoff which will tell where the image located inside
+		 * the flash. For now, it will temporary fixed to address
+		 * pointed by U-Boot.
+		 */
+		header = (struct image_header *)
+			(CONFIG_SYS_TEXT_BASE -	sizeof(struct image_header));
+
+		spl_parse_image_header(header);
+	}
 
 	return 0;
 }
@@ -156,6 +192,9 @@ int spl_init(void)
 
 	debug("spl_init()\n");
 #if defined(CONFIG_SYS_MALLOC_F_LEN)
+#ifdef CONFIG_MALLOC_F_ADDR
+	gd->malloc_base = CONFIG_MALLOC_F_ADDR;
+#endif
 	gd->malloc_limit = CONFIG_SYS_MALLOC_F_LEN;
 	gd->malloc_ptr = 0;
 #endif
@@ -400,6 +439,7 @@ void board_init_r(gd_t *dummy1, ulong dummy2)
 #endif
 
 	debug("loaded - jumping to U-Boot...");
+	spl_board_prepare_for_boot();
 	jump_to_image_no_args(&spl_image);
 }
 
@@ -449,9 +489,6 @@ ulong spl_relocate_stack_gd(void)
 
 #ifdef CONFIG_SPL_SYS_MALLOC_SIMPLE
 	if (CONFIG_SPL_STACK_R_MALLOC_SIMPLE_LEN) {
-		if (!(gd->flags & GD_FLG_SPL_INIT))
-			panic_str("spl_init must be called before heap reloc");
-
 		ptr -= CONFIG_SPL_STACK_R_MALLOC_SIMPLE_LEN;
 		gd->malloc_base = ptr;
 		gd->malloc_limit = CONFIG_SPL_STACK_R_MALLOC_SIMPLE_LEN;

@@ -32,7 +32,6 @@
 
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* SDRAM is initialized by the bootstrap code */
 
-#define CONFIG_SYS_TEXT_BASE		0x87000000
 #define CONFIG_SYS_MONITOR_BASE		CONFIG_SYS_TEXT_BASE
 #define CONFIG_SYS_MONITOR_LEN		(256 << 10)
 #define CONFIG_SYS_MALLOC_LEN		(1 << 20)
@@ -203,13 +202,6 @@
 #define CONFIG_ENV_ADDR			(128 << 10)	/* after compr. U-Boot image */
 #define	CONFIG_ENV_SIZE			(128 << 10)	/* erase size */
 #endif /* CONFIG_VCT_ONENAND */
-
-/*
- * Cache Configuration
- */
-#define CONFIG_SYS_DCACHE_SIZE		16384
-#define CONFIG_SYS_ICACHE_SIZE		16384
-#define CONFIG_SYS_CACHELINE_SIZE	32
 
 /*
  * I2C/EEPROM

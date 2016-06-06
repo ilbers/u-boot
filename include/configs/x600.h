@@ -80,12 +80,13 @@
 #define CONFIG_PHY_RESET_DELAY			10000		/* in usec */
 #define CONFIG_PHY_ADDR		0	/* PHY address */
 #define CONFIG_PHY_GIGE			/* Include GbE speed/duplex detection */
+#define CONFIG_PHY_MICREL
+#define CONFIG_PHY_MICREL_KSZ9031
 
 #define CONFIG_SPEAR_GPIO
 
 /* I2C config options */
 #define CONFIG_SYS_I2C
-#define CONFIG_SYS_I2C_DW
 #define CONFIG_SYS_I2C_BASE			0xD0200000
 #define CONFIG_SYS_I2C_SPEED			400000
 #define CONFIG_SYS_I2C_SLAVE			0x02

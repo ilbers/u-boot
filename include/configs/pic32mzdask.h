@@ -10,7 +10,6 @@
 #define __PIC32MZDASK_CONFIG_H
 
 /* System Configuration */
-#define CONFIG_SYS_TEXT_BASE		0x9d004000 /* .text */
 #define CONFIG_DISPLAY_BOARDINFO
 
 /*--------------------------------------------
@@ -101,7 +100,6 @@
  * USB Configuration
  */
 #define CONFIG_USB_MUSB_PIO_ONLY
-#define CONFIG_SYS_CACHELINE_SIZE	16
 
 /*-----------------------------------------------------------------------
  * File System Configuration
