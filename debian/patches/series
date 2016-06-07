@@ -26,6 +26,4 @@ mx6cuboxi/serial_console_speed.patch
 
 am57xx/omap5_distro_bootcmd
 
-imx_private_libgcc
-
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
