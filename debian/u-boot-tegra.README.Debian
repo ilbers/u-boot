@@ -1,14 +1,15 @@
 == Installation ==
 
 At this point, you must install U-Boot to flash yourself from a host
-system using the Linux_For_Tegra tools.
+system using the Linux_For_Tegra tools from NVIDIA's developer portal:
+https://developer.nvidia.com/embedded/linux-tegra-archive
 
 === Jetson TK1 ===
 
 sudo ./flash.sh -L /usr/lib/u-boot/jetson-tk1/u-boot-dtb-tegra.bin jetson-tk1 mmcblk1p1
 
-It seems that L4T R19.3.0 is currently required (image does not boot
-if flashed with L4T R21.X).
+Please note that L4T R19.3 is currently required (the image does not
+boot if flashed with L4T R21.1 through R21.4).
 
 === Jetson TX1 ===
 
