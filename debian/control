@@ -44,14 +44,14 @@ Multi-Arch: same
 Depends: ${misc:Depends}
 Breaks: u-boot (<< 2014.10~rc2+dfsg1-2~)
 Replaces: u-boot (<< 2014.10~rc2+dfsg1-2~)
-Description: A boot loader for tegra systems
+Description: A boot loader for NVIDIA Tegra systems
  Das U-Boot is a cross-platform bootloader for embedded systems,
  used as the default boot loader by several board vendors.  It is
  intended to be easy to port and to debug, and runs on many
  supported architectures, including PPC, ARM, MIPS, x86, m68k,
  NIOS, and Microblaze.
  .
- This package includes boot loaders for various tegra platforms.
+ This package includes boot loaders for various NVIDIA Tegra platforms.
  ${uboot:platforms}
 
 Package: u-boot-omap
