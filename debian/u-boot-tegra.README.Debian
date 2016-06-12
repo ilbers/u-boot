@@ -17,7 +17,7 @@ sudo ./flash.sh -L /usr/lib/u-boot/p2371-2180/u-boot-dtb.bin jetson-tx1 mmcblk0p
 === TODO ===
 
 TODO: Figure out how to do this with tools within Debian,
-e.g. tegracrm and cbootimage.
+e.g. tegrarcm and cbootimage.
 
 == U-Boot environment tools ==
 
