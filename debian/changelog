@@ -1,3 +1,12 @@
+u-boot (2016.07~rc1+dfsg1-2) experimental; urgency=medium
+
+  * u-boot-tegra: Only install p2371-2180 symlink on arm64.
+    (Closes: #826905). Thanks to Martin Michlmayr for the report!
+  * Add patch to fix reproducibility issues with ld and some
+    locales. Thanks to HW42!
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sun, 12 Jun 2016 06:15:22 -0700
+
 u-boot (2016.07~rc1+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
