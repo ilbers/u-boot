@@ -1,0 +1,50 @@
+From 1453a1fdf1d5f98a8b40d1e61cb3e8370ca060c9 Mon Sep 17 00:00:00 2001
+From: Vagrant Cascadian <vagrant@debian.org>
+Date: Sun, 12 Jun 2016 05:18:48 -0700
+Subject: [PATCH] Use C locale when setting CC_VERSION_STRING and
+ LD_VERSION_STRING.
+
+The output reported may be locale-dependent, which results in
+unreproducible builds.
+
+  $ LANG=C ld --version | head -n 1
+    GNU ld (GNU Binutils for Debian) 2.26
+
+  $ LANG=it_CH.UTF-8 ld --version | head -n 1
+    ld di GNU (GNU Binutils for Debian) 2.26
+
+Forcing LC_ALL=C ensures the output is consistant regardless of the
+build environment.
+
+Thanks to HW42 for debugging the issue:
+
+  https://lists.alioth.debian.org/pipermail/reproducible-builds/Week-of-Mon-20160606/005722.html
+
+For more information about reproducible builds:
+
+  https://reproducible-builds.org/
+
+Series-to: u-boot
+Series-cc: HW42 <hw42@ipsumj.de>, reproducible-builds@lists.alioth.debian.org
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 0f7d6f3..14e09d4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1269,8 +1269,8 @@ prepare: prepare0
+ define filechk_version.h
+ 	(echo \#define PLAIN_VERSION \"$(UBOOTRELEASE)\"; \
+ 	echo \#define U_BOOT_VERSION \"U-Boot \" PLAIN_VERSION; \
+-	echo \#define CC_VERSION_STRING \"$$($(CC) --version | head -n 1)\"; \
+-	echo \#define LD_VERSION_STRING \"$$($(LD) --version | head -n 1)\"; )
++	echo \#define CC_VERSION_STRING \"$$(LC_ALL=C $(CC) --version | head -n 1)\"; \
++	echo \#define LD_VERSION_STRING \"$$(LC_ALL=C $(LD) --version | head -n 1)\"; )
+ endef
+ 
+ # The SOURCE_DATE_EPOCH mechanism requires a date that behaves like GNU date.
+-- 
+2.1.4
+
