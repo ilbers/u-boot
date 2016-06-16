@@ -1,3 +1,20 @@
+u-boot (2016.07~rc1+dfsg1-3) experimental; urgency=medium
+
+  [ Martin Michlmayr ]
+  * Add NVIDIA to Tegra description
+  * u-boot-tegra.README.Debian: fix name of package
+  * u-boot-tegra.README.Debian: improve Jetson TK instructions.
+    (Closes: #827081).
+
+  [ Vagrant Cascadian ]
+  * debian/control: u-boot-tools is not needed when cross-building on
+    arm64.
+  * Add patch to respect SOURCE_DATE_EPOCH when building FIT images,
+    fixing reproducibility issues with dra7xx_evm target. Thanks to HW42
+    for the patch.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Thu, 16 Jun 2016 12:29:51 -0700
+
 u-boot (2016.07~rc1+dfsg1-2) experimental; urgency=medium
 
   * u-boot-tegra: Only install p2371-2180 symlink on arm64.
