@@ -1,0 +1,137 @@
+From 2cb7e98027f4ca4d713d1fb4eee3fe5f2a151de4 Mon Sep 17 00:00:00 2001
+From: Vagrant Cascadian <vagrant@debian.org>
+Date: Thu, 16 Jun 2016 12:08:12 -0700
+Subject: [PATCH] Respect SOURCE_DATE_EPOCH when building FIT images.
+
+Embedding timestamps in FIT images results in unreproducible builds
+for targets that generate a fit image, such as dra7xx_evm.
+
+This patch uses the SOURCE_DATE_EPOCH environment variable, when set,
+to use specified value for the date.
+
+Thanks to HW42 for debugging the issue and providing the patch:
+
+  https://lists.alioth.debian.org/pipermail/reproducible-builds/Week-of-Mon-20160606/005722.html
+
+For more information about reproducible builds and the
+SOURCE_DATE_EPOCH specification:
+
+  https://reproducible-builds.org/specs/source-date-epoch/
+  https://reproducible-builds.org/
+
+Series-to: u-boot
+Series-cc: HW42 <hw42@ipsumj.de>, reproducible-builds@lists.alioth.debian.org
+---
+ tools/default_image.c | 14 +-------------
+ tools/fit_image.c     |  6 ++++--
+ tools/imagetool.c     | 20 ++++++++++++++++++++
+ tools/imagetool.h     | 16 ++++++++++++++++
+ 4 files changed, 41 insertions(+), 15 deletions(-)
+
+diff --git a/tools/default_image.c b/tools/default_image.c
+index 3ed7014..6e4ae14 100644
+--- a/tools/default_image.c
++++ b/tools/default_image.c
+@@ -88,7 +88,6 @@ static void image_set_header(void *ptr, struct stat *sbuf, int ifd,
+ 				struct image_tool_params *params)
+ {
+ 	uint32_t checksum;
+-	char *source_date_epoch;
+ 	time_t time;
+ 
+ 	image_header_t * hdr = (image_header_t *)ptr;
+@@ -98,18 +97,7 @@ static void image_set_header(void *ptr, struct stat *sbuf, int ifd,
+ 				sizeof(image_header_t)),
+ 			sbuf->st_size - sizeof(image_header_t));
+ 
+-	source_date_epoch = getenv("SOURCE_DATE_EPOCH");
+-	if (source_date_epoch != NULL) {
+-		time = (time_t) strtol(source_date_epoch, NULL, 10);
+-
+-		if (gmtime(&time) == NULL) {
+-			fprintf(stderr, "%s: SOURCE_DATE_EPOCH is not valid\n",
+-				__func__);
+-			time = 0;
+-		}
+-	} else {
+-		time = sbuf->st_mtime;
+-	}
++	time = imagetool_get_source_date(params, sbuf->st_mtime);
+ 
+ 	/* Build new header */
+ 	image_set_magic(hdr, IH_MAGIC);
+diff --git a/tools/fit_image.c b/tools/fit_image.c
+index 0551572..23dbce4 100644
+--- a/tools/fit_image.c
++++ b/tools/fit_image.c
+@@ -51,8 +51,10 @@ static int fit_add_file_data(struct image_tool_params *params, size_t size_inc,
+ 	}
+ 
+ 	/* for first image creation, add a timestamp at offset 0 i.e., root  */
+-	if (params->datafile)
+-		ret = fit_set_timestamp(ptr, 0, sbuf.st_mtime);
++	if (params->datafile) {
++		time_t time = imagetool_get_source_date(params, sbuf.st_mtime);
++		ret = fit_set_timestamp(ptr, 0, time);
++	}
+ 
+ 	if (!ret) {
+ 		ret = fit_add_verification_data(params->keydir, dest_blob, ptr,
+diff --git a/tools/imagetool.c b/tools/imagetool.c
+index 08d191d..855a096 100644
+--- a/tools/imagetool.c
++++ b/tools/imagetool.c
+@@ -115,3 +115,23 @@ int imagetool_get_filesize(struct image_tool_params *params, const char *fname)
+ 
+ 	return sbuf.st_size;
+ }
++
++time_t imagetool_get_source_date(
++	 struct image_tool_params *params,
++	 time_t fallback)
++{
++	char *source_date_epoch = getenv("SOURCE_DATE_EPOCH");
++
++	if (source_date_epoch == NULL)
++		return fallback;
++
++	time_t time = (time_t) strtol(source_date_epoch, NULL, 10);
++
++	if (gmtime(&time) == NULL) {
++		fprintf(stderr, "%s: SOURCE_DATE_EPOCH is not valid\n",
++			params->cmdname);
++		time = 0;
++	}
++
++	return time;
++}
+diff --git a/tools/imagetool.h b/tools/imagetool.h
+index a3ed0f4..b422df2 100644
+--- a/tools/imagetool.h
++++ b/tools/imagetool.h
+@@ -205,6 +205,22 @@ int imagetool_save_subimage(
+  */
+ int imagetool_get_filesize(struct image_tool_params *params, const char *fname);
+ 
++/**
++ * imagetool_get_source_date() - Get timestamp for build output.
++ *
++ * Gets a timestamp for embedding it in a build output. If set
++ * SOURCE_DATE_EPOCH is used. Else the given fallback value is returned. Prints
++ * an error message if SOURCE_DATE_EPOCH contains an invalid value and returns
++ * 0.
++ *
++ * @params:	mkimage parameters
++ * @fallback:	timestamp to use if SOURCE_DATE_EPOCH isn't set
++ * @return timestamp based on SOURCE_DATE_EPOCH
++ */
++time_t imagetool_get_source_date(
++	struct image_tool_params *params,
++	time_t fallback);
++
+ /*
+  * There is a c file associated with supported image type low level code
+  * for ex. default_image.c, fit_image.c
+-- 
+2.1.4
+
