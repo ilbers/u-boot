@@ -153,6 +153,9 @@ armhf	sunxi		orangepi_plus	u-boot-sunxi-with-spl.bin
 # Ryan Finnie <ryan@finnie.org>
 arm64	rpi		rpi_3		u-boot.bin
 
+# Vagrant Cascadian <vagrant@debian.org>
+arm64	sunxi		pine64_plus	u-boot.bin
+
 # Martin Michlmayr <tbm@cyrius.com>
 arm64	tegra		p2371-2180	u-boot-dtb.bin
 
