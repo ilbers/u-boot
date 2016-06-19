@@ -72,7 +72,7 @@ Description: A boot loader for omap systems
  ${uboot:platforms}
 
 Package: u-boot-sunxi
-Architecture: armhf
+Architecture: armhf arm64
 Multi-Arch: same
 Depends: ${misc:Depends}
 Breaks: u-boot (<< 2014.10~rc2+dfsg1-2~)
