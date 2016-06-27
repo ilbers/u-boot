@@ -39,3 +39,4 @@ upstream/am57xx/0001-board-ti-AM57xx-Add-detection-logic-for-AM57xx-evm.patch
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 upstream/submitted/reproducible/0001-Use-C-locale-when-setting-CC_VERSION_STRING-and-LD_V.patch
+upstream/sunxi/0002-sunxi-Enable-LDO3-and-LDO4-at-2.8V-on-OLinuxIno-Lime.patch
