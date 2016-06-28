@@ -1,3 +1,24 @@
+u-boot (2016.03+dfsg1-6) unstable; urgency=medium
+
+  [ Vagrant Cascadian ]
+  * u-boot-tegra: Only install p2371-2180 symlink on arm64.
+    (Closes: #826905). Thanks to Martin Michlmayr for the report!
+  * Add patch to fix reproducibility issues with ld and some
+    locales. Thanks to HW42!
+
+  [ Martin Michlmayr ]
+  * Add NVIDIA to Tegra description
+  * u-boot-tegra.README.Debian: fix name of package
+  * u-boot-tegra.README.Debian: improve Jetson TK instructions.
+    (Closes: #827081).
+
+  [ Vagrant Cascadian ]
+  * Apply patch from upstream to fix volatages used on several OlinuXino
+    Lime board variants (Closes: #825214).  Thanks to Karsten Merker for
+    tracking down the patch!
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 28 Jun 2016 09:38:27 +0200
+
 u-boot (2016.03+dfsg1-5) unstable; urgency=medium
 
   [ Vagrant Cascadian ]
