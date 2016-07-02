@@ -99,8 +99,7 @@
 #define CONFIG_SYS_MMC_ENV_PART		1
 
 #ifdef CONFIG_ARM64
-#define CONFIG_ARMV8_MULTIENTRY
-#define CPU_RELEASE_ADDR			0x80000100
+#define CPU_RELEASE_ADDR			0x80000000
 #define COUNTER_FREQUENCY			50000000
 #define CONFIG_GICV3
 #define GICD_BASE				0x5fe00000
@@ -147,9 +146,6 @@
 /* memtest works on */
 #define CONFIG_SYS_MEMTEST_START	CONFIG_SYS_SDRAM_BASE
 #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_SDRAM_BASE + 0x01000000)
-
-#define CONFIG_BOOTDELAY			3
-#define CONFIG_ZERO_BOOTDELAY_CHECK	/* check for keypress on bootdelay==0 */
 
 /*
  * Network Configuration
@@ -245,7 +241,6 @@
 		"tftpboot $tmp_addr u-boot.bin\0"		\
 	"emmcupdate=mmcsetn &&"					\
 		"mmc partconf $mmc_first_dev 0 1 1 &&"		\
-		"mmc erase 0 800 &&"				\
 		"tftpboot u-boot-spl.bin &&"			\
 		"mmc write $loadaddr 0 80 &&"			\
 		"tftpboot u-boot.bin &&"			\
@@ -288,7 +283,9 @@
 #define CONFIG_SPL_FRAMEWORK
 #define CONFIG_SPL_SERIAL_SUPPORT
 #define CONFIG_SPL_NOR_SUPPORT
-#ifndef CONFIG_ARM64
+#ifdef CONFIG_ARM64
+#define CONFIG_SPL_BOARD_LOAD_IMAGE
+#else
 #define CONFIG_SPL_NAND_SUPPORT
 #define CONFIG_SPL_MMC_SUPPORT
 #endif

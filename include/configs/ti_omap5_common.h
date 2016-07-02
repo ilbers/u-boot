@@ -100,10 +100,14 @@
 			"setenv fdtfile omap5-uevm.dtb; fi; " \
 		"if test $board_name = dra7xx; then " \
 			"setenv fdtfile dra7-evm.dtb; fi;" \
+		"if test $board_name = dra72x-revc; then " \
+			"setenv fdtfile dra72-evm-revc.dtb; fi;" \
 		"if test $board_name = dra72x; then " \
 			"setenv fdtfile dra72-evm.dtb; fi;" \
 		"if test $board_name = beagle_x15; then " \
 			"setenv fdtfile am57xx-beagle-x15.dtb; fi;" \
+		"if test $board_name = am572x_idk; then " \
+			"setenv fdtfile am572x-idk.dtb; fi;" \
 		"if test $board_name = am57xx_evm; then " \
 			"setenv fdtfile am57xx-beagle-x15.dtb; fi;" \
 		"if test $fdtfile = undefined; then " \

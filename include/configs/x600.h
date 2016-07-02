@@ -124,7 +124,6 @@
 #define CONFIG_SUPPORT_VFAT
 #define CONFIG_DOS_PARTITION
 
-#define CONFIG_BOOTDELAY			3
 
 /*
  * U-Boot Environment placing definitions.
@@ -146,7 +145,6 @@
 #define CONFIG_MISC_INIT_R
 #define CONFIG_BOARD_LATE_INIT
 #define CONFIG_MX_CYCLIC		/* enable mdc/mwc commands      */
-#define CONFIG_ZERO_BOOTDELAY_CHECK
 
 #define CONFIG_SYS_MEMTEST_START		0x00800000
 #define CONFIG_SYS_MEMTEST_END			0x04000000
