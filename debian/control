@@ -38,6 +38,20 @@ Description: A boot loader for imx systems
  This package includes boot loaders for various imx platforms.
  ${uboot:platforms}
 
+Package: u-boot-qcom
+Architecture: arm64
+Multi-Arch: same
+Depends: ${misc:Depends}
+Description: A boot loader for qcom systems
+ Das U-Boot is a cross-platform bootloader for embedded systems,
+ used as the default boot loader by several board vendors.  It is
+ intended to be easy to port and to debug, and runs on many
+ supported architectures, including PPC, ARM, MIPS, x86, m68k,
+ NIOS, and Microblaze.
+ .
+ This package includes boot loaders for various qcom platforms.
+ ${uboot:platforms}
+
 Package: u-boot-tegra
 Architecture: armhf arm64
 Multi-Arch: same

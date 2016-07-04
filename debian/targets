@@ -166,3 +166,6 @@ mips	-		qemu_mips	u-boot.bin
 sh4	-		r2dplus		u-boot.bin
 
 sh4	-		sh7785lcr_32bit	u-boot.bin
+
+# Ricardo Salveti <rsalveti@rsalveti.net>
+arm64	qcom		dragonboard410c	u-boot.bin
