@@ -1,3 +1,22 @@
+u-boot (2016.07~rc3+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+
+  [ Vagrant Cascadian ]
+  * u-boot-sunxi: Enable on arm64.
+  * u-boot-sunxi: Enable pine64_plus target on arm64.
+  * Remove reproducibility patches, applied upstream.
+
+  [ Ricardo Salveti ]
+  * [arm64] Add u-boot-qcom package and enable dragonboard410c target
+    (Closes: #824955).
+  * Add patch submitted upstream "dragonboard410c: adding missing default
+    addr for script and pxe boot."
+  * Add patch submitted upstream "dragonboard410c: prefer sdcard boot over
+    emmc"
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 05 Jul 2016 12:34:49 +0200
+
 u-boot (2016.07~rc1+dfsg1-3) experimental; urgency=medium
 
   [ Martin Michlmayr ]
