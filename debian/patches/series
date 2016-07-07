@@ -30,3 +30,4 @@ odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 upstream/submitted/qcom/dragonboard410c-adding-missing-default-addr-for-scri.patch
 upstream/submitted/qcom/dragonboard410c-prefer-sdcard-boot-over-emmc.patch
+upstream/submitted/U-Boot-arm-Fix-setjmp-again.patch
