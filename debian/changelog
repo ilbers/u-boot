@@ -1,3 +1,10 @@
+u-boot (2016.07~rc3+dfsg1-2) experimental; urgency=medium
+
+  * [armel] Apply patch from upstream that fixes FTBFS on openrd variants.
+    (Closes: #830169).
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Thu, 07 Jul 2016 11:17:30 +0200
+
 u-boot (2016.07~rc3+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
