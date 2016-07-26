@@ -134,13 +134,10 @@ enum fdt_compat_id {
 	COMPAT_SAMSUNG_S3C2440_I2C,	/* Exynos I2C Controller */
 	COMPAT_SAMSUNG_EXYNOS5_SOUND,	/* Exynos Sound */
 	COMPAT_WOLFSON_WM8994_CODEC,	/* Wolfson WM8994 Sound Codec */
-	COMPAT_GOOGLE_CROS_EC_KEYB,	/* Google CROS_EC Keyboard */
 	COMPAT_SAMSUNG_EXYNOS_USB_PHY,	/* Exynos phy controller for usb2.0 */
 	COMPAT_SAMSUNG_EXYNOS5_USB3_PHY,/* Exynos phy controller for usb3.0 */
 	COMPAT_SAMSUNG_EXYNOS_TMU,	/* Exynos TMU */
-	COMPAT_SAMSUNG_EXYNOS_FIMD,	/* Exynos Display controller */
 	COMPAT_SAMSUNG_EXYNOS_MIPI_DSI,	/* Exynos mipi dsi */
-	COMPAT_SAMSUNG_EXYNOS5_DP,	/* Exynos Display port controller */
 	COMPAT_SAMSUNG_EXYNOS_DWMMC,	/* Exynos DWMMC controller */
 	COMPAT_SAMSUNG_EXYNOS_MMC,	/* Exynos MMC controller */
 	COMPAT_MAXIM_MAX77686_PMIC,	/* MAX77686 PMIC */
@@ -149,20 +146,16 @@ enum fdt_compat_id {
 	COMPAT_SAMSUNG_EXYNOS5_I2C,	/* Exynos5 High Speed I2C Controller */
 	COMPAT_SAMSUNG_EXYNOS_SYSMMU,	/* Exynos sysmmu */
 	COMPAT_INTEL_MICROCODE,		/* Intel microcode update */
-	COMPAT_INTEL_PANTHERPOINT_AHCI,	/* Intel Pantherpoint AHCI */
-	COMPAT_INTEL_MODEL_206AX,	/* Intel Model 206AX CPU */
-	COMPAT_INTEL_GMA,		/* Intel Graphics Media Accelerator */
 	COMPAT_AMS_AS3722,		/* AMS AS3722 PMIC */
-	COMPAT_INTEL_ICH_SPI,		/* Intel ICH7/9 SPI controller */
 	COMPAT_INTEL_QRK_MRC,		/* Intel Quark MRC */
 	COMPAT_SOCIONEXT_XHCI,		/* Socionext UniPhier xHCI */
-	COMPAT_INTEL_PCH,		/* Intel PCH */
 	COMPAT_ALTERA_SOCFPGA_DWMAC,	/* SoCFPGA Ethernet controller */
 	COMPAT_ALTERA_SOCFPGA_DWMMC,	/* SoCFPGA DWMMC controller */
 	COMPAT_ALTERA_SOCFPGA_DWC2USB,	/* SoCFPGA DWC2 USB controller */
 	COMPAT_INTEL_BAYTRAIL_FSP,	/* Intel Bay Trail FSP */
 	COMPAT_INTEL_BAYTRAIL_FSP_MDP,	/* Intel FSP memory-down params */
 	COMPAT_INTEL_IVYBRIDGE_FSP,	/* Intel Ivy Bridge FSP */
+	COMPAT_SUNXI_NAND,		/* SUNXI NAND controller */
 
 	COMPAT_COUNT,
 };

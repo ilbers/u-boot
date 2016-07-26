@@ -165,12 +165,47 @@ def run_and_log(u_boot_console, cmd, ignore_errors=False):
             problems occur.
 
     Returns:
-        Nothing.
+        The output as a string.
     """
 
     runner = u_boot_console.log.get_runner(cmd[0], sys.stdout)
-    runner.run(cmd, ignore_errors=ignore_errors)
+    output = runner.run(cmd, ignore_errors=ignore_errors)
     runner.close()
+    return output
+
+def cmd(u_boot_console, cmd_str):
+    """Run a single command string and log its output.
+
+    Args:
+        u_boot_console: A console connection to U-Boot.
+        cmd: The command to run, as a string.
+
+    Returns:
+        The output as a string.
+    """
+    return run_and_log(u_boot_console, cmd_str.split())
+
+def run_and_log_expect_exception(u_boot_console, cmd, retcode, msg):
+    """Run a command which is expected to fail.
+
+    This runs a command and checks that it fails with the expected return code
+    and exception method. If not, an exception is raised.
+
+    Args:
+        u_boot_console: A console connection to U-Boot.
+        cmd: The command to run, as an array of argv[].
+        retcode: Expected non-zero return code from the command.
+        msg: String which should be contained within the command's output.
+    """
+    try:
+        runner = u_boot_console.log.get_runner(cmd[0], sys.stdout)
+        runner.run(cmd)
+    except Exception as e:
+        assert(msg in runner.output)
+    else:
+        raise Exception('Expected exception, but not raised')
+    finally:
+        runner.close()
 
 ram_base = None
 def find_ram_base(u_boot_console):

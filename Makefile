@@ -3,9 +3,9 @@
 #
 
 VERSION = 2016
-PATCHLEVEL = 07
+PATCHLEVEL = 09
 SUBLEVEL =
-EXTRAVERSION =
+EXTRAVERSION = -rc1
 NAME =
 
 # *DOCUMENTATION*
@@ -256,7 +256,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = cc
 HOSTCXX      = c++
-HOSTCFLAGS   = -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer
+HOSTCFLAGS   = -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer \
+		$(if $(CONFIG_TOOLS_DEBUG),-g)
 HOSTCXXFLAGS = -O2
 
 ifeq ($(HOSTOS),cygwin)
@@ -801,7 +802,7 @@ quiet_cmd_pad_cat = CAT     $@
 cmd_pad_cat = $(cmd_objcopy) && $(append) || rm -f $@
 
 all:		$(ALL-y)
-ifeq ($(CONFIG_DM_I2C_COMPAT),y)
+ifeq ($(CONFIG_DM_I2C_COMPAT)$(CONFIG_SANDBOX),y)
 	@echo "===================== WARNING ======================"
 	@echo "This board uses CONFIG_DM_I2C_COMPAT. Please remove"
 	@echo "(possibly in a subsequent patch in your series)"
@@ -1318,7 +1319,8 @@ u-boot.lds: $(LDSCRIPT) prepare FORCE
 
 spl/u-boot-spl.bin: spl/u-boot-spl
 	@:
-spl/u-boot-spl: tools prepare $(if $(CONFIG_OF_SEPARATE),dts/dt.dtb)
+spl/u-boot-spl: tools prepare \
+		$(if $(CONFIG_OF_SEPARATE)$(CONFIG_SPL_OF_PLATDATA),dts/dt.dtb)
 	$(Q)$(MAKE) obj=spl -f $(srctree)/scripts/Makefile.spl all
 
 spl/sunxi-spl.bin: spl/u-boot-spl

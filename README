@@ -511,7 +511,7 @@ The following options need to be configured:
 		implemetation.
 
 		CONFIG_SYS_FSL_DDR2
-		Board config to use DDR2. It can be eanbeld for SoCs with
+		Board config to use DDR2. It can be enabled for SoCs with
 		Freescale DDR2 or DDR3 controllers, depending on the board
 		implementation.
 
@@ -3583,6 +3583,10 @@ FIT uImage format:
 		Support for NAND boot using simple NAND drivers that
 		expose the cmd_ctrl() interface.
 
+		CONFIG_SPL_UBI
+		Support for a lightweight UBI (fastmap) scanner and
+		loader
+
 		CONFIG_SPL_MTD_SUPPORT
 		Support for the MTD subsystem within SPL.  Useful for
 		environment on NAND support within SPL.
@@ -3766,10 +3770,11 @@ Configuration Settings:
 		You only need to set this if address zero isn't writeable
 
 - CONFIG_SYS_MEM_RESERVE_SECURE
+		Only implemented for ARMv8 for now.
 		If defined, the size of CONFIG_SYS_MEM_RESERVE_SECURE memory
 		is substracted from total RAM and won't be reported to OS.
 		This memory can be used as secure memory. A variable
-		gd->secure_ram is used to track the location. In systems
+		gd->arch.secure_ram is used to track the location. In systems
 		the RAM base is not zero, or RAM is divided into banks,
 		this variable needs to be recalcuated to get the address.
 
@@ -3834,9 +3839,6 @@ Configuration Settings:
 		is not available. free() is supported but does nothing.
 		The memory will be freed (or in fact just forgotten) when
 		U-Boot relocates itself.
-
-		Pre-relocation malloc() is only supported on ARM and sandbox
-		at present but is fairly easy to enable for other archs.
 
 - CONFIG_SYS_MALLOC_SIMPLE
 		Provides a simple and small malloc() and calloc() for those
@@ -4809,7 +4811,7 @@ Low Level (hardware related) configuration options:
 
 - CONFIG_SKIP_LOWLEVEL_INIT_ONLY
 		[ARM926EJ-S only] This allows just the call to lowlevel_init()
-		to be skipped. The normal CPU15 init (such as enabling the
+		to be skipped. The normal CP15 init (such as enabling the
 		instruction cache) is still performed.
 
 - CONFIG_SPL_BUILD

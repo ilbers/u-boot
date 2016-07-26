@@ -53,7 +53,8 @@ dtb-$(CONFIG_TEGRA) += tegra20-harmony.dtb \
 	tegra124-jetson-tk1.dtb \
 	tegra124-nyan-big.dtb \
 	tegra124-venice2.dtb \
-	tegra186-p2771-0000.dtb \
+	tegra186-p2771-0000-a02.dtb \
+	tegra186-p2771-0000-b00.dtb \
 	tegra210-e2220-1170.dtb \
 	tegra210-p2371-0000.dtb \
 	tegra210-p2371-2180.dtb \
@@ -242,6 +243,7 @@ dtb-$(CONFIG_MACH_SUN8I_A83T) += \
 	sun8i-a83t-sinovoip-bpi-m3.dtb
 dtb-$(CONFIG_MACH_SUN8I_H3) += \
 	sun8i-h3-orangepi-2.dtb \
+	sun8i-h3-orangepi-lite.dtb \
 	sun8i-h3-orangepi-one.dtb \
 	sun8i-h3-orangepi-pc.dtb \
 	sun8i-h3-orangepi-plus.dtb

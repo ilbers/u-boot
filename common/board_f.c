@@ -117,10 +117,11 @@ static int init_func_watchdog_init(void)
 # if defined(CONFIG_HW_WATCHDOG) && (defined(CONFIG_BLACKFIN) || \
 	defined(CONFIG_M68K) || defined(CONFIG_MICROBLAZE) || \
 	defined(CONFIG_SH) || defined(CONFIG_AT91SAM9_WATCHDOG) || \
+	defined(CONFIG_DESIGNWARE_WATCHDOG) || \
 	defined(CONFIG_IMX_WATCHDOG))
 	hw_watchdog_init();
-# endif
 	puts("       Watchdog enabled\n");
+# endif
 	WATCHDOG_RESET();
 
 	return 0;
@@ -339,7 +340,7 @@ static int setup_dest_addr(void)
 	 * Record secure memory location. Need recalcuate if memory splits
 	 * into banks, or the ram base is not zero.
 	 */
-	gd->secure_ram = gd->ram_size;
+	gd->arch.secure_ram = gd->ram_size;
 #endif
 	/*
 	 * Subtract specified amount of memory to hide so that it won't
@@ -432,6 +433,15 @@ static int reserve_mmu(void)
 	gd->arch.tlb_addr = gd->relocaddr;
 	debug("TLB table from %08lx to %08lx\n", gd->arch.tlb_addr,
 	      gd->arch.tlb_addr + gd->arch.tlb_size);
+
+#ifdef CONFIG_SYS_MEM_RESERVE_SECURE
+	/*
+	 * Record allocated tlb_addr in case gd->tlb_addr to be overwritten
+	 * with location within secure ram.
+	 */
+	gd->arch.tlb_allocated = gd->arch.tlb_addr;
+#endif
+
 	return 0;
 }
 #endif

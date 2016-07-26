@@ -10,15 +10,24 @@ config DM_MMC
 	bool "Enable MMC controllers using Driver Model"
 	depends on DM
 	help
-	  This enables the MultiMediaCard (MMC) uclass which suports MMC and
+	  This enables the MultiMediaCard (MMC) uclass which supports MMC and
 	  Secure Digital I/O (SDIO) cards. Both removable (SD, micro-SD, etc.)
 	  and non-removable (e.g. eMMC chip) devices are supported. These
 	  appear as block devices in U-Boot and can support filesystems such
 	  as EXT4 and FAT.
 
+config DM_MMC_OPS
+	bool "Support MMC controller operations using Driver Model"
+	depends on DM_MMC
+	help
+	  Driver model provides a means of supporting device operations. This
+	  option moves MMC operations under the control of driver model. The
+	  option will be removed as soon as all DM_MMC drivers use it, as it
+	  will the only supported behaviour.
+
 config MSM_SDHCI
 	bool "Qualcomm SDHCI controller"
-	depends on DM_MMC
+	depends on DM_MMC && BLK && DM_MMC_OPS
 	help
 	  Enables support for SDHCI 2.0 controller present on some Qualcomm
           Snapdragon devices. This device is compatible with eMMC v4.5 and

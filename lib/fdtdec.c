@@ -19,6 +19,11 @@ DECLARE_GLOBAL_DATA_PTR;
  * Here are the type we know about. One day we might allow drivers to
  * register. For now we just put them here. The COMPAT macro allows us to
  * turn this into a sparse list later, and keeps the ID with the name.
+ *
+ * NOTE: This list is basically a TODO list for things that need to be
+ * converted to driver model. So don't add new things here unless there is a
+ * good reason why driver-model conversion is infeasible. Examples include
+ * things which are used before driver model is available.
  */
 #define COMPAT(id, name) name
 static const char * const compat_names[COMPAT_COUNT] = {
@@ -39,13 +44,10 @@ static const char * const compat_names[COMPAT_COUNT] = {
 	COMPAT(SAMSUNG_S3C2440_I2C, "samsung,s3c2440-i2c"),
 	COMPAT(SAMSUNG_EXYNOS5_SOUND, "samsung,exynos-sound"),
 	COMPAT(WOLFSON_WM8994_CODEC, "wolfson,wm8994-codec"),
-	COMPAT(GOOGLE_CROS_EC_KEYB, "google,cros-ec-keyb"),
 	COMPAT(SAMSUNG_EXYNOS_USB_PHY, "samsung,exynos-usb-phy"),
 	COMPAT(SAMSUNG_EXYNOS5_USB3_PHY, "samsung,exynos5250-usb3-phy"),
 	COMPAT(SAMSUNG_EXYNOS_TMU, "samsung,exynos-tmu"),
-	COMPAT(SAMSUNG_EXYNOS_FIMD, "samsung,exynos-fimd"),
 	COMPAT(SAMSUNG_EXYNOS_MIPI_DSI, "samsung,exynos-mipi-dsi"),
-	COMPAT(SAMSUNG_EXYNOS5_DP, "samsung,exynos5-dp"),
 	COMPAT(SAMSUNG_EXYNOS_DWMMC, "samsung,exynos-dwmmc"),
 	COMPAT(SAMSUNG_EXYNOS_MMC, "samsung,exynos-mmc"),
 	COMPAT(MAXIM_MAX77686_PMIC, "maxim,max77686"),
@@ -54,20 +56,16 @@ static const char * const compat_names[COMPAT_COUNT] = {
 	COMPAT(SAMSUNG_EXYNOS5_I2C, "samsung,exynos5-hsi2c"),
 	COMPAT(SAMSUNG_EXYNOS_SYSMMU, "samsung,sysmmu-v3.3"),
 	COMPAT(INTEL_MICROCODE, "intel,microcode"),
-	COMPAT(INTEL_PANTHERPOINT_AHCI, "intel,pantherpoint-ahci"),
-	COMPAT(INTEL_MODEL_206AX, "intel,model-206ax"),
-	COMPAT(INTEL_GMA, "intel,gma"),
 	COMPAT(AMS_AS3722, "ams,as3722"),
-	COMPAT(INTEL_ICH_SPI, "intel,ich-spi"),
 	COMPAT(INTEL_QRK_MRC, "intel,quark-mrc"),
 	COMPAT(SOCIONEXT_XHCI, "socionext,uniphier-xhci"),
-	COMPAT(COMPAT_INTEL_PCH, "intel,bd82x6x"),
 	COMPAT(ALTERA_SOCFPGA_DWMAC, "altr,socfpga-stmmac"),
 	COMPAT(ALTERA_SOCFPGA_DWMMC, "altr,socfpga-dw-mshc"),
 	COMPAT(ALTERA_SOCFPGA_DWC2USB, "snps,dwc2"),
-	COMPAT(COMPAT_INTEL_BAYTRAIL_FSP, "intel,baytrail-fsp"),
-	COMPAT(COMPAT_INTEL_BAYTRAIL_FSP_MDP, "intel,baytrail-fsp-mdp"),
-	COMPAT(COMPAT_INTEL_IVYBRIDGE_FSP, "intel,ivybridge-fsp"),
+	COMPAT(INTEL_BAYTRAIL_FSP, "intel,baytrail-fsp"),
+	COMPAT(INTEL_BAYTRAIL_FSP_MDP, "intel,baytrail-fsp-mdp"),
+	COMPAT(INTEL_IVYBRIDGE_FSP, "intel,ivybridge-fsp"),
+	COMPAT(COMPAT_SUNXI_NAND, "allwinner,sun4i-a10-nand"),
 };
 
 const char *fdtdec_get_compatible(enum fdt_compat_id id)

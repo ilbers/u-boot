@@ -9,6 +9,7 @@
  */
 
 #include <common.h>
+#include <errno.h>
 #include <malloc.h>
 #include <mmc.h>
 #include <sdhci.h>
@@ -129,9 +130,17 @@ static int sdhci_transfer_data(struct sdhci_host *host, struct mmc_data *data,
 #define CONFIG_SDHCI_CMD_DEFAULT_TIMEOUT	100
 #define SDHCI_READ_STATUS_TIMEOUT		1000
 
-static int sdhci_send_command(struct mmc *mmc, struct mmc_cmd *cmd,
-		       struct mmc_data *data)
+#ifdef CONFIG_DM_MMC_OPS
+static int sdhci_send_command(struct udevice *dev, struct mmc_cmd *cmd,
+			      struct mmc_data *data)
 {
+	struct mmc *mmc = mmc_get_mmc_dev(dev);
+
+#else
+static int sdhci_send_command(struct mmc *mmc, struct mmc_cmd *cmd,
+			      struct mmc_data *data)
+{
+#endif
 	struct sdhci_host *host = mmc->priv;
 	unsigned int stat = 0;
 	int ret = 0;
@@ -304,7 +313,7 @@ static int sdhci_set_clock(struct mmc *mmc, unsigned int clock)
 	}
 
 	reg = sdhci_readw(host, SDHCI_CLOCK_CONTROL);
-	reg &= ~SDHCI_CLOCK_CARD_EN;
+	reg &= ~(SDHCI_CLOCK_CARD_EN | SDHCI_CLOCK_INT_EN);
 	sdhci_writew(host, reg, SDHCI_CLOCK_CONTROL);
 
 	if (clock == 0)
@@ -389,8 +398,14 @@ static void sdhci_set_power(struct sdhci_host *host, unsigned short power)
 	sdhci_writeb(host, pwr, SDHCI_POWER_CONTROL);
 }
 
+#ifdef CONFIG_DM_MMC_OPS
+static int sdhci_set_ios(struct udevice *dev)
+{
+	struct mmc *mmc = mmc_get_mmc_dev(dev);
+#else
 static void sdhci_set_ios(struct mmc *mmc)
 {
+#endif
 	u32 ctrl;
 	struct sdhci_host *host = mmc->priv;
 
@@ -426,6 +441,9 @@ static void sdhci_set_ios(struct mmc *mmc)
 		ctrl &= ~SDHCI_CTRL_HISPD;
 
 	sdhci_writeb(host, ctrl, SDHCI_HOST_CONTROL);
+#ifdef CONFIG_DM_MMC_OPS
+	return 0;
+#endif
 }
 
 static int sdhci_init(struct mmc *mmc)
@@ -472,19 +490,90 @@ static int sdhci_init(struct mmc *mmc)
 	return 0;
 }
 
+#ifdef CONFIG_DM_MMC_OPS
+int sdhci_probe(struct udevice *dev)
+{
+	struct mmc *mmc = mmc_get_mmc_dev(dev);
 
+	return sdhci_init(mmc);
+}
+
+const struct dm_mmc_ops sdhci_ops = {
+	.send_cmd	= sdhci_send_command,
+	.set_ios	= sdhci_set_ios,
+};
+#else
 static const struct mmc_ops sdhci_ops = {
 	.send_cmd	= sdhci_send_command,
 	.set_ios	= sdhci_set_ios,
 	.init		= sdhci_init,
 };
+#endif
 
+int sdhci_setup_cfg(struct mmc_config *cfg, const char *name, int buswidth,
+		    uint caps, u32 max_clk, u32 min_clk, uint version,
+		    uint quirks, uint host_caps)
+{
+	cfg->name = name;
+#ifndef CONFIG_DM_MMC_OPS
+	cfg->ops = &sdhci_ops;
+#endif
+	if (max_clk)
+		cfg->f_max = max_clk;
+	else {
+		if (version >= SDHCI_SPEC_300)
+			cfg->f_max = (caps & SDHCI_CLOCK_V3_BASE_MASK) >>
+				SDHCI_CLOCK_BASE_SHIFT;
+		else
+			cfg->f_max = (caps & SDHCI_CLOCK_BASE_MASK) >>
+				SDHCI_CLOCK_BASE_SHIFT;
+		cfg->f_max *= 1000000;
+	}
+	if (cfg->f_max == 0)
+		return -EINVAL;
+	if (min_clk)
+		cfg->f_min = min_clk;
+	else {
+		if (version >= SDHCI_SPEC_300)
+			cfg->f_min = cfg->f_max / SDHCI_MAX_DIV_SPEC_300;
+		else
+			cfg->f_min = cfg->f_max / SDHCI_MAX_DIV_SPEC_200;
+	}
+	cfg->voltages = 0;
+	if (caps & SDHCI_CAN_VDD_330)
+		cfg->voltages |= MMC_VDD_32_33 | MMC_VDD_33_34;
+	if (caps & SDHCI_CAN_VDD_300)
+		cfg->voltages |= MMC_VDD_29_30 | MMC_VDD_30_31;
+	if (caps & SDHCI_CAN_VDD_180)
+		cfg->voltages |= MMC_VDD_165_195;
+
+	cfg->host_caps = MMC_MODE_HS | MMC_MODE_HS_52MHz | MMC_MODE_4BIT;
+	if (version >= SDHCI_SPEC_300) {
+		if (caps & SDHCI_CAN_DO_8BIT)
+			cfg->host_caps |= MMC_MODE_8BIT;
+	}
+
+	if (quirks & SDHCI_QUIRK_NO_HISPD_BIT)
+		cfg->host_caps &= ~(MMC_MODE_HS | MMC_MODE_HS_52MHz);
+
+	if (host_caps)
+		cfg->host_caps |= host_caps;
+
+
+	cfg->b_max = CONFIG_SYS_MMC_MAX_BLK_COUNT;
+
+	return 0;
+}
+
+#ifdef CONFIG_BLK
+int sdhci_bind(struct udevice *dev, struct mmc *mmc, struct mmc_config *cfg)
+{
+	return mmc_bind(dev, mmc, cfg);
+}
+#else
 int add_sdhci(struct sdhci_host *host, u32 max_clk, u32 min_clk)
 {
 	unsigned int caps;
-
-	host->cfg.name = host->name;
-	host->cfg.ops = &sdhci_ops;
 
 	caps = sdhci_readl(host, SDHCI_CAPABILITIES);
 #ifdef CONFIG_MMC_SDMA
@@ -495,57 +584,16 @@ int add_sdhci(struct sdhci_host *host, u32 max_clk, u32 min_clk)
 	}
 #endif
 
-	if (max_clk)
-		host->cfg.f_max = max_clk;
-	else {
-		if (SDHCI_GET_VERSION(host) >= SDHCI_SPEC_300)
-			host->cfg.f_max = (caps & SDHCI_CLOCK_V3_BASE_MASK)
-				>> SDHCI_CLOCK_BASE_SHIFT;
-		else
-			host->cfg.f_max = (caps & SDHCI_CLOCK_BASE_MASK)
-				>> SDHCI_CLOCK_BASE_SHIFT;
-		host->cfg.f_max *= 1000000;
-	}
-	if (host->cfg.f_max == 0) {
+	if (sdhci_setup_cfg(&host->cfg, host->name, host->bus_width, caps,
+			    max_clk, min_clk, SDHCI_GET_VERSION(host),
+			    host->quirks, host->host_caps)) {
 		printf("%s: Hardware doesn't specify base clock frequency\n",
 		       __func__);
-		return -1;
+		return -EINVAL;
 	}
-	if (min_clk)
-		host->cfg.f_min = min_clk;
-	else {
-		if (SDHCI_GET_VERSION(host) >= SDHCI_SPEC_300)
-			host->cfg.f_min = host->cfg.f_max /
-				SDHCI_MAX_DIV_SPEC_300;
-		else
-			host->cfg.f_min = host->cfg.f_max /
-				SDHCI_MAX_DIV_SPEC_200;
-	}
-
-	host->cfg.voltages = 0;
-	if (caps & SDHCI_CAN_VDD_330)
-		host->cfg.voltages |= MMC_VDD_32_33 | MMC_VDD_33_34;
-	if (caps & SDHCI_CAN_VDD_300)
-		host->cfg.voltages |= MMC_VDD_29_30 | MMC_VDD_30_31;
-	if (caps & SDHCI_CAN_VDD_180)
-		host->cfg.voltages |= MMC_VDD_165_195;
 
 	if (host->quirks & SDHCI_QUIRK_BROKEN_VOLTAGE)
 		host->cfg.voltages |= host->voltages;
-
-	host->cfg.host_caps = MMC_MODE_HS | MMC_MODE_HS_52MHz | MMC_MODE_4BIT;
-	if (SDHCI_GET_VERSION(host) >= SDHCI_SPEC_300) {
-		if (caps & SDHCI_CAN_DO_8BIT)
-			host->cfg.host_caps |= MMC_MODE_8BIT;
-	}
-
-	if (host->quirks & SDHCI_QUIRK_NO_HISPD_BIT)
-		host->cfg.host_caps &= ~(MMC_MODE_HS | MMC_MODE_HS_52MHz);
-
-	if (host->host_caps)
-		host->cfg.host_caps |= host->host_caps;
-
-	host->cfg.b_max = CONFIG_SYS_MMC_MAX_BLK_COUNT;
 
 	sdhci_reset(host, SDHCI_RESET_ALL);
 
@@ -557,3 +605,4 @@ int add_sdhci(struct sdhci_host *host, u32 max_clk, u32 min_clk)
 
 	return 0;
 }
+#endif
