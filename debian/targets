@@ -27,13 +27,13 @@ armel	rpi		rpi		u-boot.bin
 armel	-		sheevaplug	u-boot.kwb
 
 # Ian Campbell <ijc@debian.org>
-armhf	exynos		arndale		u-boot-dtb.bin spl/arndale-spl.bin
+armhf	exynos		arndale		u-boot.bin spl/arndale-spl.bin
 
 # Joost van Zwieten <joostvanzwieten@gmail.com>, Odroid-U3
-armhf	exynos		odroid		u-boot-dtb.bin
+armhf	exynos		odroid		u-boot.bin
 
 # Vagrant Cascadian <vagrant@debian.org>, Odroid-XU4
-armhf	exynos		odroid-xu3	u-boot-dtb.bin
+armhf	exynos		odroid-xu3	u-boot.bin
 
 # Robert Nelson <robertcnelson@gmail.com>
 armhf	imx		mx53loco	u-boot.imx
@@ -60,14 +60,14 @@ armhf	imx		usbarmory	u-boot.imx
 armhf	imx		wandboard	u-boot.img spl/u-boot-spl.bin SPL
 
 # Ian Campbell <ijc@debian.org>
-armhf	tegra		jetson-tk1	u-boot-dtb-tegra.bin
+armhf	tegra		jetson-tk1	u-boot-tegra.bin
 
 # Vagrant Cascadian <vagrant@debian.org>
 # Andrew M.A. Cater <amacater@galactic.demon.co.uk>
 armhf	omap		am335x_boneblack u-boot.img spl/u-boot-spl.bin MLO
 
 # Vagrant Cascadian <vagrant@debian.org>
-armhf	omap		am57xx_evm	u-boot-dtb.img spl/u-boot-spl.bin MLO
+armhf	omap		am57xx_evm	u-boot.img spl/u-boot-spl.bin MLO
 
 # Ben Hutchings <ben.hutchings@codethink.co.uk>
 armhf 	omap		dra7xx_evm	u-boot.img spl/u-boot-spl.bin MLO
@@ -85,7 +85,7 @@ armhf	omap		omap4_panda	u-boot.img spl/u-boot-spl.bin MLO
 
 # Emilio Pozuelo Monfort <pochu@debian.org>
 # Sjoerd Simons <sjoerd@debian.org>
-armhf	rockchip	firefly-rk3288		u-boot-dtb.img spl/u-boot-spl.bin
+armhf	rockchip	firefly-rk3288		u-boot.img spl/u-boot-spl.bin
 
 # Vagrant Cascadian <vagrant@debian.org>, Raspberry PI 2B
 armhf	rpi		rpi_2		u-boot.bin
@@ -157,7 +157,7 @@ arm64	rpi		rpi_3		u-boot.bin
 arm64	sunxi		pine64_plus	u-boot.bin
 
 # Martin Michlmayr <tbm@cyrius.com>
-arm64	tegra		p2371-2180	u-boot-dtb.bin
+arm64	tegra		p2371-2180	u-boot.bin
 
 avr32	-		hammerhead	u-boot.img
 
