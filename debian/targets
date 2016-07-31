@@ -85,7 +85,7 @@ armhf	omap		omap4_panda	u-boot.img spl/u-boot-spl.bin MLO
 
 # Emilio Pozuelo Monfort <pochu@debian.org>
 # Sjoerd Simons <sjoerd@debian.org>
-armhf	rockchip	firefly-rk3288		u-boot-dtb.img spl/u-boot-spl-dtb.bin
+armhf	rockchip	firefly-rk3288		u-boot-dtb.img spl/u-boot-spl.bin
 
 # Vagrant Cascadian <vagrant@debian.org>, Raspberry PI 2B
 armhf	rpi		rpi_2		u-boot.bin

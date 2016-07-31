@@ -48,8 +48,8 @@ override_dh_auto_build:
 			mkimage=$$builddir/tools/mkimage; \
 			test -x /usr/bin/mkimage && mkimage=/usr/bin/mkimage; \
 			$$mkimage -T rksd -n rk3288 \
-				-d $$builddir/spl/u-boot-spl-dtb.bin $$builddir/u-boot-spl-dtb.rksd; \
-			echo $$builddir/u-boot-spl-dtb.rksd /usr/lib/u-boot/$$platform/ \
+				-d $$builddir/spl/u-boot-spl.bin $$builddir/u-boot-spl.rksd; \
+			echo $$builddir/u-boot-spl.rksd /usr/lib/u-boot/$$platform/ \
 				>> debian/build/targets.$$subarch; \
 			;; \
 	        esac; \
