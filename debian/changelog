@@ -1,3 +1,19 @@
+u-boot (2016.09~rc1+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Remove patches applied upstream.
+  * Remove redundant u-boot-rockchip.docs, as it is handled in the
+    u-boot-rockchip.install file.
+  * u-boot-sunxi: Install README for pine64 target.
+  * Add build-depends on python:any [armhf], which is now required to
+    build the firefly-rk3288 target.
+  * Fix build of firefly-rk3288 target, which now uses u-boot-spl.bin to
+    generate rksd image.
+  * Build u-boot.img and u-boot.bin instead of deprecated u-boot-dtb.*
+    targets.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Mon, 01 Aug 2016 00:42:12 -0700
+
 u-boot (2016.07~rc3+dfsg1-2) experimental; urgency=medium
 
   * [armel] Apply patch from upstream that fixes FTBFS on openrd variants.
