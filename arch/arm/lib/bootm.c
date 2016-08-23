@@ -248,15 +248,20 @@ static void boot_prep_linux(bootm_headers_t *images)
 	}
 }
 
+__weak bool armv7_boot_nonsec_default(void)
+{
+#ifdef CONFIG_ARMV7_BOOT_SEC_DEFAULT
+	return false;
+#else
+	return true;
+#endif
+}
+
 #ifdef CONFIG_ARMV7_NONSEC
 bool armv7_boot_nonsec(void)
 {
 	char *s = getenv("bootm_boot_mode");
-#ifdef CONFIG_ARMV7_BOOT_SEC_DEFAULT
-	bool nonsec = false;
-#else
-	bool nonsec = true;
-#endif
+	bool nonsec = armv7_boot_nonsec_default();
 
 	if (s && !strcmp(s, "sec"))
 		nonsec = false;
@@ -367,8 +372,10 @@ void boot_prep_vxworks(bootm_headers_t *images)
 	if (images->ft_addr) {
 		off = fdt_path_offset(images->ft_addr, "/memory");
 		if (off < 0) {
+#ifdef CONFIG_ARCH_FIXUP_FDT
 			if (arch_fixup_fdt(images->ft_addr))
 				puts("## WARNING: fixup memory failed!\n");
+#endif
 		}
 	}
 #endif

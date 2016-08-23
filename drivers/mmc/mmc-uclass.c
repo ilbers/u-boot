@@ -111,18 +111,18 @@ struct mmc *find_mmc_device(int dev_num)
 
 int get_mmc_num(void)
 {
-	return max(blk_find_max_devnum(IF_TYPE_MMC), 0);
+	return max((blk_find_max_devnum(IF_TYPE_MMC) + 1), 0);
 }
 
 int mmc_get_next_devnum(void)
 {
 	int ret;
 
-	ret = get_mmc_num();
+	ret = blk_find_max_devnum(IF_TYPE_MMC);
 	if (ret < 0)
 		return ret;
 
-	return ret + 1;
+	return ret;
 }
 
 struct blk_desc *mmc_get_blk_desc(struct mmc *mmc)
@@ -169,7 +169,7 @@ void print_mmc_devices(char separator)
 
 	for (uclass_first_device(UCLASS_MMC, &dev);
 	     dev;
-	     uclass_next_device(&dev)) {
+	     uclass_next_device(&dev), first = false) {
 		struct mmc *m = mmc_get_mmc_dev(dev);
 
 		if (!first) {

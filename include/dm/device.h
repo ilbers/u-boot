@@ -207,6 +207,10 @@ struct driver {
 #define U_BOOT_DRIVER(__name)						\
 	ll_entry_declare(struct driver, __name, driver)
 
+/* Get a pointer to a given driver */
+#define DM_GET_DRIVER(__name)						\
+	ll_entry_get(struct driver, __name, driver)
+
 /**
  * dev_get_platdata() - Get the platform data for a device
  *
@@ -607,6 +611,22 @@ static inline bool device_is_on_pci_bus(struct udevice *dev)
  */
 #define device_foreach_child_safe(pos, next, parent)	\
 	list_for_each_entry_safe(pos, next, &parent->child_head, sibling_node)
+
+/**
+ * dm_scan_fdt_dev() - Bind child device in a the device tree
+ *
+ * This handles device which have sub-nodes in the device tree. It scans all
+ * sub-nodes and binds drivers for each node where a driver can be found.
+ *
+ * If this is called prior to relocation, only pre-relocation devices will be
+ * bound (those marked with u-boot,dm-pre-reloc in the device tree, or where
+ * the driver has the DM_FLAG_PRE_RELOC flag set). Otherwise, all devices will
+ * be bound.
+ *
+ * @dev:	Device to scan
+ * @return 0 if OK, -ve on error
+ */
+int dm_scan_fdt_dev(struct udevice *dev);
 
 /* device resource management */
 typedef void (*dr_release_t)(struct udevice *dev, void *res);

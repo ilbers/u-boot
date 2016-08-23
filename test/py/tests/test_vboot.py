@@ -1,4 +1,4 @@
-# Copyright (c) 2013, Google Inc.
+# Copyright (c) 2016, Google Inc.
 #
 # SPDX-License-Identifier:	GPL-2.0+
 #
@@ -16,7 +16,7 @@ For image verification:
 For configuration verification:
 - Corrupt signature and check for failure
 - Create FIT (with unsigned configuration) with mkimage
-- Check that image veriication works
+- Check that image verification works
 - Sign the FIT and mark the key as 'required' for verification
 - Check that image verification works
 - Corrupt the signature
@@ -41,7 +41,7 @@ def test_vboot(u_boot_console):
     key-generation process is quite slow and we want to avoid doing it twice.
     """
     def dtc(dts):
-        """Run the device-tree compiler to compile a .dts file
+        """Run the device tree compiler to compile a .dts file
 
         The output file will be the same as the input file but with a .dtb
         extension.
@@ -50,102 +50,108 @@ def test_vboot(u_boot_console):
             dts: Device tree file to compile.
         """
         dtb = dts.replace('.dts', '.dtb')
-        util.cmd(cons, 'dtc %s %s%s -O dtb '
-                       '-o %s%s' % (dtc_args, datadir, dts, tmpdir, dtb))
+        util.run_and_log(cons, 'dtc %s %s%s -O dtb '
+                         '-o %s%s' % (dtc_args, datadir, dts, tmpdir, dtb))
 
-    def run_bootm(test_type, expect_string):
+    def run_bootm(sha_algo, test_type, expect_string):
         """Run a 'bootm' command U-Boot.
 
         This always starts a fresh U-Boot instance since the device tree may
         contain a new public key.
 
         Args:
-            test_type: A string identifying the test type
-            expect_string: A string which is expected in the output
+            test_type: A string identifying the test type.
+            expect_string: A string which is expected in the output.
+            sha_algo: Either 'sha1' or 'sha256', to select the algorithm to
+                    use.
         """
-        cons.cleanup_spawn()
-        cons.ensure_spawned()
-        cons.log.action('%s: Test Verified Boot Run: %s' % (algo, test_type))
-        output = cons.run_command_list(
-            ['sb load hostfs - 100 %stest.fit' % tmpdir,
-             'fdt addr 100',
-             'bootm 100'])
-        assert(expect_string in output)
+        cons.restart_uboot()
+        with cons.log.section('Verified boot %s %s' % (sha_algo, test_type)):
+            output = cons.run_command_list(
+                ['sb load hostfs - 100 %stest.fit' % tmpdir,
+                'fdt addr 100',
+                'bootm 100'])
+        assert(expect_string in ''.join(output))
 
     def make_fit(its):
-        """Make a new FIT from the .its source file
+        """Make a new FIT from the .its source file.
 
         This runs 'mkimage -f' to create a new FIT.
 
         Args:
-            its: Filename containing .its source
+            its: Filename containing .its source.
         """
         util.run_and_log(cons, [mkimage, '-D', dtc_args, '-f',
                                 '%s%s' % (datadir, its), fit])
 
-    def sign_fit():
+    def sign_fit(sha_algo):
         """Sign the FIT
 
         Signs the FIT and writes the signature into it. It also writes the
         public key into the dtb.
+
+        Args:
+            sha_algo: Either 'sha1' or 'sha256', to select the algorithm to
+                    use.
         """
-        cons.log.action('%s: Sign images' % algo)
+        cons.log.action('%s: Sign images' % sha_algo)
         util.run_and_log(cons, [mkimage, '-F', '-k', tmpdir, '-K', dtb,
                                 '-r', fit])
 
-    def test_with_algo(sha):
-        """Test verified boot with the given hash algorithm
+    def test_with_algo(sha_algo):
+        """Test verified boot with the given hash algorithm.
 
         This is the main part of the test code. The same procedure is followed
         for both hashing algorithms.
 
         Args:
-            sha: Either 'sha1' or 'sha256', to select the algorithm to use
+            sha_algo: Either 'sha1' or 'sha256', to select the algorithm to
+                    use.
         """
-        global algo
-
-        algo = sha
-
-        # Compile our device tree files for kernel and U-Boot
+        # Compile our device tree files for kernel and U-Boot. These are
+        # regenerated here since mkimage will modify them (by adding a
+        # public key) below.
         dtc('sandbox-kernel.dts')
         dtc('sandbox-u-boot.dts')
 
         # Build the FIT, but don't sign anything yet
-        cons.log.action('%s: Test FIT with signed images' % algo)
-        make_fit('sign-images-%s.its' % algo)
-        run_bootm('unsigned images', 'dev-')
+        cons.log.action('%s: Test FIT with signed images' % sha_algo)
+        make_fit('sign-images-%s.its' % sha_algo)
+        run_bootm(sha_algo, 'unsigned images', 'dev-')
 
         # Sign images with our dev keys
-        sign_fit()
-        run_bootm('signed images', 'dev+')
+        sign_fit(sha_algo)
+        run_bootm(sha_algo, 'signed images', 'dev+')
 
         # Create a fresh .dtb without the public keys
         dtc('sandbox-u-boot.dts')
 
-        cons.log.action('%s: Test FIT with signed configuration' % algo)
-        make_fit('sign-configs-%s.its' % algo)
-        run_bootm('unsigned config', '%s+ OK' % algo)
+        cons.log.action('%s: Test FIT with signed configuration' % sha_algo)
+        make_fit('sign-configs-%s.its' % sha_algo)
+        run_bootm(sha_algo, 'unsigned config', '%s+ OK' % sha_algo)
 
         # Sign images with our dev keys
-        sign_fit()
-        run_bootm('signed config', 'dev+')
+        sign_fit(sha_algo)
+        run_bootm(sha_algo, 'signed config', 'dev+')
 
-        cons.log.action('%s: Check signed config on the host' % algo)
+        cons.log.action('%s: Check signed config on the host' % sha_algo)
 
         util.run_and_log(cons, [fit_check_sign, '-f', fit, '-k', tmpdir,
                                 '-k', dtb])
 
         # Increment the first byte of the signature, which should cause failure
-        sig = util.cmd(cons, 'fdtget -t bx %s %s value' % (fit, sig_node))
+        sig = util.run_and_log(cons, 'fdtget -t bx %s %s value' %
+                               (fit, sig_node))
         byte_list = sig.split()
         byte = int(byte_list[0], 16)
-        byte_list = ['%x' % (byte + 1)] + byte_list[1:]
+        byte_list[0] = '%x' % (byte + 1)
         sig = ' '.join(byte_list)
-        util.cmd(cons, 'fdtput -t bx %s %s value %s' % (fit, sig_node, sig))
+        util.run_and_log(cons, 'fdtput -t bx %s %s value %s' %
+                         (fit, sig_node, sig))
 
-        run_bootm('Signed config with bad hash', 'Bad Data Hash')
+        run_bootm(sha_algo, 'Signed config with bad hash', 'Bad Data Hash')
 
-        cons.log.action('%s: Check bad config on the host' % algo)
+        cons.log.action('%s: Check bad config on the host' % sha_algo)
         util.run_and_log_expect_exception(cons, [fit_check_sign, '-f', fit,
                 '-k', dtb], 1, 'Failed to verify required signature')
 
@@ -162,14 +168,14 @@ def test_vboot(u_boot_console):
 
     # Create an RSA key pair
     public_exponent = 65537
-    util.cmd(cons, 'openssl genpkey -algorithm RSA -out %sdev.key '
-                   '-pkeyopt rsa_keygen_bits:2048 '
-                   '-pkeyopt rsa_keygen_pubexp:%d '
-                   '2>/dev/null'  % (tmpdir, public_exponent))
+    util.run_and_log(cons, 'openssl genpkey -algorithm RSA -out %sdev.key '
+                     '-pkeyopt rsa_keygen_bits:2048 '
+                     '-pkeyopt rsa_keygen_pubexp:%d '
+                     '2>/dev/null'  % (tmpdir, public_exponent))
 
     # Create a certificate containing the public key
-    util.cmd(cons, 'openssl req -batch -new -x509 -key %sdev.key -out '
-                   '%sdev.crt' % (tmpdir, tmpdir))
+    util.run_and_log(cons, 'openssl req -batch -new -x509 -key %sdev.key -out '
+                     '%sdev.crt' % (tmpdir, tmpdir))
 
     # Create a number kernel image with zeroes
     with open('%stest-kernel.bin' % tmpdir, 'w') as fd:
@@ -183,4 +189,6 @@ def test_vboot(u_boot_console):
         test_with_algo('sha1')
         test_with_algo('sha256')
     finally:
+        # Go back to the original U-Boot with the correct dtb.
         cons.config.dtb = old_dtb
+        cons.restart_uboot()

@@ -160,6 +160,8 @@ To see the complete list of supported options, run
 
 """
 
+import copy
+import difflib
 import filecmp
 import fnmatch
 import multiprocessing
@@ -264,6 +266,16 @@ def get_make_cmd():
         sys.exit('GNU Make not found')
     return ret[0].rstrip()
 
+def get_all_defconfigs():
+    """Get all the defconfig files under the configs/ directory."""
+    defconfigs = []
+    for (dirpath, dirnames, filenames) in os.walk('configs'):
+        dirpath = dirpath[len('configs') + 1:]
+        for filename in fnmatch.filter(filenames, '*_defconfig'):
+            defconfigs.append(os.path.join(dirpath, filename))
+
+    return defconfigs
+
 def color_text(color_enabled, color, string):
     """Return colored string."""
     if color_enabled:
@@ -273,6 +285,28 @@ def color_text(color_enabled, color, string):
                            for s in string.split('\n') ])
     else:
         return string
+
+def show_diff(a, b, file_path, color_enabled):
+    """Show unidified diff.
+
+    Arguments:
+      a: A list of lines (before)
+      b: A list of lines (after)
+      file_path: Path to the file
+      color_enabled: Display the diff in color
+    """
+
+    diff = difflib.unified_diff(a, b,
+                                fromfile=os.path.join('a', file_path),
+                                tofile=os.path.join('b', file_path))
+
+    for line in diff:
+        if line[0] == '-' and line[1] != '-':
+            print color_text(color_enabled, COLOR_RED, line),
+        elif line[0] == '+' and line[1] != '+':
+            print color_text(color_enabled, COLOR_GREEN, line),
+        else:
+            print line,
 
 def update_cross_compile(color_enabled):
     """Update per-arch CROSS_COMPILE via environment variables
@@ -319,41 +353,123 @@ def update_cross_compile(color_enabled):
 
         CROSS_COMPILE[arch] = cross_compile
 
-def cleanup_one_header(header_path, patterns, dry_run):
+def extend_matched_lines(lines, matched, pre_patterns, post_patterns, extend_pre,
+                         extend_post):
+    """Extend matched lines if desired patterns are found before/after already
+    matched lines.
+
+    Arguments:
+      lines: A list of lines handled.
+      matched: A list of line numbers that have been already matched.
+               (will be updated by this function)
+      pre_patterns: A list of regular expression that should be matched as
+                    preamble.
+      post_patterns: A list of regular expression that should be matched as
+                     postamble.
+      extend_pre: Add the line number of matched preamble to the matched list.
+      extend_post: Add the line number of matched postamble to the matched list.
+    """
+    extended_matched = []
+
+    j = matched[0]
+
+    for i in matched:
+        if i == 0 or i < j:
+            continue
+        j = i
+        while j in matched:
+            j += 1
+        if j >= len(lines):
+            break
+
+        for p in pre_patterns:
+            if p.search(lines[i - 1]):
+                break
+        else:
+            # not matched
+            continue
+
+        for p in post_patterns:
+            if p.search(lines[j]):
+                break
+        else:
+            # not matched
+            continue
+
+        if extend_pre:
+            extended_matched.append(i - 1)
+        if extend_post:
+            extended_matched.append(j)
+
+    matched += extended_matched
+    matched.sort()
+
+def cleanup_one_header(header_path, patterns, options):
     """Clean regex-matched lines away from a file.
 
     Arguments:
       header_path: path to the cleaned file.
       patterns: list of regex patterns.  Any lines matching to these
                 patterns are deleted.
-      dry_run: make no changes, but still display log.
+      options: option flags.
     """
     with open(header_path) as f:
         lines = f.readlines()
 
     matched = []
     for i, line in enumerate(lines):
+        if i - 1 in matched and lines[i - 1][-2:] == '\\\n':
+            matched.append(i)
+            continue
         for pattern in patterns:
-            m = pattern.search(line)
-            if m:
-                print '%s: %s: %s' % (header_path, i + 1, line),
+            if pattern.search(line):
                 matched.append(i)
                 break
 
-    if dry_run or not matched:
+    if not matched:
+        return
+
+    # remove empty #ifdef ... #endif, successive blank lines
+    pattern_if = re.compile(r'#\s*if(def|ndef)?\W') #  #if, #ifdef, #ifndef
+    pattern_elif = re.compile(r'#\s*el(if|se)\W')   #  #elif, #else
+    pattern_endif = re.compile(r'#\s*endif\W')      #  #endif
+    pattern_blank = re.compile(r'^\s*$')            #  empty line
+
+    while True:
+        old_matched = copy.copy(matched)
+        extend_matched_lines(lines, matched, [pattern_if],
+                             [pattern_endif], True, True)
+        extend_matched_lines(lines, matched, [pattern_elif],
+                             [pattern_elif, pattern_endif], True, False)
+        extend_matched_lines(lines, matched, [pattern_if, pattern_elif],
+                             [pattern_blank], False, True)
+        extend_matched_lines(lines, matched, [pattern_blank],
+                             [pattern_elif, pattern_endif], True, False)
+        extend_matched_lines(lines, matched, [pattern_blank],
+                             [pattern_blank], True, False)
+        if matched == old_matched:
+            break
+
+    tolines = copy.copy(lines)
+
+    for i in reversed(matched):
+        tolines.pop(i)
+
+    show_diff(lines, tolines, header_path, options.color)
+
+    if options.dry_run:
         return
 
     with open(header_path, 'w') as f:
-        for i, line in enumerate(lines):
-            if not i in matched:
-                f.write(line)
+        for line in tolines:
+            f.write(line)
 
-def cleanup_headers(configs, dry_run):
+def cleanup_headers(configs, options):
     """Delete config defines from board headers.
 
     Arguments:
       configs: A list of CONFIGs to remove.
-      dry_run: make no changes, but still display log.
+      options: option flags.
     """
     while True:
         choice = raw_input('Clean up headers? [y/n]: ').lower()
@@ -371,10 +487,85 @@ def cleanup_headers(configs, dry_run):
 
     for dir in 'include', 'arch', 'board':
         for (dirpath, dirnames, filenames) in os.walk(dir):
+            if dirpath == os.path.join('include', 'generated'):
+                continue
             for filename in filenames:
                 if not fnmatch.fnmatch(filename, '*~'):
                     cleanup_one_header(os.path.join(dirpath, filename),
-                                       patterns, dry_run)
+                                       patterns, options)
+
+def cleanup_one_extra_option(defconfig_path, configs, options):
+    """Delete config defines in CONFIG_SYS_EXTRA_OPTIONS in one defconfig file.
+
+    Arguments:
+      defconfig_path: path to the cleaned defconfig file.
+      configs: A list of CONFIGs to remove.
+      options: option flags.
+    """
+
+    start = 'CONFIG_SYS_EXTRA_OPTIONS="'
+    end = '"\n'
+
+    with open(defconfig_path) as f:
+        lines = f.readlines()
+
+    for i, line in enumerate(lines):
+        if line.startswith(start) and line.endswith(end):
+            break
+    else:
+        # CONFIG_SYS_EXTRA_OPTIONS was not found in this defconfig
+        return
+
+    old_tokens = line[len(start):-len(end)].split(',')
+    new_tokens = []
+
+    for token in old_tokens:
+        pos = token.find('=')
+        if not (token[:pos] if pos >= 0 else token) in configs:
+            new_tokens.append(token)
+
+    if new_tokens == old_tokens:
+        return
+
+    tolines = copy.copy(lines)
+
+    if new_tokens:
+        tolines[i] = start + ','.join(new_tokens) + end
+    else:
+        tolines.pop(i)
+
+    show_diff(lines, tolines, defconfig_path, options.color)
+
+    if options.dry_run:
+        return
+
+    with open(defconfig_path, 'w') as f:
+        for line in tolines:
+            f.write(line)
+
+def cleanup_extra_options(configs, options):
+    """Delete config defines in CONFIG_SYS_EXTRA_OPTIONS in defconfig files.
+
+    Arguments:
+      configs: A list of CONFIGs to remove.
+      options: option flags.
+    """
+    while True:
+        choice = raw_input('Clean up CONFIG_SYS_EXTRA_OPTIONS? [y/n]: ').lower()
+        print choice
+        if choice == 'y' or choice == 'n':
+            break
+
+    if choice == 'n':
+        return
+
+    configs = [ config[len('CONFIG_'):] for config in configs ]
+
+    defconfigs = get_all_defconfigs()
+
+    for defconfig in defconfigs:
+        cleanup_one_extra_option(os.path.join('configs', defconfig), configs,
+                                 options)
 
 ### classes ###
 class Progress:
@@ -971,12 +1162,7 @@ def move_config(configs, options):
                 sys.exit('%s - defconfig does not exist. Stopping.' %
                          defconfigs[i])
     else:
-        # All the defconfig files to be processed
-        defconfigs = []
-        for (dirpath, dirnames, filenames) in os.walk('configs'):
-            dirpath = dirpath[len('configs') + 1:]
-            for filename in fnmatch.filter(filenames, '*_defconfig'):
-                defconfigs.append(os.path.join(dirpath, filename))
+        defconfigs = get_all_defconfigs()
 
     progress = Progress(len(defconfigs))
     slots = Slots(configs, options, progress, reference_src_dir)
@@ -1040,15 +1226,14 @@ def main():
 
     check_top_directory()
 
-    check_clean_directory()
-
-    update_cross_compile(options.color)
-
     if not options.cleanup_headers_only:
+        check_clean_directory()
+        update_cross_compile(options.color)
         move_config(configs, options)
 
     if configs:
-        cleanup_headers(configs, options.dry_run)
+        cleanup_headers(configs, options)
+        cleanup_extra_options(configs, options)
 
 if __name__ == '__main__':
     main()

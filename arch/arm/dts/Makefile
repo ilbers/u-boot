@@ -31,7 +31,12 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3288-firefly.dtb \
 	rk3288-jerry.dtb \
 	rk3288-rock2-square.dtb \
-	rk3036-sdk.dtb
+	rk3288-evb.dtb \
+	rk3288-fennec.dtb \
+	rk3288-miniarm.dtb \
+	rk3288-popmetal.dtb \
+	rk3036-sdk.dtb \
+	rk3399-evb.dtb
 dtb-$(CONFIG_ARCH_MESON) += \
 	meson-gxbb-odroidc2.dtb
 dtb-$(CONFIG_TEGRA) += tegra20-harmony.dtb \
@@ -246,6 +251,7 @@ dtb-$(CONFIG_MACH_SUN8I_H3) += \
 	sun8i-h3-orangepi-lite.dtb \
 	sun8i-h3-orangepi-one.dtb \
 	sun8i-h3-orangepi-pc.dtb \
+	sun8i-h3-orangepi-pc-plus.dtb \
 	sun8i-h3-orangepi-plus.dtb
 dtb-$(CONFIG_MACH_SUN50I) += \
 	sun50i-a64-pine64-plus.dtb \
@@ -263,6 +269,9 @@ dtb-$(CONFIG_SOC_KEYSTONE) += k2hk-evm.dtb \
 	k2l-evm.dtb \
 	k2e-evm.dtb \
 	k2g-evm.dtb
+
+dtb-$(CONFIG_TARGET_SAMA5D2_XPLAINED) += \
+	at91-sama5d2_xplained.dtb
 
 targets += $(dtb-y)
 

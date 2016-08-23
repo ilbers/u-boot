@@ -6,6 +6,7 @@ config SYS_ARCH
 
 config ARM64
 	bool
+	select PHYS_64BIT
 
 config DMA_ADDR_T_64BIT
 	bool
@@ -553,11 +554,14 @@ config TARGET_MX53SMD
 config OMAP34XX
 	bool "OMAP34XX SoC"
 	select CPU_V7
+	select SUPPORT_SPL
+	select USE_TINY_PRINTF
 
 config OMAP44XX
 	bool "OMAP44XX SoC"
 	select CPU_V7
 	select SUPPORT_SPL
+	select USE_TINY_PRINTF
 
 config OMAP54XX
 	bool "OMAP54XX SoC"
@@ -575,9 +579,10 @@ config AM43XX
 	  protocols, dual camera support, optional 3D graphics
 	  and an optional customer programmable secure boot.
 
-config RMOBILE
+config ARCH_RMOBILE
 	bool "Renesas ARM SoCs"
-	select CPU_V7
+	select DM
+	select DM_SERIAL
 
 config TARGET_S32V234EVB
 	bool "Support s32v234evb"
@@ -657,10 +662,13 @@ config ARCH_ZYNQ
 	select DM_GPIO
 	select SPL_DM if SPL
 	select DM_MMC
+	select DM_MMC_OPS
 	select DM_SPI
 	select DM_SERIAL
 	select DM_SPI_FLASH
 	select SPL_SEPARATE_BSS if SPL
+	select DM_USB if USB
+	select BLK
 
 config ARCH_ZYNQMP
 	bool "Support Xilinx ZynqMP Platform"
@@ -671,6 +679,7 @@ config ARCH_ZYNQMP
 	select SUPPORT_SPL
 	select CLK
 	select SPL_CLK
+	select DM_USB if USB
 
 config TEGRA
 	bool "NVIDIA Tegra"
@@ -840,15 +849,12 @@ config STM32
 
 config ARCH_ROCKCHIP
 	bool "Support Rockchip SoCs"
-	select SUPPORT_SPL
-	select SPL
 	select OF_CONTROL
-	select CPU_V7
 	select BLK
 	select DM
-	select SPL_DM
+	select SPL_DM if SPL
 	select SYS_MALLOC_F
-	select SPL_SYS_MALLOC_SIMPLE
+	select SPL_SYS_MALLOC_SIMPLE if SPL
 	select DM_GPIO
 	select DM_I2C
 	select DM_MMC
@@ -892,7 +898,7 @@ source "arch/arm/cpu/armv7/omap-common/Kconfig"
 
 source "arch/arm/mach-orion5x/Kconfig"
 
-source "arch/arm/cpu/armv7/rmobile/Kconfig"
+source "arch/arm/mach-rmobile/Kconfig"
 
 source "arch/arm/mach-meson/Kconfig"
 

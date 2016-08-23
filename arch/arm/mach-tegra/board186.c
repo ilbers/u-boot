@@ -16,9 +16,14 @@ int board_early_init_f(void)
 	return 0;
 }
 
-int board_init(void)
+__weak int tegra_board_init(void)
 {
 	return 0;
+}
+
+int board_init(void)
+{
+	return tegra_board_init();
 }
 
 int board_late_init(void)
@@ -34,10 +39,5 @@ int board_mmc_init(bd_t *bd)
 {
 	tegra_mmc_init();
 
-	return 0;
-}
-
-int ft_system_setup(void *blob, bd_t *bd)
-{
 	return 0;
 }

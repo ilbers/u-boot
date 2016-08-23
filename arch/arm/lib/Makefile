@@ -26,8 +26,9 @@ endif
 
 obj-$(CONFIG_CPU_V7M) += cmd_boot.o
 obj-$(CONFIG_OF_LIBFDT) += bootm-fdt.o
+obj-$(CONFIG_CMD_BOOTI) += bootm.o
 obj-$(CONFIG_CMD_BOOTM) += bootm.o
-obj-$(CONFIG_CMD_BOOTM) += zimage.o
+obj-$(CONFIG_CMD_BOOTZ) += bootm.o zimage.o
 obj-$(CONFIG_SYS_L2_PL310) += cache-pl310.o
 obj-$(CONFIG_USE_ARCH_MEMSET) += memset.o
 obj-$(CONFIG_USE_ARCH_MEMCPY) += memcpy.o
@@ -67,11 +68,6 @@ extra-y	+= eabi_compat.o
 endif
 
 asflags-y += -DCONFIG_ARM_ASM_UNIFIED
-ifeq ($(CONFIG_SPL_BUILD)$(CONFIG_TEGRA),yy)
-asflags-y += -D__LINUX_ARM_ARCH__=4
-else
-asflags-y += -D__LINUX_ARM_ARCH__=$(CONFIG_SYS_ARM_ARCH)
-endif
 
 # some files can only build in ARM or THUMB2, not THUMB1
 
