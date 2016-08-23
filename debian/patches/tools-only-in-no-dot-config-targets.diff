@@ -10,12 +10,12 @@ Index: u-boot/Makefile
 ===================================================================
 --- u-boot.orig/Makefile
 +++ u-boot/Makefile
-@@ -411,7 +411,7 @@ timestamp_h := include/generated/timesta
+@@ -425,7 +425,7 @@ timestamp_h := include/generated/timesta
  
  no-dot-config-targets := clean clobber mrproper distclean \
  			 help %docs check% coccicheck \
--			 ubootversion backup
-+			 ubootversion backup tools-only
+-			 ubootversion backup tests
++			 ubootversion backup tests tools-only
  
  config-targets := 0
  mixed-targets  := 0
