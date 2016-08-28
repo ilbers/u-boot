@@ -50,6 +50,16 @@ override_dh_auto_build:
 			echo $$builddir/u-boot-spl.rksd /usr/lib/u-boot/$$platform/ \
 				>> debian/build/targets.$$subarch; \
 			;; \
+		qcom) \
+			touch $$builddir/rd; \
+			skales-dtbtool -o $$builddir/dt.img $$builddir/arch/arm/dts; \
+			skales-mkbootimg --kernel $$builddir/u-boot-dtb.bin \
+				--output=$$builddir/u-boot.img --dt=$$builddir/dt.img \
+				--pagesize 2048 --base 0x80000000 \
+				--ramdisk=$$builddir/rd --cmdline=""; \
+			echo $$builddir/u-boot.img /usr/lib/u-boot/$$platform/ \
+				>> debian/build/targets.$$subarch; \
+			;; \
 	        esac; \
 	done
 
