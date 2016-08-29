@@ -27,3 +27,6 @@ mx6cuboxi/serial_console_speed.patch
 am57xx/omap5_distro_bootcmd
 
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
+
+upstream/arm-cache-fixes/0001-arm-cache-add-support-for-LPAE-for-region-D-behavior.patch
+upstream/arm-cache-fixes/0002-arm-cache-always-flush-cache-line-size-for-page-tabl.patch

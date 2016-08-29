@@ -1,0 +1,53 @@
+From 8f894a4d38adff26733225fb170f2a2d3e2b3054 Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan.agner@toradex.com>
+Date: Sun, 14 Aug 2016 21:33:01 -0700
+Subject: [PATCH 2/2] arm: cache: always flush cache line size for page table
+
+The page table is maintained by the CPU, hence it is safe to always
+align cache flush to a whole cache line size. This allows to use
+mmu_page_table_flush for a single page table, e.g. when configure
+only small regions through mmu_set_region_dcache_behaviour.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+Tested-by: Fabio Estevam <fabio.estevam@nxp.com>
+Reviewed-by: Simon Glass <sjg@chromium.org>
+Reviewed-by: Heiko Schocher <hs@denx.de>
+---
+ arch/arm/lib/cache-cp15.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/lib/cache-cp15.c b/arch/arm/lib/cache-cp15.c
+index 3aabda1..70e94f0 100644
+--- a/arch/arm/lib/cache-cp15.c
++++ b/arch/arm/lib/cache-cp15.c
+@@ -66,6 +66,7 @@ void mmu_set_region_dcache_behaviour(phys_addr_t start, size_t size,
+ #else
+ 	u32 *page_table = (u32 *)gd->arch.tlb_addr;
+ #endif
++	unsigned long startpt, stoppt;
+ 	unsigned long upto, end;
+ 
+ 	end = ALIGN(start + size, MMU_SECTION_SIZE) >> MMU_SECTION_SHIFT;
+@@ -74,7 +75,18 @@ void mmu_set_region_dcache_behaviour(phys_addr_t start, size_t size,
+ 	      option);
+ 	for (upto = start; upto < end; upto++)
+ 		set_section_dcache(upto, option);
+-	mmu_page_table_flush((u32)&page_table[start], (u32)&page_table[end]);
++
++	/*
++	 * Make sure range is cache line aligned
++	 * Only CPU maintains page tables, hence it is safe to always
++	 * flush complete cache lines...
++	 */
++
++	startpt = (unsigned long)&page_table[start];
++	startpt &= ~(CONFIG_SYS_CACHELINE_SIZE - 1);
++	stoppt = (unsigned long)&page_table[end];
++	stoppt = ALIGN(stoppt, CONFIG_SYS_CACHELINE_SIZE);
++	mmu_page_table_flush(startpt, stoppt);
+ }
+ 
+ __weak void dram_bank_mmu_setup(int bank)
+-- 
+2.9.3
+
