@@ -30,3 +30,8 @@ odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 upstream/arm-cache-fixes/0001-arm-cache-add-support-for-LPAE-for-region-D-behavior.patch
 upstream/arm-cache-fixes/0002-arm-cache-always-flush-cache-line-size-for-page-tabl.patch
+
+omap3-pandora/0001-omap3_pandora-Fix-mmc-loading-of-autoboot-script-to-.patch
+omap3-pandora/0002-omap3_pandora-Switch-to-using-load-command-to-load-t.patch
+omap3-pandora/0003-omap3_pandora-Switch-to-use-config_distro_bootcmd.patch
+omap3-pandora/0004-omap3_pandora-Only-set-bootargs-if-distro_bootcmd-fa.patch
