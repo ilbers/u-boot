@@ -1,3 +1,24 @@
+u-boot (2016.09~rc2+dfsg1-1) experimental; urgency=medium
+
+  [ Vagrant Cascadian ]
+  * New upstream release candidate.
+  * Simplify cross-building in debian/rules.
+  * Refresh debian/patches/tools-only-in-no-dot-config-targets.diff
+  * u-boot-omap:
+    - Add omap3_pandora target.
+    - Add patches to switch omap3-pandora to use distro bootcmd.
+  * Add patches from upstream to fix cache issues.
+
+  [ Martin Michlmayr ]
+  * Generate bootable image for DragonBoard 410c (Closes: #835656).
+
+  [ Vagrant Cascadian ]
+  * [arm64] Fix cross-building of DragonBoard 410c:
+    - Allow skales:native to satisfy build-dependency.
+    - Add build-depends on libfdt-dev:native.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Tue, 30 Aug 2016 11:36:35 -0700
+
 u-boot (2016.09~rc1+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
