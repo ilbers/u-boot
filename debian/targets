@@ -95,7 +95,6 @@ armhf	rpi		rpi_2		u-boot.bin
 # Ryan Finnie <ryan@finnie.org>
 armhf	rpi		rpi_3_32b	u-boot.bin
 
-# Joey Hess <joeyh@debian.org>
 # Christian Kastner <debian@kvr.at>
 armhf	sunxi		A10-OLinuXino-Lime	u-boot-sunxi-with-spl.bin
 
