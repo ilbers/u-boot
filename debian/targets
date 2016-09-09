@@ -26,7 +26,6 @@ armel	rpi		rpi		u-boot.bin
 # Rick Thomas <rbthomas@rcthomas.org>
 armel	-		sheevaplug	u-boot.kwb
 
-# Ian Campbell <ijc@debian.org>
 armhf	exynos		arndale		u-boot.bin spl/arndale-spl.bin
 
 # Joost van Zwieten <joostvanzwieten@gmail.com>, Odroid-U3
