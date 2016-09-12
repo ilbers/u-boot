@@ -4,11 +4,11 @@ Index: u-boot/configs/mx53loco_defconfig
 ===================================================================
 --- u-boot.orig/configs/mx53loco_defconfig
 +++ u-boot/configs/mx53loco_defconfig
-@@ -11,6 +11,7 @@ CONFIG_CMD_DHCP=y
+@@ -12,6 +12,7 @@ CONFIG_CMD_DHCP=y
  CONFIG_CMD_MII=y
  CONFIG_CMD_PING=y
  CONFIG_CMD_EXT2=y
 +CONFIG_CMD_EXT4=y
  CONFIG_CMD_FAT=y
  CONFIG_CMD_FS_GENERIC=y
- CONFIG_OF_LIBFDT=y
+ CONFIG_USB=y
