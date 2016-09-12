@@ -234,7 +234,6 @@
 
 #ifdef CONFIG_USB_MUSB_HCD
 
-#define CONFIG_USB_STORAGE
 #define CONGIG_CMD_STORAGE
 
 #ifdef CONFIG_USB_KEYBOARD
@@ -340,12 +339,11 @@
 /* Uncomment to define the board revision statically */
 /* #define CONFIG_STATIC_BOARD_REV	OMAP3EVM_BOARD_GEN_2 */
 
-#define CONFIG_SYS_CACHELINE_SIZE	64
-
 /* Defines for SPL */
 #define CONFIG_SPL_FRAMEWORK
 #define CONFIG_SPL_TEXT_BASE		0x40200800
-#define CONFIG_SPL_MAX_SIZE		(54 * 1024)	/* 8 KB for stack */
+#define CONFIG_SPL_MAX_SIZE		(SRAM_SCRATCH_SPACE_ADDR - \
+					 CONFIG_SPL_TEXT_BASE)
 
 #define CONFIG_SPL_BSS_START_ADDR	0x80000000
 #define CONFIG_SPL_BSS_MAX_SIZE		0x80000		/* 512 KB */

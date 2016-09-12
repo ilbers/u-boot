@@ -112,7 +112,6 @@
 #define CONFIG_EFI_PARTITION
 
 /* version string, parser, etc */
-#define CONFIG_VERSION_VARIABLE
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_SYS_LONGHELP
@@ -126,7 +125,6 @@
 /* Commands */
 #define CONFIG_FAT_WRITE
 
-#define CONFIG_SYS_CACHELINE_SIZE	64
 #define CONFIG_USBID_ADDR		0x34052c46
 
 #endif /* __BCM28155_AP_H */

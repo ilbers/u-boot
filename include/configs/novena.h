@@ -27,7 +27,6 @@
 #define CONFIG_VIDEO
 
 /* U-Boot general configurations */
-#define CONFIG_VERSION_VARIABLE			/* U-BOOT version */
 
 /* U-Boot environment */
 #define CONFIG_ENV_SIZE			(16 * 1024)
@@ -146,7 +145,6 @@
 #ifdef CONFIG_CMD_USB
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_MX6
-#define CONFIG_USB_STORAGE
 #define CONFIG_USB_KEYBOARD
 #define CONFIG_SYS_STDIO_DEREGISTER
 #define CONFIG_SYS_USB_EVENT_POLL_VIA_CONTROL_EP

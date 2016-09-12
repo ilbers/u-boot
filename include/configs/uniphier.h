@@ -11,8 +11,7 @@
 #ifndef __CONFIG_UNIPHIER_COMMON_H__
 #define __CONFIG_UNIPHIER_COMMON_H__
 
-#define CONFIG_ARMV7_PSCI
-#define CONFIG_ARMV7_PSCI_NR_CPUS   4
+#define CONFIG_ARMV7_PSCI_1_0
 
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS  10
 
@@ -29,12 +28,6 @@
 /* Comment out the following to enable L1 cache */
 /* #define CONFIG_SYS_ICACHE_OFF */
 /* #define CONFIG_SYS_DCACHE_OFF */
-
-#ifdef CONFIG_CACHE_UNIPHIER
-#define CONFIG_SYS_CACHELINE_SIZE	128
-#else
-#define CONFIG_SYS_CACHELINE_SIZE	32
-#endif
 
 #define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_DISPLAY_BOARDINFO
