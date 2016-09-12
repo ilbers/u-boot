@@ -121,6 +121,9 @@ armhf	sunxi		Bananapi	u-boot-sunxi-with-spl.bin
 armhf	sunxi		Bananapro	u-boot-sunxi-with-spl.bin
 
 # Vagrant Cascadian <vagrant@debian.org>
+armhf	sunxi		CHIP		u-boot-sunxi-with-spl.bin
+
+# Vagrant Cascadian <vagrant@debian.org>
 armhf	sunxi		Cubieboard	u-boot-sunxi-with-spl.bin
 
 # Philip Rinn <rinni@inventati.org>
