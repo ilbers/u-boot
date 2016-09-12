@@ -1,3 +1,15 @@
+u-boot (2016.09+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+  [ Vagrant Cascadian ]
+  * Remove Ian Campbell from the list of arndale testers.
+  * Remove Joey Hess from the A10-OLinuXino-Lime testers.
+  * [armhf] u-boot-sunxi: Enable the CHIP target.
+  * Refresh and remove patches applied upstream.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Mon, 12 Sep 2016 12:43:29 -0700
+
 u-boot (2016.09~rc2+dfsg1-1) experimental; urgency=medium
 
   [ Vagrant Cascadian ]
