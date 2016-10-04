@@ -2,7 +2,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
 ===================================================================
 --- u-boot.orig/include/configs/ti_omap5_common.h
 +++ u-boot/include/configs/ti_omap5_common.h
-@@ -66,6 +66,18 @@
+@@ -64,6 +64,18 @@
  #define DFUARGS
  #endif
  
@@ -18,15 +18,14 @@ Index: u-boot/include/configs/ti_omap5_common.h
 +
 +#include <config_distro_bootcmd.h>
 +
- #ifndef CONFIG_SPL_BUILD
  #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
  #define CONFIG_EXTRA_ENV_SETTINGS \
-@@ -111,21 +123,8 @@
+ 	DEFAULT_LINUX_BOOT_ENV \
+@@ -112,21 +124,7 @@
  	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
  	DFUARGS \
  	NETARGS \
-+	BOOTENV
- 
+-
 -#define CONFIG_BOOTCOMMAND \
 -	"if test ${dofastboot} -eq 1; then " \
 -		"echo Boot fastboot requested, resetting dofastboot ...;" \
@@ -41,6 +40,7 @@ Index: u-boot/include/configs/ti_omap5_common.h
 -	"setenv mmcroot /dev/mmcblk0p2 rw; " \
 -	"run mmcboot;" \
 -	""
- #endif
++    BOOTENV
  
  /*
+  * SPL related defines.  The Public RAM memory map the ROM defines the
