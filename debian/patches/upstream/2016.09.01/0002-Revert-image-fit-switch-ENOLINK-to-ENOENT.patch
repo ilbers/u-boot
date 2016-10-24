@@ -1,0 +1,33 @@
+From 44e3dd14028545fa534cea38f0116f7a75f42b5d Mon Sep 17 00:00:00 2001
+From: Tom Rini <trini@konsulko.com>
+Date: Mon, 19 Sep 2016 10:43:12 -0400
+Subject: [PATCH 2/3] Revert "image-fit: switch ENOLINK to ENOENT"
+
+As while I want to support OpenBSD hosts, this change broke FIT images
+as in the image checking code we care about ENOLINK and on further
+review we need to think about what to change ENOLINK to so we can be
+sure to handle the different cases here.
+
+This reverts commit bac17b78daceeba1af2e1d8cd204ee460c71c93a.
+
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+ common/image-fit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/common/image-fit.c b/common/image-fit.c
+index 9ce68f1..f833fe3 100644
+--- a/common/image-fit.c
++++ b/common/image-fit.c
+@@ -1566,7 +1566,7 @@ int fit_get_node_from_config(bootm_headers_t *images, const char *prop_name,
+ 	noffset = fit_conf_get_prop_node(fit_hdr, cfg_noffset, prop_name);
+ 	if (noffset < 0) {
+ 		debug("*  %s: no '%s' in config\n", prop_name, prop_name);
+-		return -ENOENT;
++		return -ENOLINK;
+ 	}
+ 
+ 	return noffset;
+-- 
+2.9.3
+

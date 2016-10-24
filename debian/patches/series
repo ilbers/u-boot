@@ -29,3 +29,6 @@ am57xx/omap5_distro_bootcmd
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 odroid-xu3/bootdelay
+
+upstream/2016.09.01/0001-Revert-Increase-default-of-CONFIG_SYS_MALLOC_F_LEN-f.patch
+upstream/2016.09.01/0002-Revert-image-fit-switch-ENOLINK-to-ENOENT.patch
