@@ -1,3 +1,20 @@
+u-boot (2016.09+dfsg1-2) unstable; urgency=medium
+
+  * odroid-xu3: Add patch to use the default bootdelay from
+    distro_bootcmd.
+  * Remove Philip Rinn from Cubieboard2 testers.
+  * u-boot-rpi: Add documentation for configuring raspberry pi to use
+    u-boot.
+  * debian/watch: Add signature checking of upstream tarball.
+  * u-boot-tools: Add device-tree-compiler to Recommends. Thanks to
+    Pierre-Hugues Husson.  (Closes: #841351).
+  * Apply patches from v2016.09.01:
+    - 0001-Revert-Increase-default-of-CONFIG_SYS_MALLOC_F_LEN-f.patch
+    - 0002-Revert-image-fit-switch-ENOLINK-to-ENOENT.patch
+  * Remove openrd targets, as they do not boot (Closes: #837629).
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Sun, 23 Oct 2016 19:36:36 -0700
+
 u-boot (2016.09+dfsg1-1) unstable; urgency=medium
 
   * New upstream version.
