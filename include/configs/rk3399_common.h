@@ -15,7 +15,6 @@
 #define CONFIG_SYS_MALLOC_LEN		(32 << 20)
 #define CONFIG_SYS_CBSIZE		1024
 #define CONFIG_SKIP_LOWLEVEL_INIT
-#define CONFIG_DISPLAY_BOARDINFO
 
 #define CONFIG_SYS_NS16550_MEM32
 
@@ -82,5 +81,17 @@
 	BOOTENV
 
 #endif
+
+/* enable usb config for usb ether */
+#define CONFIG_USB_HOST_ETHER
+
+#define CONFIG_USB_ETHER_ASIX
+#define CONFIG_USB_ETHER_ASIX88179
+#define CONFIG_USB_ETHER_MCS7830
+#define CONFIG_USB_ETHER_SMSC95XX
+#define CONFIG_USB_ETHER_RTL8152
+
+/* rockchip xhci host driver */
+#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS	2
 
 #endif

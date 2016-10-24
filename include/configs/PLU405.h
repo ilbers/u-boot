@@ -21,7 +21,6 @@
 #define CONFIG_PLU405		1	/* ...on a PLU405 board		*/
 
 #define	CONFIG_SYS_TEXT_BASE	0xFFF80000
-#define CONFIG_DISPLAY_BOARDINFO
 
 #define CONFIG_BOARD_EARLY_INIT_F 1	/* call board_early_init_f()	*/
 #define CONFIG_MISC_INIT_R	1	/* call misc_init_r()		*/
@@ -374,7 +373,6 @@
 /*
  * UBI
  */
-#define CONFIG_CMD_UBI
 #define CONFIG_RBTREE
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS

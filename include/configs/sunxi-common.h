@@ -54,7 +54,6 @@
 #endif
 
 /* CPU */
-#define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_TIMER_CLK_FREQ		24000000
 
 /*
@@ -134,13 +133,11 @@
 
 #ifdef CONFIG_NAND_SUNXI
 #define CONFIG_SYS_NAND_MAX_ECCPOS 1664
-#define CONFIG_SPL_NAND_SUPPORT 1
 #define CONFIG_SYS_NAND_ONFI_DETECTION
 #define CONFIG_SYS_MAX_NAND_DEVICE 8
 #endif
 
 #ifdef CONFIG_SPL_SPI_SUNXI
-#define CONFIG_SPL_SPI_FLASH_SUPPORT	1
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x8000
 #endif
 
@@ -180,8 +177,6 @@
 #define CONFIG_SYS_NO_FLASH
 
 #define CONFIG_SYS_MONITOR_LEN		(768 << 10)	/* 768 KiB */
-#define CONFIG_IDENT_STRING		" Allwinner Technology"
-#define CONFIG_DISPLAY_BOARDINFO
 
 #define CONFIG_ENV_OFFSET		(544 << 10) /* (8 + 24 + 512) KiB */
 #define CONFIG_ENV_SIZE			(128 << 10)	/* 128 KiB */
@@ -189,9 +184,6 @@
 #define CONFIG_FAT_WRITE	/* enable write access */
 
 #define CONFIG_SPL_FRAMEWORK
-#define CONFIG_SPL_LIBCOMMON_SUPPORT
-#define CONFIG_SPL_SERIAL_SUPPORT
-#define CONFIG_SPL_LIBGENERIC_SUPPORT
 
 #define CONFIG_SPL_BOARD_LOAD_IMAGE
 
@@ -204,12 +196,6 @@
 #else
 #define CONFIG_SPL_TEXT_BASE		0x40		/* sram start+header */
 #define CONFIG_SPL_MAX_SIZE		0x5fc0		/* 24KB on sun4i/sun7i */
-#endif
-
-#define CONFIG_SPL_LIBDISK_SUPPORT
-
-#ifdef CONFIG_MMC
-#define CONFIG_SPL_MMC_SUPPORT
 #endif
 
 #ifndef CONFIG_ARM64
@@ -232,7 +218,6 @@
 /* I2C */
 #if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || \
     defined CONFIG_SY8106A_POWER
-#define CONFIG_SPL_I2C_SUPPORT
 #endif
 
 #if defined CONFIG_I2C0_ENABLE || defined CONFIG_I2C1_ENABLE || \
@@ -266,7 +251,6 @@ extern int soft_i2c_gpio_scl;
 #if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || \
     defined CONFIG_AXP221_POWER || defined CONFIG_AXP818_POWER || \
     defined CONFIG_SY8106A_POWER
-#define CONFIG_SPL_POWER_SUPPORT
 #endif
 
 #ifndef CONFIG_CONS_INDEX
@@ -293,7 +277,6 @@ extern int soft_i2c_gpio_scl;
 
 /* GPIO */
 #define CONFIG_SUNXI_GPIO
-#define CONFIG_SPL_GPIO_SUPPORT
 
 #ifdef CONFIG_VIDEO
 /*
@@ -347,13 +330,8 @@ extern int soft_i2c_gpio_scl;
 #endif
 
 #ifdef CONFIG_USB_MUSB_GADGET
-#define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_USB_FUNCTION_FASTBOOT
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
-#endif
-
-#ifdef CONFIG_USB_FUNCTION_DFU
-#define CONFIG_DFU_RAM
 #endif
 
 #ifdef CONFIG_USB_FUNCTION_FASTBOOT

@@ -11,8 +11,6 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#define CONFIG_DISPLAY_BOARDINFO
-
 #ifdef CONFIG_BSC9131RDB
 #define CONFIG_BSC9131
 #define CONFIG_NAND_FSL_IFC
@@ -28,8 +26,6 @@
 
 #ifdef CONFIG_NAND
 #define CONFIG_SPL_INIT_MINIMAL
-#define CONFIG_SPL_SERIAL_SUPPORT
-#define CONFIG_SPL_NAND_SUPPORT
 #define CONFIG_SPL_NAND_BOOT
 #define CONFIG_SPL_FLUSH_IMAGE
 #define CONFIG_SPL_TARGET		"u-boot-with-spl.bin"
@@ -371,13 +367,6 @@ extern unsigned long get_sdram_size(void);
 #define MTDIDS_DEFAULT "nand0=ff800000.flash,"
 #define MTDPARTS_DEFAULT "mtdparts=ff800000.flash:1m(uboot)," \
 			"8m(kernel),512k(dtb),-(fs)"
-/*
- * Override partitions in device tree using info
- * in "mtdparts" environment variable
- */
-#ifdef CONFIG_CMD_MTDPARTS
-#define CONFIG_FDT_FIXUP_PARTITIONS
-#endif
 
 /*
  * Environment Configuration

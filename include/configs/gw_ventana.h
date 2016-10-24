@@ -9,15 +9,11 @@
 
 /* SPL */
 #define CONFIG_SPL_BOARD_INIT
-#define CONFIG_SPL_NAND_SUPPORT
-#define CONFIG_SPL_MMC_SUPPORT
-#define CONFIG_SPL_POWER_SUPPORT
 /* Location in NAND to read U-Boot from */
 #define CONFIG_SYS_NAND_U_BOOT_OFFS     (14 * SZ_1M)
 
 /* Falcon Mode */
 #define CONFIG_CMD_SPL
-#define CONFIG_SPL_OS_BOOT
 #define CONFIG_SYS_SPL_ARGS_ADDR	0x18000000
 #define CONFIG_CMD_SPL_WRITE_SIZE	(128 * SZ_1K)
 
@@ -32,8 +28,6 @@
 
 #include "imx6_spl.h"                  /* common IMX6 SPL configuration */
 #include "mx6_common.h"
-#undef CONFIG_SPL_EXT_SUPPORT
-#undef CONFIG_DISPLAY_BOARDINFO
 #define CONFIG_DISPLAY_BOARDINFO_LATE
 
 #define CONFIG_MACH_TYPE	4520   /* Gateworks Ventana Platform */
@@ -152,7 +146,6 @@
 #define CONFIG_CMD_HDMIDETECT    /* detect HDMI output device */
 #define CONFIG_CMD_GSC
 #define CONFIG_CMD_EECONFIG      /* Gateworks EEPROM config cmd */
-#define CONFIG_CMD_UBI
 #define CONFIG_RBTREE
 
 /* Ethernet support */
@@ -426,8 +419,5 @@
 		"echo; echo Attempting ${btype} boot...; " \
 		"if run ${btype}_boot; then; fi; " \
 	"done"
-
-/* Device Tree Support */
-#define CONFIG_FDT_FIXUP_PARTITIONS
 
 #endif			       /* __CONFIG_H */

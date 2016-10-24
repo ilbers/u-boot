@@ -19,7 +19,6 @@
 #define CONFIG_ZBOOT_32
 #define CONFIG_PHYSMEM
 #define CONFIG_DISPLAY_BOARDINFO_LATE
-#define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_LAST_STAGE_INIT
 #define CONFIG_NR_DRAM_BANKS		8
 
@@ -131,11 +130,6 @@
 /*-----------------------------------------------------------------------
  * Video Configuration
  */
-#define CONFIG_VIDEO
-#define CONFIG_VIDEO_SW_CURSOR
-#define VIDEO_FB_16BPP_WORD_SWAP
-#define CONFIG_VGA_AS_SINGLE_DEVICE
-#define CONFIG_CFB_CONSOLE
 #define CONFIG_CONSOLE_SCROLL_LINES 5
 
 /*-----------------------------------------------------------------------

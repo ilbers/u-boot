@@ -14,7 +14,6 @@
 
 #define CONFIG_MPC5200
 #define CONFIG_A3M071			/* A3M071 board */
-#define CONFIG_DISPLAY_BOARDINFO
 
 #define	CONFIG_SYS_TEXT_BASE	0x01000000	/* boot low for 32 MiB boards */
 
@@ -75,7 +74,6 @@
 #define CONFIG_LZO			/* needed for UBI */
 #define CONFIG_RBTREE			/* needed for UBI */
 #define CONFIG_CMD_MTDPARTS
-#define CONFIG_CMD_UBI
 #define CONFIG_CMD_UBIFS
 
 /*
@@ -332,7 +330,6 @@
 
 #undef	CONFIG_BOOTARGS
 
-#define CONFIG_SYS_OS_BASE	0xfc200000
 #define CONFIG_SYS_FDT_BASE	0xfc1e0000
 #define CONFIG_SYS_FDT_SIZE	(16<<10)
 
@@ -397,18 +394,12 @@
  */
 #define CONFIG_SPL_FRAMEWORK
 #define CONFIG_SPL_BOARD_INIT
-#define CONFIG_SPL_NOR_SUPPORT
 #define CONFIG_SPL_TEXT_BASE	0xfc000000
-#define CONFIG_SPL_LIBCOMMON_SUPPORT	/* image.c */
-#define CONFIG_SPL_LIBGENERIC_SUPPORT	/* string.c */
-#define CONFIG_SPL_SERIAL_SUPPORT
 
 /* Place BSS for SPL near end of SDRAM */
 #define CONFIG_SPL_BSS_START_ADDR	((128 - 1) << 20)
 #define CONFIG_SPL_BSS_MAX_SIZE		(64 << 10)
 
-#define CONFIG_SPL_OS_BOOT
-#define CONFIG_SPL_ENV_SUPPORT
 /* Place patched DT blob (fdt) at this address */
 #define CONFIG_SYS_SPL_ARGS_ADDR	0x01800000
 

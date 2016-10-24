@@ -18,12 +18,6 @@
 
 #include <configs/ti_omap3_common.h>
 
-/*
- * Display CPU and Board information
- */
-#define CONFIG_DISPLAY_CPUINFO		1
-#define CONFIG_DISPLAY_BOARDINFO	1
-
 #define CONFIG_MISC_INIT_R
 #define CONFIG_REVISION_TAG		1
 
@@ -69,7 +63,6 @@
 #define CONFIG_SYS_NAND_OOBSIZE		64
 
 #ifdef CONFIG_NAND
-#define CONFIG_CMD_UBI		/* UBI-formated MTD partition support */
 #define CONFIG_CMD_UBIFS	/* Read-only UBI volume operations */
 
 #define CONFIG_RBTREE		/* required by CONFIG_CMD_UBI */

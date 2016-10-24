@@ -22,8 +22,6 @@
 #define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOARD_LATE_INIT
 
-#define CONFIG_DISPLAY_BOARDINFO
-
 /* Uncomment to enable secure boot support */
 /* #define CONFIG_SECURE_BOOT */
 #define CONFIG_CSF_SIZE			0x4000
@@ -251,11 +249,6 @@
 #define CONFIG_USBD_HS
 
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
-
-/* USB Device Firmware Update support */
-#define CONFIG_USB_FUNCTION_DFU
-#define CONFIG_DFU_MMC
-#define CONFIG_DFU_RAM
 
 #define CONFIG_VIDEO
 #ifdef CONFIG_VIDEO

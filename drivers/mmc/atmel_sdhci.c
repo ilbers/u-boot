@@ -29,7 +29,6 @@ int atmel_sdhci_init(void *regbase, u32 id)
 	host->name = "atmel_sdhci";
 	host->ioaddr = regbase;
 	host->quirks = 0;
-	host->version = sdhci_readw(host, SDHCI_HOST_VERSION);
 	max_clk = at91_get_periph_generated_clk(id);
 	if (!max_clk) {
 		printf("%s: Failed to get the proper clock\n", __func__);
@@ -136,13 +135,8 @@ static int atmel_sdhci_probe(struct udevice *dev)
 static int atmel_sdhci_bind(struct udevice *dev)
 {
 	struct atmel_sdhci_plat *plat = dev_get_platdata(dev);
-	int ret;
 
-	ret = sdhci_bind(dev, &plat->mmc, &plat->cfg);
-	if (ret)
-		return ret;
-
-	return 0;
+	return sdhci_bind(dev, &plat->mmc, &plat->cfg);
 }
 
 static const struct udevice_id atmel_sdhci_ids[] = {

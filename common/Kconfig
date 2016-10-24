@@ -198,6 +198,11 @@ config CONSOLE_RECORD_IN_SIZE
 	  The buffer is allocated immediately after the malloc() region is
 	  ready.
 
+config IDENT_STRING
+	string "Board specific string to be added to uboot version string"
+	help
+	  This options adds the board specific name to u-boot version.
+
 config SYS_NO_FLASH
 	bool "Disable support for parallel NOR flash"
 	default n
@@ -213,3 +218,21 @@ config VERSION_VARIABLE
 	  version as printed by the "version" command.
 	  Any change to this variable will be reverted at the
 	  next reset.
+
+config DISPLAY_CPUINFO
+	bool "Display information about the CPU during start up"
+	default y if ARM || BLACKFIN || NIOS2 || X86 || XTENSA
+	help
+	  Display information about the CPU that U-Boot is running on
+	  when U-Boot starts up. The function print_cpuinfo() is called
+	  to do this.
+
+config DISPLAY_BOARDINFO
+	bool "Display information about the board during start up"
+	default y if ARM || M68K || MIPS || PPC || SPARC || XTENSA
+	help
+	  Display information about the board that U-Boot is running on
+	  when U-Boot starts up. The board function checkboard() is called
+	  to do this.
+
+source "common/spl/Kconfig"

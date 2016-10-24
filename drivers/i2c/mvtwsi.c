@@ -10,7 +10,7 @@
 
 #include <common.h>
 #include <i2c.h>
-#include <asm/errno.h>
+#include <linux/errno.h>
 #include <asm/io.h>
 #include <linux/compat.h>
 #ifdef CONFIG_DM_I2C
@@ -830,6 +830,7 @@ static const struct dm_i2c_ops mvtwsi_i2c_ops = {
 
 static const struct udevice_id mvtwsi_i2c_ids[] = {
 	{ .compatible = "marvell,mv64xxx-i2c", },
+	{ .compatible = "marvell,mv78230-i2c", },
 	{ /* sentinel */ }
 };
 

@@ -49,12 +49,6 @@
 #include <asm/arch/mem.h>
 #include <linux/stringify.h>
 
-/*
- * Display CPU and Board information
- */
-#define CONFIG_DISPLAY_CPUINFO
-#define CONFIG_DISPLAY_BOARDINFO
-
 /* Clock Defines */
 #define V_OSCK			26000000	/* Clock output from T2 */
 #define V_SCLK			(V_OSCK >> 1)
@@ -135,7 +129,6 @@
 #define CONFIG_CMD_MTDPARTS		/* mtd parts support */
 
 #ifdef UBIFS_SUPPORT
-#define CONFIG_CMD_UBI			/* UBI Support */
 #define CONFIG_CMD_UBIFS		/* UBIFS Support */
 #endif
 

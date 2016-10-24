@@ -26,16 +26,9 @@
 
 /* Remove SPL boot option - we do not support that on LDP yet */
 #undef CONFIG_SPL_FRAMEWORK
-#undef CONFIG_SPL_OS_BOOT
 
 /* Generic NAND definition conflicts with debug_base */
 #undef CONFIG_SYS_NAND_BASE
-
-/*
- * Display CPU and Board information
- */
-#define CONFIG_DISPLAY_CPUINFO		1
-#define CONFIG_DISPLAY_BOARDINFO	1
 
 #define CONFIG_MISC_INIT_R
 
