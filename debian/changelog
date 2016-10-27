@@ -1,3 +1,13 @@
+u-boot (2016.11~rc2+dfsg1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Refresh patch for am57xx to use distro_bootcmd support.
+  * Remove patches from 2016.09.01, applied upstream.
+  * Add patches to enable ram detection on rockchip rk3288 platforms.
+  * Update lintian overrides for openrd removal.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Thu, 27 Oct 2016 11:25:47 -0700
+
 u-boot (2016.09+dfsg1-2) unstable; urgency=medium
 
   * odroid-xu3: Add patch to use the default bootdelay from
