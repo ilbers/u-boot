@@ -29,3 +29,7 @@ am57xx/omap5_distro_bootcmd
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 odroid-xu3/bootdelay
+
+rk3288-ram-detection/0001-rk3288-config-change-for-enable-dram-capacity-auto-d.patch
+rk3288-ram-detection/0002-rk3288-sdram-auto-detect-the-capacity.patch
+rk3288-ram-detection/0003-dts-rk3288-remove-node-in-dmc-which-not-need-anymore.patch
