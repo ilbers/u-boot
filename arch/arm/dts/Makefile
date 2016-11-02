@@ -79,18 +79,18 @@ dtb-$(CONFIG_ARCH_MVEBU) +=			\
 	armada-xp-theadorable.dtb
 
 dtb-$(CONFIG_ARCH_UNIPHIER) += \
-	uniphier-ph1-ld11-ref.dtb \
-	uniphier-ph1-ld20-ref.dtb \
-	uniphier-ph1-ld4-ref.dtb \
-	uniphier-ph1-ld6b-ref.dtb \
-	uniphier-ph1-pro4-ace.dtb \
-	uniphier-ph1-pro4-ref.dtb \
-	uniphier-ph1-pro4-sanji.dtb \
-	uniphier-ph1-pro5-4kbox.dtb \
-	uniphier-ph1-sld3-ref.dtb \
-	uniphier-ph1-sld8-ref.dtb \
-	uniphier-proxstream2-gentil.dtb \
-	uniphier-proxstream2-vodka.dtb
+	uniphier-ld11-ref.dtb \
+	uniphier-ld20-ref.dtb \
+	uniphier-ld4-ref.dtb \
+	uniphier-ld6b-ref.dtb \
+	uniphier-pro4-ace.dtb \
+	uniphier-pro4-ref.dtb \
+	uniphier-pro4-sanji.dtb \
+	uniphier-pro5-4kbox.dtb \
+	uniphier-pxs2-gentil.dtb \
+	uniphier-pxs2-vodka.dtb \
+	uniphier-sld3-ref.dtb \
+	uniphier-sld8-ref.dtb
 dtb-$(CONFIG_ARCH_ZYNQ) += zynq-zc702.dtb \
 	zynq-zc706.dtb \
 	zynq-zed.dtb \
@@ -282,7 +282,9 @@ dtb-$(CONFIG_VF610) += vf500-colibri.dtb \
 	pcm052.dtb \
 	bk4r1.dtb
 
-dtb-$(CONFIG_MX6) += imx6ull-14x14-evk.dtb
+dtb-$(CONFIG_MX6) += imx6ull-14x14-evk.dtb \
+	imx6dl-icore.dtb \
+	imx6q-icore.dtb
 
 dtb-$(CONFIG_MX7) += imx7-colibri.dtb
 

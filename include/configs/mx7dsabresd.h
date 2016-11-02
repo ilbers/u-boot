@@ -22,10 +22,6 @@
 #define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOARD_LATE_INIT
 
-/* Uncomment to enable secure boot support */
-/* #define CONFIG_SECURE_BOOT */
-#define CONFIG_CSF_SIZE			0x4000
-
 /* Network */
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
@@ -250,14 +246,9 @@
 
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
 
-#define CONFIG_VIDEO
 #ifdef CONFIG_VIDEO
-#define CONFIG_CFB_CONSOLE
 #define CONFIG_VIDEO_MXS
 #define CONFIG_VIDEO_LOGO
-#define CONFIG_VIDEO_SW_CURSOR
-#define CONFIG_VGA_AS_SINGLE_DEVICE
-#define CONFIG_SYS_CONSOLE_IS_IN_ENV
 #define CONFIG_SPLASH_SCREEN
 #define CONFIG_SPLASH_SCREEN_ALIGN
 #define CONFIG_CMD_BMP
