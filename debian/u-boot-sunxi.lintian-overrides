@@ -14,6 +14,7 @@ u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/CHIP/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/Cubieboard/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/Cubieboard2/uboot.elf
+u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/Cubieboard4/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/Cubietruck/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/Cubietruck_plus/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/Lamobo_R1/uboot.elf
@@ -35,6 +36,7 @@ u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Bananapro/uboot.el
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/CHIP/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Cubieboard/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Cubieboard2/uboot.elf
+u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Cubieboard4/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Cubietruck/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Cubietruck_plus/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Lamobo_R1/uboot.elf
