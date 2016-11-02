@@ -142,6 +142,9 @@ armhf	sunxi		Mini-X	u-boot-sunxi-with-spl.bin
 # Vagrant Cascadian <vagrant@debian.org>, Orange PI Plus2
 armhf	sunxi		orangepi_plus	u-boot-sunxi-with-spl.bin
 
+# Ricardo Salveti <rsalveti@rsalveti.net>
+arm64	qcom		dragonboard410c	u-boot.bin
+
 # Ryan Finnie <ryan@finnie.org>
 arm64	rpi		rpi_3		u-boot.bin
 
@@ -158,6 +161,3 @@ mips	-		qemu_mips	u-boot.bin
 sh4	-		r2dplus		u-boot.bin
 
 sh4	-		sh7785lcr_32bit	u-boot.bin
-
-# Ricardo Salveti <rsalveti@rsalveti.net>
-arm64	qcom		dragonboard410c	u-boot.bin
