@@ -93,7 +93,9 @@ void __asm_invalidate_dcache_all(void);
 void __asm_flush_dcache_range(u64 start, u64 end);
 void __asm_invalidate_tlb_all(void);
 void __asm_invalidate_icache_all(void);
-int __asm_flush_l3_cache(void);
+int __asm_invalidate_l3_dcache(void);
+int __asm_flush_l3_dcache(void);
+int __asm_invalidate_l3_icache(void);
 void __asm_switch_ttbr(u64 new_ttbr);
 
 void armv8_switch_to_el2(void);
@@ -329,7 +331,7 @@ static inline void set_dacr(unsigned int val)
 
 /* options available for data cache on each page */
 enum dcache_option {
-	DCACHE_OFF = TTB_SECT | TTB_SECT_MAIR(0),
+	DCACHE_OFF = TTB_SECT | TTB_SECT_MAIR(0) | TTB_SECT_XN_MASK,
 	DCACHE_WRITETHROUGH = TTB_SECT | TTB_SECT_MAIR(1),
 	DCACHE_WRITEBACK = TTB_SECT | TTB_SECT_MAIR(2),
 	DCACHE_WRITEALLOC = TTB_SECT | TTB_SECT_MAIR(3),
