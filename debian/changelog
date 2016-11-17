@@ -1,3 +1,13 @@
+u-boot (2016.11+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Remove mksunxiboot-spl patch, applied upstream.
+  * Refresh patches.
+  * Enable Cubieboard4 target.
+  * Remove patches for ram detection on rk3288, applied upstream.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Thu, 17 Nov 2016 11:10:12 -0800
+
 u-boot (2016.11~rc2+dfsg1-1) experimental; urgency=medium
 
   * New upstream release candidate.
