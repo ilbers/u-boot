@@ -142,6 +142,9 @@ armhf	sunxi		Linksprite_pcDuino3	u-boot-sunxi-with-spl.bin
 # Jochen Sprickerhof <debian@jochen.sprickerhof.de>
 armhf	sunxi		Mini-X	u-boot-sunxi-with-spl.bin
 
+# Paul Tagliamonte <paultag@debian.org>
+armhf	sunxi		nanopi_neo	u-boot-sunxi-with-spl.bin
+
 # Vagrant Cascadian <vagrant@debian.org>, Orange PI Plus2
 armhf	sunxi		orangepi_plus	u-boot-sunxi-with-spl.bin
 
