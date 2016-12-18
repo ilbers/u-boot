@@ -29,6 +29,7 @@ armhf	imx		mx53loco	u-boot.imx
 # Steve Langasek <vorlon@debian.org>, CuBox-i4
 # Vagrant Cascadian <vagrant@debian.org>, CuBox-i4, hummingboard-i1, hummingboard-i2ex
 # Rainer Dorsch <ml@bokomoko.de>, CuBox-i2u (i2u-300-d)
+# Rick Thomas <rbthomas@pobox.com>, Cubox-i4x4, Cubox-i4PRO
 armhf	imx		mx6cuboxi	u-boot.img spl/u-boot-spl.bin SPL
 
 # Hector Oron <zumbi@debian.org>
