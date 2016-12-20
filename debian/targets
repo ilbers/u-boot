@@ -31,6 +31,7 @@ armhf	imx		mx53loco	u-boot.imx
 # Rainer Dorsch <ml@bokomoko.de>, CuBox-i2u (i2u-300-d)
 # Rick Thomas <rbthomas@pobox.com>, Cubox-i4x4, Cubox-i4PRO
 armhf	imx		mx6cuboxi	u-boot.img spl/u-boot-spl.bin SPL
+armhf	imx		mx6cuboxi4x4	u-boot.img spl/u-boot-spl.bin SPL
 
 # Hector Oron <zumbi@debian.org>
 armhf	imx		nitrogen6q	u-boot.imx

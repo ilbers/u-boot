@@ -1,0 +1,105 @@
+Description: Add support for cubox i4x4
+ This patch adds a config setting to support the ram on the cubox i4x4. There
+ is no runtime detection so seperate builds are needed for the i4 and i4x4.
+ 
+ A new defconfig is also added to turn on the new option so the debian build
+ system can use it.
+ 
+ Thanks to vagrantc for identifying the underlying change needed.
+Author: Peter Michael Green <plugwash@debian.org>
+
+Index: u-boot-2016.11+dfsg1/board/solidrun/mx6cuboxi/mx6cuboxi.c
+===================================================================
+--- u-boot-2016.11+dfsg1.orig/board/solidrun/mx6cuboxi/mx6cuboxi.c
++++ u-boot-2016.11+dfsg1/board/solidrun/mx6cuboxi/mx6cuboxi.c
+@@ -563,6 +563,19 @@ static struct mx6_ddr3_cfg mem_ddr_4g =
+ 	.trasmin = 3500,
+ };
+ 
++static struct mx6_ddr3_cfg mem_ddr_8g = {
++	.mem_speed = 1600,
++	.density = 4,
++	.width = 16,
++	.banks = 8,
++	.rowaddr = 16,
++	.coladdr = 10,
++	.pagesz = 2,
++	.trcd = 1375,
++	.trcmin = 4875,
++	.trasmin = 3500,
++};
++
+ static void ccgr_init(void)
+ {
+ 	struct mxc_ccm_reg *ccm = (struct mxc_ccm_reg *)CCM_BASE_ADDR;
+@@ -617,7 +630,11 @@ static void spl_dram_init(int width)
+ 	if (is_cpu_type(MXC_CPU_MX6D))
+ 		mx6_dram_cfg(&sysinfo, &mx6q_1g_mmcd_calib, &mem_ddr_2g);
+ 	else if (is_cpu_type(MXC_CPU_MX6Q))
+-		mx6_dram_cfg(&sysinfo, &mx6q_2g_mmcd_calib, &mem_ddr_4g);
++		#ifdef CONFIG_I4X4_RAM
++			mx6_dram_cfg(&sysinfo, &mx6q_2g_mmcd_calib, &mem_ddr_8g);
++		#else
++			mx6_dram_cfg(&sysinfo, &mx6q_2g_mmcd_calib, &mem_ddr_4g);
++		#endif
+ 	else if (is_cpu_type(MXC_CPU_MX6DL))
+ 		mx6_dram_cfg(&sysinfo, &mx6dl_1g_mmcd_calib, &mem_ddr_2g);
+ 	else if (is_cpu_type(MXC_CPU_MX6SOLO))
+Index: u-boot-2016.11+dfsg1/board/solidrun/mx6cuboxi/Kconfig
+===================================================================
+--- u-boot-2016.11+dfsg1.orig/board/solidrun/mx6cuboxi/Kconfig
++++ u-boot-2016.11+dfsg1/board/solidrun/mx6cuboxi/Kconfig
+@@ -9,4 +9,8 @@ config SYS_VENDOR
+ config SYS_CONFIG_NAME
+ 	default "mx6cuboxi"
+ 
++config I4X4_RAM
++	bool "4GB ram support for cubox i4x4 (will break cubox i4)"
++	default n
++
+ endif
+Index: u-boot-2016.11+dfsg1/configs/mx6cuboxi4x4_defconfig
+===================================================================
+--- /dev/null
++++ u-boot-2016.11+dfsg1/configs/mx6cuboxi4x4_defconfig
+@@ -0,0 +1,40 @@
++CONFIG_ARM=y
++CONFIG_ARCH_MX6=y
++CONFIG_SPL_GPIO_SUPPORT=y
++CONFIG_SPL_LIBCOMMON_SUPPORT=y
++CONFIG_SPL_LIBGENERIC_SUPPORT=y
++CONFIG_TARGET_MX6CUBOXI=y
++CONFIG_SPL_EXT_SUPPORT=y
++CONFIG_SPL_I2C_SUPPORT=y
++CONFIG_SPL_LIBDISK_SUPPORT=y
++CONFIG_SPL_MMC_SUPPORT=y
++CONFIG_SPL_SERIAL_SUPPORT=y
++CONFIG_SPL_WATCHDOG_SUPPORT=y
++CONFIG_VIDEO=y
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/imx-common/spl_sd.cfg,MX6QDL"
++# CONFIG_SYS_STDIO_DEREGISTER is not set
++CONFIG_SPL=y
++CONFIG_HUSH_PARSER=y
++CONFIG_CMD_BOOTZ=y
++# CONFIG_CMD_IMLS is not set
++# CONFIG_CMD_FLASH is not set
++CONFIG_CMD_MMC=y
++CONFIG_CMD_USB=y
++CONFIG_CMD_GPIO=y
++CONFIG_CMD_DHCP=y
++CONFIG_CMD_MII=y
++CONFIG_CMD_PING=y
++CONFIG_CMD_CACHE=y
++CONFIG_CMD_EXT2=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_EXT4_WRITE=y
++CONFIG_CMD_FAT=y
++CONFIG_CMD_FS_GENERIC=y
++CONFIG_DM=y
++CONFIG_DM_THERMAL=y
++CONFIG_USB=y
++CONFIG_USB_STORAGE=y
++# CONFIG_VIDEO_SW_CURSOR is not set
++CONFIG_USB_KEYBOARD=y
++CONFIG_OF_LIBFDT=y
++CONFIG_I4X4_RAM=y

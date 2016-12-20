@@ -28,3 +28,4 @@ am57xx/omap5_distro_bootcmd
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 odroid-xu3/bootdelay
+i4x4-ram.patch
