@@ -1,3 +1,16 @@
+u-boot (2016.11+dfsg1-3) unstable; urgency=medium
+
+  [ Peter Michael Green ]
+  * u-boot-imx: Add patch to add an mx6cuboxi4x4 target, supporting boards
+    with 4GB of ram (Closes: #848911).
+
+  [ Vagrant Cascadian ]
+  * u-boot-sunxi: Add patches to support orangepi_zero.
+    (Closes: #848557). Thanks to Mateusz Łukasik.
+  * Add Rick Thomas to mx6cuboxi testers.
+
+ -- Vagrant Cascadian <vagrant@debian.org>  Wed, 21 Dec 2016 20:44:44 -0800
+
 u-boot (2016.11+dfsg1-2) unstable; urgency=medium
 
   * u-boot-sunxi: Add nanopi_neo target.
