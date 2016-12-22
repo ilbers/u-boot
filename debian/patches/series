@@ -22,10 +22,10 @@ sh4-fix-linker-name-prefix.patch
 ensure-config-sandbox-for-make-env.patch
 
 mx6cuboxi/serial_console_speed.patch
+mx6cuboxi/i4x4-ram.patch
 
 am57xx/omap5_distro_bootcmd
 
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 odroid-xu3/bootdelay
-i4x4-ram.patch
