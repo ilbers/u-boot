@@ -23,6 +23,7 @@ u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/Mini-X/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/nanopi_neo/uboot.elf
 u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/orangepi_plus/uboot.elf
+u-boot-sunxi [armhf]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/orangepi_zero/uboot.elf
 u-boot-sunxi [arm64]: arch-dependent-file-not-in-arch-specific-directory usr/lib/u-boot/pine64_plus/uboot.elf
 
 # These bootloaders need to be statically linked.
@@ -46,6 +47,7 @@ u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Linksprite_pcDuino
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/Mini-X/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/nanopi_neo/uboot.elf
 u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/orangepi_plus/uboot.elf
+u-boot-sunxi [armhf]: statically-linked-binary usr/lib/u-boot/orangepi_zero/uboot.elf
 u-boot-sunxi [arm64]: statically-linked-binary usr/lib/u-boot/pine64_plus/uboot.elf
 
 u-boot-sunxi: description-synopsis-starts-with-article

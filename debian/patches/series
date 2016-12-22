@@ -29,3 +29,6 @@ am57xx/omap5_distro_bootcmd
 odroid/0001-Convert-odroid-to-use-distro_bootcmd.patch
 
 odroid-xu3/bootdelay
+
+orangepi_zero/0001-sunxi-add-proper-device-tree-for-Orange-Pi-Zero-boar.patch
+orangepi_zero/0002-sunxi-add-orangepi-zero-defconfig.patch

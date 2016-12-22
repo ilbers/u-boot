@@ -150,6 +150,9 @@ armhf	sunxi		nanopi_neo	u-boot-sunxi-with-spl.bin
 # Vagrant Cascadian <vagrant@debian.org>, Orange PI Plus2
 armhf	sunxi		orangepi_plus	u-boot-sunxi-with-spl.bin
 
+# Mateusz Łukasik <mati75@linuxmint.pl>, Orange PI Zero
+armhf	sunxi		orangepi_zero	u-boot-sunxi-with-spl.bin
+
 # Ricardo Salveti <rsalveti@rsalveti.net>
 arm64	qcom		dragonboard410c	u-boot.bin
 
