@@ -18,13 +18,13 @@ Reviewed-by: Jagan Teki <jagan@openedev.com>
  2 files changed, 20 insertions(+)
  create mode 100644 configs/orangepi_zero_defconfig
 
-diff --git a/board/sunxi/MAINTAINERS b/board/sunxi/MAINTAINERS
-index d7dc55bfc1..73b4a51a76 100644
---- a/board/sunxi/MAINTAINERS
-+++ b/board/sunxi/MAINTAINERS
-@@ -232,6 +232,11 @@ M:	Jelle van der Waa <jelle@vdwaa.nl>
+Index: u-boot/board/sunxi/MAINTAINERS
+===================================================================
+--- u-boot.orig/board/sunxi/MAINTAINERS
++++ u-boot/board/sunxi/MAINTAINERS
+@@ -237,6 +237,11 @@ M:	FUKAUMI Naoki <naobsd@gmail.com>
  S:	Maintained
- F:	configs/nanopi_neo_defconfig
+ F:	configs/Nintendo_NES_Classic_Edition_defconfig
  
 +ORANGEPI ZERO BOARD
 +M:	Icenowy Zheng <icenowy@aosc.xyz>
@@ -34,11 +34,10 @@ index d7dc55bfc1..73b4a51a76 100644
  R16 EVB PARROT BOARD
  M:	Quentin Schulz <quentin.schulz@free-electrons.com>
  S:	Maintained
-diff --git a/configs/orangepi_zero_defconfig b/configs/orangepi_zero_defconfig
-new file mode 100644
-index 0000000000..8813927bc1
+Index: u-boot/configs/orangepi_zero_defconfig
+===================================================================
 --- /dev/null
-+++ b/configs/orangepi_zero_defconfig
++++ u-boot/configs/orangepi_zero_defconfig
 @@ -0,0 +1,15 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_SUNXI=y
@@ -55,5 +54,3 @@ index 0000000000..8813927bc1
 +# CONFIG_CMD_FPGA is not set
 +CONFIG_SUN8I_EMAC=y
 +CONFIG_USB_EHCI_HCD=y
--- 
-2.11.0
