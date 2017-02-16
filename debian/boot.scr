@@ -1,0 +1,5 @@
+mmc dev 0
+fatload mmc 0:1 0x01000000 vmlinuz-4.4.0-1-rpi
+fatload mmc 0:1 0x00000100 bcm2708-rpi-b.dtb
+setenv bootargs earlyprintk console=tty0 console=ttyAMA0 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait noinitrd
+bootz 0x01000000 - 0x00000100

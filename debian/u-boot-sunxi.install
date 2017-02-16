@@ -1,2 +1,0 @@
-#!/bin/sh
-debian/bin/u-boot-install-targets sunxi board/sunxi/README.pine64
